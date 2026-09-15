@@ -1007,6 +1007,11 @@ if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v)
      follow the palette rather than carrying one of their own. */
   .mxgrid{width:min(320px,86vw);color:var(--ink)}
   .mxgrid svg{width:100%;height:auto;display:block}
+  .icar-image{display:block;width:100%;height:auto;max-height:300px;object-fit:contain;border-radius:10px}
+  .icar-question{font-size:1.15rem;line-height:1.5;padding:28px;text-align:center}
+  .icar-option{display:block;padding:10px 8px;text-align:center;font-weight:600}
+  .resultpagehead{margin:28px 0 18px;padding:4px 2px}.resultpagehead h1{margin:0;font-size:clamp(34px,5vw,58px);line-height:1.05}.resultpagehead p:last-child{margin:10px 0 0;color:var(--muted);font-size:17px}.resultpagehead .eyebrow{margin:0 0 8px;letter-spacing:.18em;font-size:11px;font-weight:800;color:var(--lazur-deep)}
+  .hublayout{display:grid;grid-template-columns:minmax(0,7fr) minmax(280px,3fr);gap:18px;align-items:start}.hubmain{min-width:0}.major-match{position:sticky;top:82px;border:1px solid var(--line);border-radius:18px;background:#16233F;color:#fff;padding:24px}.major-match h2{font-family:var(--display);font-size:32px;line-height:1.05;margin:12px 0}.major-match p{color:#d7e0ea;font-size:13px;line-height:1.45}.major-match .matchstatus{border-top:1px solid rgba(255,255,255,.35);padding-top:14px;margin-top:20px;font-size:12px}.major-match .btn{width:100%;margin-top:12px;background:#fff;color:#16233F}.major-options{display:grid;gap:8px;margin-top:16px}.major-option{display:flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.55);border-radius:12px;padding:12px;text-align:left;background:transparent;color:#fff;cursor:pointer}.major-option strong{font-family:var(--display);font-size:18px}.major-option input{margin-left:auto}.major-option.selected{background:rgba(255,255,255,.15)}@media(max-width:900px){.hublayout{grid-template-columns:1fr}.major-match{position:static;order:-1}}
   .mxopts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:min(340px,92vw)}
   .mxopt{position:relative;cursor:pointer;border:1px solid var(--line);border-radius:10px;
          background:var(--card);color:var(--ink);display:grid;place-items:center;padding:4px}
@@ -1249,6 +1254,7 @@ if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v)
     <a href="index.html">Bosh sahifa</a>
     <a href="obrazlar.html">Obrazlar</a>
     <a href="test.html" aria-current="page">Shaxsiyat testi</a>
+    <a href="test.html?view=results" data-nav-results>Natijalar</a>
     <a href="savollar.html">Savollar</a>
   </div>
   <!-- Rebuilt by localiseChrome() once the language is known, because which pill
@@ -1309,6 +1315,7 @@ if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v)
 <script src="assets/school.js?v=410a10d2"></script>
 <script src="assets/wil.js?v=2c40338b"></script>
 <script src="assets/matrix.js?v=18519e1d"></script>
+<script src="assets/icar16.js?v=1"></script>
 <script>var MATRIX_ART_SRC = "assets/matrix-art.js";</script>
 <script src="assets/figure-wiki.js?v=8afd3ca2"></script>
 <script src="assets/account.js?v=1be7c2b2"></script>
@@ -1472,14 +1479,18 @@ var WIL_META = (typeof WIL_LANGS !== 'undefined') ? WIL_LANGS.uz : null;
 
 var MATRIX_START = ITEMS.length;
 (function appendMatrix(){
-  if (typeof MATRIX_ITEMS === 'undefined') return;
-  for (var i = 0; i < MATRIX_ITEMS.length; i++){
-    var m = MATRIX_ITEMS[i];
-    // The puzzle itself is figural, so there is no `t` to translate. The tiles
-    // are NOT here: they are 66 KB of SVG in matrix-art.js, fetched when the
-    // challenge opens, and attached to these items by applyMatrixArt().
-    ITEMS.push({ sec: 'm', mid: m.id, grid: null, options: null,
-                 answer: m.answer, difficulty: m.difficulty });
+  var bank = (typeof ICAR16_ITEMS !== 'undefined') ? ICAR16_ITEMS :
+             ((typeof MATRIX_ITEMS !== 'undefined') ? MATRIX_ITEMS : null);
+  if (!bank) return;
+  for (var i = 0; i < bank.length; i++){
+    var m = bank[i], grid = m.image ?
+      '<img class="icar-image" src="' + m.image + '" alt="ICAR-16 item">' :
+      '<div class="icar-question">' + m.text + '</div>';
+    var options = [], j;
+    for (j = 0; j < m.options.length; j++)
+      options.push('<span class="icar-option">' + m.options[j] + '</span>');
+    ITEMS.push({ sec: 'm', mid: m.id, domain: m.domain, grid: grid,
+                 options: options, answer: m.answer, difficulty: m.difficulty });
   }
 })();
 var MATRIX_COUNT = ITEMS.length - MATRIX_START;
@@ -1609,7 +1620,7 @@ function scoreWil(answers){
  *  gets believed like one. */
 function scoreMatrix(answers){
   if (!MATRIX_COUNT) return {};
-  var correct = 0, asked = 0, per = {};
+  var correct = 0, asked = 0, per = {}, domains = {};
   for (var i = MATRIX_START; i < MATRIX_START + MATRIX_COUNT; i++){
     var v = answers[i];
     if (!v) continue;
@@ -1617,9 +1628,15 @@ function scoreMatrix(answers){
     var right = (v - 1) === ITEMS[i].answer;
     per[ITEMS[i].mid] = right;
     if (right) correct++;
+    var d = ITEMS[i].domain || 'reasoning';
+    if (!domains[d]) domains[d] = { correct: 0, total: 0 };
+    domains[d].total++;
+    if (right) domains[d].correct++;
   }
   if (!asked) return {};
-  return { correct: correct, total: MATRIX_COUNT, per: per,
+  var scale = [59,67,75,80,85,89,92,96,99,103,106,110,114,118,122,127,134];
+  return { correct: correct, total: MATRIX_COUNT, per: per, domains: domains,
+           estimatedCognitiveScore: scale[Math.max(0, Math.min(scale.length - 1, correct))],
            band: (typeof matrixBand === 'function') ? matrixBand(correct) : null };
 }
 
@@ -1971,7 +1988,6 @@ var CHALLENGES = [
     extend: function(){ return []; },
     answered: function(answers){ return schoolAnswered(answers); } },
 
-  // Standard five-point importance ratings, one statement at a time.
   { key: 'workimportance', n: 5, interaction: 'scale',
     plan: function(){ return rangePlan(WIL_START, WIL_COUNT); },
     extend: function(){ return []; },
@@ -1985,8 +2001,7 @@ var CHALLENGES = [
 ];
 
 // Challenges whose bank failed to load are dropped rather than shown as a card
-// that cannot be opened. A missing bank is a deployment mistake, and a student
-// should meet five working challenges rather than six with one broken.
+// that cannot be opened. A missing bank is a deployment mistake.
 CHALLENGES = CHALLENGES.filter(function(c){ return c.plan().length > 0; });
 
 function challengeBy(key){
@@ -2537,7 +2552,7 @@ var TLANG = (function(){
    list challenge 6. The tiles are 66 KB of SVG that most students reach last,
    if at all, so they are fetched when the challenge is opened rather than being
    part of what every student waits on before the first question. */
-var matrixArtState = 'idle';   // idle | loading | ready | failed
+var matrixArtState = (typeof ICAR16_ITEMS !== 'undefined') ? 'ready' : 'idle';
 function applyMatrixArt(){
   if (typeof MATRIX_ART === 'undefined') return false;
   for (var i = MATRIX_START; i < MATRIX_START + MATRIX_COUNT; i++){
@@ -2568,7 +2583,8 @@ var recReady = false, recWaiting = null;
 (function loadTaxonomy(){
   var need = 2, i;
   function done(){ if (--need === 0){ recReady = true;
-    if (recWaiting){ recWaiting(); recWaiting = null; } } }
+    if (recWaiting){ recWaiting(); recWaiting = null; }
+    if (typeof state !== 'undefined' && state.view === 'hub' && typeof renderHub === 'function') renderHub(); } }
   var srcs = ['assets/careers-data.js?v=02e404b9', 'assets/recommend.js?v=3532bd24'];
   for (i = 0; i < srcs.length; i++){
     var s = document.createElement('script');
@@ -2688,7 +2704,7 @@ var TT_UZ = {
   hubBrief_personality: 'Sizga xos tomonlarni kashf eting.',
   hubBrief_interests: 'Sizni nima qiziqtirishini biling.',
   hubBrief_values: 'Ishdan nimalar kutishingizni biling.',
-  hubBrief_school: 'Maktabdagi hislaringizni tushuning.',
+  hubBrief_school: 'Qaysi fanlar sizga mos kelishini aniqlang.',
   hubBrief_workimportance: 'Ishdagi ustuvorliklaringizni aniqlang.',
   hubBrief_reasoning: 'Naqshlar orasidagi bogʻlanishni toping.',
   hubStart:    'Boshlash',
@@ -2710,8 +2726,8 @@ var TT_UZ = {
   chInterestsB:   'Qanday ishlarni yoqtirishingiz. Qobiliyat haqida emas, faqat yoqadimi yoki yoʻqmi.',
   chValues:       'Ishda nima muhim',
   chValuesB:      'Kelajakdagi ishingizdan nimani kutasiz.',
-  chReasoning:    'Mantiq',
-  chReasoningB:   'Oʻn ikkita jumboq. Qatorlar boʻylab qanday qoida borligini toping va boʻsh katakka mos keladiganini tanlang. Soʻz yoʻq.',
+  chReasoning:    'IQ va mantiq',
+  chReasoningB:   'ICAR-16 kognitiv baholashidagi oʻn oltita savol. Bu taxminiy kognitiv ball, klinik IQ tashxisi emas.',
 
   // ---- account ----
   authGateH:   'Sinovlarni boshlang',
@@ -2814,25 +2830,27 @@ var TT_UZ = {
   rdetValues:      'Siz uchun eng muhimi: %1. Qadriyat qobiliyat emas: bir xil qiziqishga ega ikki oʻquvchi ishdan butunlay boshqa narsa kutishi mumkin.',
   rdetSchool:      'Umuman eng kuchlisi: %1. Har bir fan uch xil soʻralgan - nimani uddalaysiz, nima yoqadi va nima qiyin - chunki bu uchtasi bir-biridan ajraladi, va ular kelishmagan joy eng foydali qismi.',
   rdetWil:         'Eng yuqori ikki qadriyatingiz: %1. O*NET kasblarni shu oltitasi boʻyicha guruhlaydi, shuning uchun oʻqituvchi shu ikkitasidan izlaydi.',
-  rdetMatrixSub:   'Oʻn ikkita jumboq, vaqt cheklovisiz.',
+  rdetMatrixSub:   'ICAR-16: oʻn oltita savol, vaqt cheklovisiz.',
   // ---- the results summary panel ----
   rsumH:       'Sizning natijangiz',
   rsumHex:     'Hollandning olti burchagi: yonma-yon turgan nuqtalar bir-biriga eng yaqin, shuning uchun bir tomonga ogʻgan shakl haqiqiy belgi.',
   rsumOf:      '%1 / %2',
+  mxScore:     'Taxminiy kognitiv ball · %1',
   rsumLead_personality:   'Sizning obrazingiz',
   rsumLead_interests:     'Nima sizga yoqadi',
   rsumLead_values:        'Ishdan nima kutasiz',
   rsumLead_school:        'Qayerda kuchlisiz',
-  rsumLead_workimportance:'Nimadan voz kechmaysiz',
+  rsumLead_workimportance: 'Nimadan voz kechmaysiz',
   rsumLead_reasoning:     'Qoidani topish',
   // ---- reasoning ----
   mxPuzzle:    'Jumboq %1 / %2',
-  mxNotIq:     'Bu IQ testi emas va bu yerda IQ ball yoʻq. Bu faqat nechta jumboqni yechganingiz. Oʻzbek namunasi boʻyicha meʼyor yoʻq, shuning uchun ball chiqarish notoʻgʻri boʻlardi.',
+  mxNotIq:     'Bu klinik IQ tashxisi emas. Ball ICAR-16 natijasidan hisoblangan taxminiy kognitiv koʻrsatkich; til, diqqat va sharoit taʼsir qilishi mumkin.',
   mxArtLoading:'Jumboqlar yuklanmoqda...',
   mxArtFailed: 'Jumboqlarni yuklab boʻlmadi. Internetni tekshirib, qaytadan urinib koʻring.',
   mxBandStrong:     'Kuchli',
   mxBandMixed:      'Oʻrtacha',
   mxBandDeveloping: 'Rivojlanmoqda'
+  ,resultPageH: 'Natijalaringiz', resultPageSub: 'Kuchli tomonlaringiz, qiziqishlaringiz va fikrlash uslubingiz bir qarashda.'
 };
 
 // The nav and footer are static markup in this file, written in Uzbek. When the
@@ -2848,6 +2866,7 @@ var CHROME = {
           'terms.html': ['Условия использования', 'ru/terms.html'],
           'accessibility.html': ['Доступность', 'ru/accessibility.html'],
           'maktablar.html': ['Школам и родителям', 'ru/maktablar.html']},
+    results: 'Результаты',
     cta: 'Пройти тест',
     login: 'Войти',
     account: 'Аккаунт',
@@ -2874,6 +2893,7 @@ var CHROME = {
           'terms.html': ['Terms & Conditions', 'en/terms.html'],
           'accessibility.html': ['Accessibility', 'en/accessibility.html'],
           'maktablar.html': ['For schools and parents', 'en/maktablar.html']},
+    results: 'Results',
     cta: 'Take the test',
     login: 'Log in',
     account: 'Account',
@@ -2942,6 +2962,7 @@ function localiseChrome(){
   var a, links = document.querySelectorAll('.toplinks a:not(.toplogin-mobile), .foot a');
   for (i = 0; i < links.length; i++){
     a = links[i];
+    if (a.getAttribute('data-nav-results')) { a.textContent = C.results; continue; }
     var file = (a.getAttribute('href') || '').split('/').pop().split('?')[0];
     var row = C.nav[file];
     if (row){ a.textContent = row[0]; a.setAttribute('href', row[1]); continue; }
@@ -3071,6 +3092,18 @@ function backToHub(){
   render();
 }
 
+function showChallengeDetail(key){
+  var c = challengeBy(key);
+  if (!c || !challengeDone(c, state.answers)) return;
+  state.challenge = key; state.view = 'detail';
+  app.innerHTML = '<button class="backlink" id="detailBack"><span aria-hidden="true">&#8592;</span> ' + esc(T('hubBack')) + '</button>' +
+    '<h1 style="margin:22px 0 12px">' + esc(challengeTitle(c)) + '</h1>' +
+    challengeDetailHtml(c) +
+    '<div class="nav"><button class="btn" id="detailRetake">' + esc(T('hubRetake')) + '</button></div>';
+  document.getElementById('detailBack').onclick = backToHub;
+  document.getElementById('detailRetake').onclick = function(){ openChallenge(key); };
+}
+
 /** A challenge has just been completed. */
 function finishChallenge(){
   var c = currentChallenge();
@@ -3092,6 +3125,7 @@ function render(){
   markAccountNav();
   if (typeof NMAccount !== 'undefined' && !NMAccount.signedIn()) return renderAuth();
   if (state.view === 'result') return renderReport();
+  if (state.view === 'detail') return showChallengeDetail(state.challenge);
   var c = currentChallenge();
   if (state.view === 'challenge' && c){
     if (c.interaction === 'sort') return renderSort();
@@ -3102,6 +3136,30 @@ function render(){
 }
 
 // ------------------------------------------------------------------ the hub --
+function majorMatchHtml(){
+  var complete = CHALLENGES.length && CHALLENGES.every(function(c){ return challengeDone(c, state.answers); });
+  var rows = [];
+  if (complete && recReady && typeof recRank === 'function' && typeof MAJOR_ENTRIES !== 'undefined'){
+    var signals = recSignals(scoreCareer(state.answers), null, null, scoreAnswers(state.answers));
+    rows = recRank(MAJOR_ENTRIES, signals, 'major', 3);
+  }
+  var L = (typeof TAXONOMY_NAMES !== 'undefined') ? TAXONOMY_NAMES[recLang()] : null;
+  var h = '<aside class="major-match"><div class="eyebrow">AI MAJOR MATCH</div>' +
+    '<h2>' + esc(complete ? 'Choose your strongest fit' : 'Complete your profile') + '</h2>' +
+    '<p>' + esc(complete ? 'These are your three strongest current matches. Select one to make it your study direction.' : 'Finish all six challenges first. Your answers will shape the recommendations.') + '</p>' +
+    '<div class="matchstatus">' + esc(complete ? 'Recommendations ready' : 'Waiting for your responses') + '</div>' +
+    '<button class="btn" id="majorGenerate" type="button"' + (complete ? '' : ' disabled') + '>' + esc(complete ? (rows.length ? 'Generate again' : 'Generate recommendations') : 'Complete challenges') + '</button>';
+  if (rows.length){
+    h += '<div class="major-options">';
+    for (var i = 0; i < rows.length; i++){
+      var label = L && L.majors ? (L.majors[rows[i].key] || rows[i].key) : rows[i].key;
+      h += '<label class="major-option"><span>0' + (i + 1) + '</span><strong>' + esc(label) + '</strong><input type="radio" name="major-fit" value="' + esc(rows[i].key) + '"></label>';
+    }
+    h += '</div><p>Select one major to save your study direction.</p>';
+  }
+  return h + '</aside>';
+}
+
 function renderHub(){
   var done = 0, i;
   var cards = '', dots = '';
@@ -3138,8 +3196,8 @@ function renderHub(){
       '<div class="hubcount" role="status">' + esc(T('hubComplete', done, CHALLENGES.length)) +
         '<div class="hubdots" aria-hidden="true">' + dots + '</div></div>' +
     '</div>' +
-    resultSummaryHtml() +
-    '<ol class="chlist">' + cards + '</ol>' +
+    '<div class="hublayout"><div class="hubmain"><ol class="chlist">' + cards + '</ol></div>' +
+    majorMatchHtml() + '</div>' +
     (left === 0 ? '<div class="nav"><button class="btn" id="hubResult">' + esc(T('hubResult')) + '</button></div>' : '');
 
   wirePolygon();
@@ -3172,6 +3230,13 @@ function renderHub(){
       return;
     }
     state.view = 'result'; render();
+  };
+  var majorGenerate = document.getElementById('majorGenerate');
+  if (majorGenerate) majorGenerate.onclick = function(){ renderHub(); };
+  var majorChoices = app.querySelectorAll('input[name="major-fit"]');
+  for (i = 0; i < majorChoices.length; i++) majorChoices[i].onchange = function(){
+    for (var j = 0; j < majorChoices.length; j++) majorChoices[j].parentNode.classList.remove('selected');
+    this.parentNode.classList.add('selected');
   };
   var join = document.getElementById('hubSignUp');
   if (join) join.onclick = function(){ authMode = 'signup'; renderAuth(true); };
@@ -3545,11 +3610,15 @@ function markAccountNav(){
     panel to scroll to, and the top of the hub is the honest answer. */
 function showSavedResults(){
   state.challenge = null;
-  state.view = 'hub';
+  var complete = CHALLENGES.length && CHALLENGES.every(function(c){ return challengeDone(c, state.answers); });
+  state.restoredResult = !!complete;
+  state.view = complete ? 'result' : 'hub';
   render();
-  var panel = document.querySelector('.rsum');
-  if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  else window.scrollTo({ top: 0, behavior: 'auto' });
+  if (!complete){
+    var panel = document.querySelector('.rsum');
+    if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    else window.scrollTo({ top: 0, behavior: 'auto' });
+  }
 }
 
 /** "Testni davom ettirish": the first challenge that is not finished, opened at
@@ -4482,11 +4551,7 @@ function headlineFor(key, arch){
   if (key === 'reasoning'){
     var m = scoreMatrix(a);
     if (!m || typeof m.correct !== 'number') return '';
-    // A band and the raw count behind it. NEVER a quotient: there is no Uzbek
-    // sample behind these twelve puzzles, and a number that looks like an IQ
-    // gets believed like one.
-    var bandKey = { strong: 'mxBandStrong', mixed: 'mxBandMixed', developing: 'mxBandDeveloping' }[m.band];
-    return (bandKey ? T(bandKey) : '') + ' · ' + T('rsumOf', m.correct, m.total);
+    return T('mxScore', m.estimatedCognitiveScore);
   }
   return '';
 }
@@ -4599,17 +4664,19 @@ function challengeDetailHtml(c){
   if (c.key === 'reasoning'){
     var m = scoreMatrix(a);
     if (!m || typeof m.correct !== 'number') return '';
-    var bandKey = { strong:'mxBandStrong', mixed:'mxBandMixed', developing:'mxBandDeveloping' }[m.band];
-    var head = '<div class="rmx"><b>' + m.correct + '<span> / ' + m.total + '</span></b>' +
-                 '<div><strong>' + esc(bandKey ? T(bandKey) : '') + '</strong>' +
+    var head = '<div class="rmx"><b>' + m.estimatedCognitiveScore + '</b>' +
+                 '<div><strong>' + esc(T('mxScore', m.estimatedCognitiveScore)) + '</strong>' +
                  '<p class="rnote" style="margin:2px 0 0">' + esc(T('rdetMatrixSub')) + '</p></div>' +
                '</div>';
-    // The most important sentence on this panel. Everything else here describes
-    // preferences, where there is no better answer; this one has right answers,
-    // and a student will read it as a verdict on how clever they are unless it
-    // says otherwise, plainly.
-    return rpanel(challengeTitle(c), m.correct + ' / ' + m.total,
-      head + '<p class="rnote">' + esc(T('mxNotIq')) + '</p>');
+    var domainLine = '', dk, d;
+    for (dk in m.domains) if (Object.prototype.hasOwnProperty.call(m.domains, dk)) {
+      d = m.domains[dk];
+      domainLine += '<span class="rbadge">' + esc(dk) + ' ' + d.correct + '/' + d.total + '</span> ';
+    }
+    return rpanel(challengeTitle(c), String(m.estimatedCognitiveScore),
+      head + '<p class="rnote">' + esc(T('rsumOf', m.correct, m.total)) + '</p>' +
+      '<div class="rdomain">' + domainLine + '</div>' +
+      '<p class="rnote">' + esc(T('mxNotIq')) + '</p>');
   }
   return '';
 }
@@ -5173,6 +5240,8 @@ function loadResult(){
 
 function renderReport(){
   clearDraft(); // test finished, remove the saved answers from this device
+  var savedReport = !!state.restoredResult;
+  state.restoredResult = false;
   var s = scoreAnswers(state.answers);
   var arch = archetypeOf(s);
   var archKey = archetypeKeyOf(s);
@@ -5181,7 +5250,7 @@ function renderReport(){
     // Nothing is submitted and nothing is drawn until the reader answers. One
     // completed row per test, sent below, after the choice is known.
     askFigureChoice(archKey, function(gender, age){
-      paintReport(s, arch, archKey, gender, age);
+      paintReport(s, arch, archKey, gender, age, savedReport);
     });
     return;
   }
@@ -5189,7 +5258,7 @@ function renderReport(){
   // today, so this is the path a future eleventh would take before its second
   // figure is drawn -- it shows the one picture rather than asking a question
   // whose answer could not be honoured.
-  paintReport(s, arch, archKey, '', null);
+  paintReport(s, arch, archKey, '', null, savedReport);
 }
 
 function paintReport(s, arch, archKey, figureGender, age, restored){
@@ -5214,6 +5283,7 @@ function paintReport(s, arch, archKey, figureGender, age, restored){
   // The hero comes first and carries no numbers: a teenager should see who they are
   // before they see any score. The five scores live one tap away, under «Batafsil».
   var html =
+    (restored ? '<section class="resultpagehead"><p class="eyebrow">NASEEB MIND</p><h1>' + esc(T('resultPageH')) + '</h1><p>' + esc(T('resultPageSub')) + '</p></section>' : '') +
     // All four, not two: the dark pair is what the theme switches to. See the
     // family rule in the stylesheet above.
     '<div class="hero" style="--fam:' + fam.c + ';--famsoft:' + fam.soft +
