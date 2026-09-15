@@ -350,5 +350,11 @@ var NMAccount = (function () {
         prefer: 'return=minimal',
       });
     },
+
+    // Groq, behind supabase/functions/recommend. Scores and candidate majors
+    // only: no name, email or school ever goes into the request.
+    recommendMajors: function (body) {
+      return authed('/functions/v1/recommend', { method: 'POST', body: body });
+    },
   };
 })();

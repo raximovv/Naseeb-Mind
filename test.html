@@ -1011,7 +1011,7 @@ if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v)
   .icar-question{font-size:1.15rem;line-height:1.5;padding:28px;text-align:center}
   .icar-option{display:block;padding:10px 8px;text-align:center;font-weight:600}
   .resultpagehead{margin:28px 0 18px;padding:4px 2px}.resultpagehead h1{margin:0;font-size:clamp(34px,5vw,58px);line-height:1.05}.resultpagehead p:last-child{margin:10px 0 0;color:var(--muted);font-size:17px}.resultpagehead .eyebrow{margin:0 0 8px;letter-spacing:.18em;font-size:11px;font-weight:800;color:var(--lazur-deep)}
-  .hublayout{display:grid;grid-template-columns:minmax(0,7fr) minmax(280px,3fr);gap:18px;align-items:start}.hubmain{min-width:0}.major-match{position:sticky;top:82px;border:1px solid var(--line);border-radius:18px;background:#16233F;color:#fff;padding:24px}.major-match h2{font-family:var(--display);font-size:32px;line-height:1.05;margin:12px 0}.major-match p{color:#d7e0ea;font-size:13px;line-height:1.45}.major-match .matchstatus{border-top:1px solid rgba(255,255,255,.35);padding-top:14px;margin-top:20px;font-size:12px}.major-match .btn{width:100%;margin-top:12px;background:#fff;color:#16233F}.major-options{display:grid;gap:8px;margin-top:16px}.major-option{display:flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.55);border-radius:12px;padding:12px;text-align:left;background:transparent;color:#fff;cursor:pointer}.major-option strong{font-family:var(--display);font-size:18px}.major-option input{margin-left:auto}.major-option.selected{background:rgba(255,255,255,.15)}@media(max-width:900px){.hublayout{grid-template-columns:1fr}.major-match{position:static;order:-1}}
+  .hublayout{display:grid;grid-template-columns:minmax(0,7fr) minmax(280px,3fr);gap:18px;align-items:start}.hubmain{min-width:0}.major-match{position:sticky;top:82px;border:1px solid var(--line);border-radius:18px;background:#16233F;color:#fff;padding:24px}.major-match h2{font-family:var(--display);font-size:32px;line-height:1.05;margin:12px 0}.major-match p{color:#d7e0ea;font-size:13px;line-height:1.45}.major-match .matchstatus{border-top:1px solid rgba(255,255,255,.35);padding-top:14px;margin-top:20px;font-size:12px}.major-match .btn{width:100%;margin-top:12px;background:#fff;color:#16233F}.major-options{display:grid;gap:8px;margin-top:16px}.major-option{display:flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.55);border-radius:12px;padding:12px;text-align:left;background:transparent;color:#fff;cursor:pointer}.major-option strong{font-family:var(--display);font-size:18px}.major-option small{display:block;margin-top:4px;font-family:var(--body);font-size:13px;font-weight:400;line-height:1.45;color:#d7e0ea}.major-option input{margin-left:auto}.major-option.selected{background:rgba(255,255,255,.15)}@media(max-width:900px){.hublayout{grid-template-columns:1fr}.major-match{position:static;order:-1}}
   .mxopts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:min(340px,92vw)}
   .mxopt{position:relative;cursor:pointer;border:1px solid var(--line);border-radius:10px;
          background:var(--card);color:var(--ink);display:grid;place-items:center;padding:4px}
@@ -3136,24 +3136,57 @@ function render(){
 }
 
 // ------------------------------------------------------------------ the hub --
+// [{key, why}] from Groq once the student presses the button; null until then,
+// and whenever the call fails, so the engine's own top three still show.
+var majorAI = null, majorAIBusy = false;
+
+function majorCandidates(limit){
+  var signals = recSignals(scoreCareer(state.answers), null, null, scoreAnswers(state.answers));
+  return recRank(MAJOR_ENTRIES, signals, 'major', limit);
+}
+
+function askMajorAI(){
+  if (majorAIBusy || !recReady) return;
+  if (typeof NMAccount === 'undefined' || !NMAccount.signedIn()){ authMode = 'signup'; renderAuth(true); return; }
+  var L = TAXONOMY_NAMES[recLang()], r = scoreCareer(state.answers), b = scoreAnswers(state.answers);
+  var round = function(v){ return Math.round(v * 10) / 10; };
+  var candidates = majorCandidates(8).map(function(row){
+    return { key: row.key, name: (L.majors && L.majors[row.key]) || row.key };
+  });
+  var body = {
+    lang: TLANG,
+    candidates: candidates,
+    profile: {
+      scale: '1-5',
+      interests: { realistic: round(r.R), investigative: round(r.I), artistic: round(r.A),
+                   social: round(r.S), enterprising: round(r.E), conventional: round(r.C) },
+      personality: { emotional_stability: round(b.ES), extraversion: round(b.E), openness: round(b.O),
+                     agreeableness: round(b.A), conscientiousness: round(b.C) }
+    }
+  };
+  majorAIBusy = true; renderHub();
+  NMAccount.recommendMajors(body).then(function(res){
+    majorAI = res && res.picks && res.picks.length === 3 ? res.picks : null;
+  }, function(){ majorAI = null; }).then(function(){ majorAIBusy = false; renderHub(); });
+}
+
 function majorMatchHtml(){
   var complete = CHALLENGES.length && CHALLENGES.every(function(c){ return challengeDone(c, state.answers); });
   var rows = [];
   if (complete && recReady && typeof recRank === 'function' && typeof MAJOR_ENTRIES !== 'undefined'){
-    var signals = recSignals(scoreCareer(state.answers), null, null, scoreAnswers(state.answers));
-    rows = recRank(MAJOR_ENTRIES, signals, 'major', 3);
+    rows = majorAI || majorCandidates(3);
   }
   var L = (typeof TAXONOMY_NAMES !== 'undefined') ? TAXONOMY_NAMES[recLang()] : null;
   var h = '<aside class="major-match"><div class="eyebrow">AI MAJOR MATCH</div>' +
     '<h2>' + esc(complete ? 'Choose your strongest fit' : 'Complete your profile') + '</h2>' +
     '<p>' + esc(complete ? 'These are your three strongest current matches. Select one to make it your study direction.' : 'Finish all six challenges first. Your answers will shape the recommendations.') + '</p>' +
     '<div class="matchstatus">' + esc(complete ? 'Recommendations ready' : 'Waiting for your responses') + '</div>' +
-    '<button class="btn" id="majorGenerate" type="button"' + (complete ? '' : ' disabled') + '>' + esc(complete ? (rows.length ? 'Generate again' : 'Generate recommendations') : 'Complete challenges') + '</button>';
+    '<button class="btn" id="majorGenerate" type="button"' + (complete && !majorAIBusy ? '' : ' disabled') + (majorAIBusy ? ' aria-busy="true"' : '') + '>' + esc(majorAIBusy ? '…' : complete ? (majorAI ? 'Generate again' : 'Generate recommendations') : 'Complete challenges') + '</button>';
   if (rows.length){
     h += '<div class="major-options">';
     for (var i = 0; i < rows.length; i++){
       var label = L && L.majors ? (L.majors[rows[i].key] || rows[i].key) : rows[i].key;
-      h += '<label class="major-option"><span>0' + (i + 1) + '</span><strong>' + esc(label) + '</strong><input type="radio" name="major-fit" value="' + esc(rows[i].key) + '"></label>';
+      h += '<label class="major-option"><span>0' + (i + 1) + '</span><strong>' + esc(label) + (rows[i].why ? '<small>' + esc(rows[i].why) + '</small>' : '') + '</strong><input type="radio" name="major-fit" value="' + esc(rows[i].key) + '"></label>';
     }
     h += '</div><p>Select one major to save your study direction.</p>';
   }
@@ -3232,7 +3265,7 @@ function renderHub(){
     state.view = 'result'; render();
   };
   var majorGenerate = document.getElementById('majorGenerate');
-  if (majorGenerate) majorGenerate.onclick = function(){ renderHub(); };
+  if (majorGenerate) majorGenerate.onclick = askMajorAI;
   var majorChoices = app.querySelectorAll('input[name="major-fit"]');
   for (i = 0; i < majorChoices.length; i++) majorChoices[i].onchange = function(){
     for (var j = 0; j < majorChoices.length; j++) majorChoices[j].parentNode.classList.remove('selected');
