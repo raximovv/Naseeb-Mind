@@ -169,16 +169,17 @@ var TEST_EN = {
     rdetValues:      'Most important to you: %1. Values are not abilities — two students with the same interests can want completely different things from a job.',
     rdetSchool:      'Strongest overall: %1. Each subject was asked three ways — what you can do, what you enjoy, and what it costs you — because those three come apart, and the places they disagree are the useful part.',
     rdetWil:         'Your two highest work values: %1. O*NET groups occupations by these six, so these two are what a teacher searches on.',
-    rdetMatrixSub:   'Twelve figural puzzles, answered without a clock.',
+    rdetMatrixSub:   'ICAR-16: sixteen questions, answered without a clock.',
     // ---- the results summary panel ----
     rsumH:       'Your results',
     rsumHex:     "Holland's hexagon: neighbouring points are the most alike, so a lopsided shape is a real signal.",
     rsumOf:      '%1 of %2',
+    mxScore:     'Estimated cognitive score · %1',
     rsumLead_personality:   'Your character',
     rsumLead_interests:     'What you would enjoy',
-    rsumLead_values:        'What you want from a job',
+    rsumLead_values:        'What you want from work',
     rsumLead_school:        'Where you feel strongest',
-    rsumLead_workimportance:'What you would not trade',
+    rsumLead_workimportance:'What matters most to you',
     rsumLead_reasoning:     'Working out a rule',
     bandStrong:  'Strong match',
     bandExplore: 'Worth exploring',
@@ -254,9 +255,9 @@ var TEST_EN = {
     hubComplete: '%1 / %2 completed',
     hubBrief_personality: 'Discover what makes you unique.',
     hubBrief_interests: 'Find out what interests you.',
-    hubBrief_values: 'Explore what you expect from work.',
+    hubBrief_values: 'Learn what matters to you in work.',
     hubBrief_school: 'Understand how school feels to you.',
-    hubBrief_workimportance: 'Identify your priorities at work.',
+    hubBrief_workimportance: 'Identify your work priorities.',
     hubBrief_reasoning: 'Find the connections between patterns.',
     hubStart:    'Start',
     hubResume:   'Continue',
@@ -276,9 +277,9 @@ var TEST_EN = {
     chInterests:    'Interests',
     chInterestsB:   'Which kinds of work appeal to you. Not about ability, only about whether you would like it.',
     chValues:       'What matters at work',
-    chValuesB:      'What you want from a future job.',
-    chReasoning:    'Problem solving',
-    chReasoningB:   'Twelve puzzles. Work out the rule running along the rows, then pick the tile that belongs in the empty corner. No words.',
+    chValuesB:      'What you want from your future work.',
+    chReasoning:    'IQ & reasoning',
+    chReasoningB:   'Sixteen ICAR-16 questions. This estimates a cognitive score; it is not a clinical IQ diagnosis.',
 
     // ---- account ----
     authGateH:   'Start the challenges',
@@ -340,11 +341,12 @@ var TEST_EN = {
 
     // ---- reasoning ----
     mxPuzzle:    'Puzzle %1 of %2',
-    mxNotIq:     'This is not an IQ test and there is no IQ score here. It is a count of the puzzles you worked out, nothing more. There is no Uzbek sample behind it, so putting a score on it would be dishonest.',
+    mxNotIq:     'This is not a clinical IQ diagnosis. The estimate is derived from ICAR-16 performance and can be affected by language, attention, and testing conditions.',
     mxArtLoading:'Loading the puzzles...',
     mxArtFailed: 'The puzzles could not be loaded. Check your connection and try again.',
     mxBandStrong:     'Strong',
     mxBandMixed:      'Mixed',
-    mxBandDeveloping: 'Developing'
+    mxBandDeveloping: 'Developing',
+    resultPageH: 'Your assessment results', resultPageSub: 'A clear view of your strengths, interests, and how you think.'
   }
 };

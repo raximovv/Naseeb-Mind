@@ -21,7 +21,7 @@ A set of **six challenges** that can be completed in any order and across severa
 | Work values | what makes work worth doing | 10 questions |
 | School | ability, interest and effort by subject | 33 questions |
 | What matters most | forced ranking of work needs | 20 cards |
-| Problem solving | non-verbal matrix reasoning | 12 puzzles |
+| IQ & reasoning | ICAR-16 cognitive assessment | 16 questions |
 
 Out comes one of **ten archetypes** with its own artwork, an interest profile, and ranked
 directions drawn from **96 careers, 55 majors and 16 fields**. Ten take-away PDF guides,
