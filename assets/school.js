@@ -721,6 +721,6 @@ var SCHOOL_LANGS = {
     "h": "Nima sizga qiyin"
    }
   ],
-  "title": "Maktab qanday tuyuladi"
+  "title": "Qaysi fanlar sizga mos"
  }
 };
