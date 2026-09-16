@@ -42,7 +42,6 @@ const puppeteer = require('puppeteer-core');
     await page.waitForSelector('#authForm');
     await page.type('#authEmail', 'student@example.com');
     await page.type('#authPass', 'strong-pass');
-    await page.click('#authGuardian');
     await page.click('#authGo');
     await page.waitForSelector('#authCodeInput');
     await page.type('#authCodeInput', '123456');

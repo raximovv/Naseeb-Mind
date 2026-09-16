@@ -306,7 +306,6 @@ var TEST_EN = {
     authVerify: 'Confirm',
     authResend: 'Send the code again',
     authBack: 'Back',
-    authGuardian:'If I am under 18, I have asked a parent or teacher.',
 
     profileH: 'About you',
     profileSub: 'Fill in the details below to start a challenge.',
@@ -329,7 +328,6 @@ var TEST_EN = {
     errUnreachable:    'Could not reach the server. Try again.',
     errSignedOut:      'Your session has ended. Sign in again.',
     errFailed:         'Something went wrong. Try again.',
-    errGuardian:       'Please tick this box to continue.',
     errBadCode:        'That code is incorrect or has expired.',
 
     // ---- the card sort ----

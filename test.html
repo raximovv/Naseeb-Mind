@@ -1376,8 +1376,8 @@ if(/[?&]embed=1/.test(location.search)&&window.parent!==window)document.document
 
 <script src="assets/characters.js?v=100242de"></script>
 <script src="assets/strings.js?v=4cb528e7"></script>
-<script src="assets/test-ru.js?v=8a88fe27"></script>
-<script src="assets/test-en.js?v=b576369c"></script>
+<script src="assets/test-ru.js?v=1e3c6c0f"></script>
+<script src="assets/test-en.js?v=aedec144"></script>
 <script src="assets/career.js?v=ae52d57f"></script>
 <script src="assets/values.js?v=66d7d5e6"></script>
 <script src="assets/school.js?v=410a10d2"></script>
@@ -2834,7 +2834,6 @@ var TT_UZ = {
   authVerify: 'Tasdiqlash',
   authResend: 'Kodni qayta yuborish',
   authBack: 'Orqaga',
-  authGuardian:'18 yoshga toʻlmagan boʻlsam, ota-onam yoki oʻqituvchim bilan maslahatlashdim.',
 
   profileH: 'Maʼlumotlaringiz',
   profileSub: 'Testni boshlash uchun quyidagi maʼlumotlarni toʻldiring.',
@@ -2859,7 +2858,6 @@ var TT_UZ = {
   errUnreachable:    'Serverga ulanib boʻlmadi. Qayta urinib koʻring.',
   errSignedOut:      'Seansingiz tugadi. Qaytadan kiring.',
   errFailed:         'Nimadir notoʻgʻri ketdi. Qayta urinib koʻring.',
-  errGuardian:       'Davom etish uchun shu katakchani belgilang.',
   errBadCode:        'Kod notoʻgʻri yoki muddati tugagan.',
 
   // ---- the card sort ----
@@ -3445,11 +3443,6 @@ function renderAuth(openDialog){
       '<label class="authlab" for="authPass">' + esc(T('authPassword')) + '</label>' +
       '<input class="authin" id="authPass" type="password" required ' +
         'autocomplete="' + (signUp ? 'new-password' : 'current-password') + '">' +
-      (signUp
-        ? '<label class="authcheck" for="authGuardian">' +
-            '<input type="checkbox" id="authGuardian">' +
-            '<span>' + esc(T('authGuardian')) + '</span></label>'
-        : '') +
       '<p class="autherr" id="authErr" role="alert"></p>' +
       '<button class="btn" type="submit" id="authGo">' +
         esc(T(signUp ? 'authSignUp' : 'authSignIn')) + '</button>' +
@@ -3472,21 +3465,7 @@ function renderAuth(openDialog){
     authMode = signUp ? 'signin' : 'signup';
     renderAuth(true);
   };
-  // Ticked, or not being asked because this is a sign-in. Nothing reads it
-  // afterwards and nothing stores it: it gates the two ways an account can be
-  // created from this dialog, and that is all it does.
-  function guardianOk(){
-    var box = document.getElementById('authGuardian');
-    if (!box || box.checked) return true;
-    var err = document.getElementById('authErr');
-    err.classList.remove('ok');
-    err.textContent = T('errGuardian');
-    box.focus();
-    return false;
-  }
-
   document.getElementById('authGoogle').onclick = function(){
-    if (!guardianOk()) return;
     this.disabled = true;
     NMAccount.signInWithProvider('google');
   };
@@ -3498,7 +3477,6 @@ function renderAuth(openDialog){
     var err = document.getElementById('authErr');
     var go = document.getElementById('authGo');
     err.textContent = '';
-    if (!guardianOk()) return;
     go.disabled = true;
     go.textContent = T('authWorking');
 
