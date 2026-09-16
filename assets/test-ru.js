@@ -303,7 +303,6 @@ var TEST_RU = {
     authVerify: 'Подтвердить',
     authResend: 'Отправить код ещё раз',
     authBack: 'Назад',
-    authNoName:  'Перед началом испытания нужны имя и сведения о школе — только для статистики. Телефон и дата рождения не нужны.',
     authGuardian:'Если мне ещё нет 18 лет, я посоветовался с родителями или учителем.',
 
     profileH: 'Расскажите о себе',
@@ -313,7 +312,9 @@ var TEST_RU = {
     profileRegion: 'Область', profileDistrict: 'Район', profileSchool: 'Школа',
     profileGrade: 'Класс', profilePlaceholder: 'Введите данные',
     profileSave: 'Сохранить', profileLater: 'Позже', profileSaving: 'Сохраняем…',
-    profileRequired: 'Заполните все поля перед началом испытания.',
+    profileRequired: 'Заполните обязательные поля.',
+    profileNotListed: 'Моей школы нет в списке',
+    profileSchoolName: 'Название школы',
     profileError: 'Не удалось сохранить. Попробуйте ещё раз.',
 
     errBadCredentials: 'Неверный email или пароль.',

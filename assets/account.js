@@ -65,7 +65,17 @@ var NMAccount = (function () {
       meta.display_name
     );
 
-    return String(name || '').trim();
+    // The header shows the first name only ("rahim", not "rahim raximov").
+    return String(name || '').trim().split(/\s+/)[0];
+  }
+
+  // The profile's first name, once the student has given one, is the name.
+  function useFirstName(first) {
+    first = String(first || '').trim();
+    if (first && session && session.user && session.user.name !== first) {
+      session.user.name = first;
+      writeSession(session);
+    }
   }
 
   function adopt(payload) {
@@ -289,7 +299,24 @@ var NMAccount = (function () {
 
   // --------------------------------------------------------------- token --
 
+  // Supabase rotates the refresh token on every use, so a refresh token must be
+  // spent once. Two things used to spend it twice and, on the 400 that follows,
+  // wipe a session that had just been renewed (the student looked signed out
+  // after a reload and the hub showed 0/6):
+  //   - pullSaved() asks for attempts and profile at once, and each refreshed;
+  //   - a second tab kept its load-time copy after the first tab rotated it.
+  // So share one refresh, read the stored session first, and only clear a
+  // session that still holds the token that was refused.
+  var refreshing = null;
+
+  function stillStored(field, value) {
+    var stored = readSession();
+    return !stored || stored[field] === value;
+  }
+
   function fresh() {
+    session = readSession() || session;
+
     if (!session) {
       return Promise.reject(
         apiError(401, null, 'signed-out')
@@ -314,29 +341,54 @@ var NMAccount = (function () {
       );
     }
 
-    return request(
+    if (refreshing) {
+      return refreshing;
+    }
+
+    var used = session.refresh;
+
+    refreshing = request(
       '/auth/v1/token?grant_type=refresh_token',
       {
         method: 'POST',
         body: {
-          refresh_token: session.refresh
+          refresh_token: used
         }
       }
     )
       .then(function (payload) {
+        // adopt() drops the user when the payload has none; keep ours.
+        var user = session && session.user;
         adopt(payload);
+        if (session && !session.user && user) {
+          session.user = user;
+          writeSession(session);
+        }
         return session.access;
       })
       .catch(function (error) {
         if (
           error.status >= 400 &&
-          error.status < 500
+          error.status < 500 &&
+          stillStored('refresh', used)
         ) {
           writeSession(null);
         }
 
         throw error;
-      });
+      })
+      .then(
+        function (token) {
+          refreshing = null;
+          return token;
+        },
+        function (error) {
+          refreshing = null;
+          throw error;
+        }
+      );
+
+    return refreshing;
   }
 
   function authed(path, options) {
@@ -350,7 +402,11 @@ var NMAccount = (function () {
         // of those for up to an hour, saw the dropdowns fill (public data
         // needs no token) and every save fail, with nothing saying to sign in
         // again. Drop it so the page asks, instead of retrying forever.
-        if (error && error.status === 401) {
+        if (
+          error &&
+          error.status === 401 &&
+          stillStored('access', token)
+        ) {
           writeSession(null);   // apiError already codes 401 as 'signed-out'
         }
 
@@ -621,10 +677,16 @@ var NMAccount = (function () {
           );
         })
         .then(function (rows) {
-          return (
+          var row = (
             rows &&
             rows[0]
           ) || null;
+
+          if (row) {
+            useFirstName(row.first_name);
+          }
+
+          return row;
         });
     },
 
@@ -655,31 +717,8 @@ var NMAccount = (function () {
         })
         .then(function (value) {
 
-          if (
-            session &&
-            session.user &&
-            patch
-          ) {
-            var first =
-              String(
-                patch.first_name || ''
-              ).trim();
-
-            var last =
-              String(
-                patch.last_name || ''
-              ).trim();
-
-            if (first || last) {
-              session.user.name =
-                (
-                  first +
-                  ' ' +
-                  last
-                ).trim();
-
-              writeSession(session);
-            }
+          if (patch) {
+            useFirstName(patch.first_name);
           }
 
           return value;

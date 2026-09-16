@@ -337,7 +337,6 @@ def footer(lang):
   <nav class="legalnav" aria-label="%(legal_label)s">
     <a href="terms.html">%(terms)s</a>
     <a href="privacy.html">%(privacy)s</a>
-    <a href="accessibility.html">%(accessibility)s</a>
   </nav>
 </div></footer>
 """ % {'home': t['nav.home'], 'types10': t['foot.types10'],

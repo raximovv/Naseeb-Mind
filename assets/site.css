@@ -487,13 +487,20 @@ section{padding:60px 0}
          display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
          font-size:13px;color:var(--muted)}
 .footbar a{color:var(--muted)}
-.socrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
-.soc{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;
+.socrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.soc{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;
      border-radius:50%;background:var(--lazur);color:var(--on-accent);flex:0 0 auto}
-.soc svg{width:20px;height:20px;display:block}
+.soc svg{width:16px;height:16px;display:block}
 .footcol a.soc{display:inline-flex;padding:0;color:var(--on-accent);text-decoration:none}
 .footcol a.soc:hover{background:var(--lazur-deep);text-decoration:none}
 .footcol a.soc:focus-visible{outline:3px solid var(--zar);outline-offset:3px}
+/* Each network in its own brand colours. */
+.soc[href*="t.me"]{background:#229ED9}
+.soc[href*="instagram"]{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285AEB 90%)}
+.soc[href*="youtube"]{background:#FF0000}
+.soc[href*="youtube"] path:last-child{fill:#FF0000}
+.soc[href*="linkedin"]{background:#0A66C2}
+.footcol a.soc[href]:hover{filter:brightness(1.12)}
 
 @media (prefers-reduced-motion: reduce){
   *{transition:none !important;animation:none !important}

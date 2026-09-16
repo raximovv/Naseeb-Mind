@@ -78,6 +78,31 @@ var NMNav = (function () {
     } catch (e) { return null; }
   }
 
+  // «Natijalar» is only for a student with a finished result. test.html knows
+  // that and leaves the signed-in student's id here; every page reads it.
+  var RESULTS_KEY = 'naseebmind_results_for_v1';
+
+  function hasResults(user) {
+    try {
+      return !!(user && user.id && localStorage.getItem(RESULTS_KEY) === user.id);
+    } catch (e) { return false; }
+  }
+
+  function showResultsLinks(on) {
+    var links = document.querySelectorAll('a[href*="view=results"]'), i;
+    for (i = 0; i < links.length; i++) links[i].style.display = on ? '' : 'none';
+  }
+
+  // Called by test.html whenever the hub is counted. True when it changed.
+  function markResults(done) {
+    var user = session(), before = hasResults(user);
+    try {
+      if (done && user && user.id) localStorage.setItem(RESULTS_KEY, user.id);
+      else localStorage.removeItem(RESULTS_KEY);
+    } catch (e) {}
+    return hasResults(user) !== before;
+  }
+
   function mount(opts) {
     opts = opts || {};
     var box = document.querySelector('[data-acct]');
@@ -97,6 +122,7 @@ var NMNav = (function () {
     function paint() {
       var user = session();
       open = false;
+      showResultsLinks(hasResults(user));
       if (!user) {
         // A link, not a button, and a real href: with JavaScript switched off
         // this is still the way in.
@@ -117,7 +143,7 @@ var NMNav = (function () {
         + '<span class="acctnm">' + esc(name || t.account) + '</span>' + CARET
         + '</button>'
         + '<div class="acctmenu" id="acctMenu" role="menu" aria-label="' + esc(t.menu) + '" hidden>'
-        + item('results', t.results, resultsHref)
+        + (hasResults(user) ? item('results', t.results, resultsHref) : '')
         + item('resume', t.resume, resumeHref)
         + '<hr class="acctsep">'
         + item('out', t.out, null, 'acctout')
@@ -203,14 +229,15 @@ var NMNav = (function () {
     });
     // Signing in or out in another tab is the same event as signing out here.
     window.addEventListener('storage', function (e) {
-      if (!e.key || e.key === 'naseebmind_session_v1') paint();
+      if (!e.key || e.key === 'naseebmind_session_v1' || e.key === RESULTS_KEY) paint();
     });
 
     paint();
     return { refresh: paint, text: t };
   }
 
-  return { mount: mount, text: TEXT, signedIn: function () { return !!session(); } };
+  return { mount: mount, text: TEXT, markResults: markResults,
+           signedIn: function () { return !!session(); } };
 })();
 
 // The light/dark switch, copied from Naseeb Edu's: a saved choice wins, and

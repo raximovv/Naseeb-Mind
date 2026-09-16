@@ -306,7 +306,6 @@ var TEST_EN = {
     authVerify: 'Confirm',
     authResend: 'Send the code again',
     authBack: 'Back',
-    authNoName:  'Before starting a challenge, name and school details are required for statistics. We do not need your phone number or date of birth.',
     authGuardian:'If I am under 18, I have asked a parent or teacher.',
 
     profileH: 'About you',
@@ -316,7 +315,9 @@ var TEST_EN = {
     profileRegion: 'Region', profileDistrict: 'District', profileSchool: 'School',
     profileGrade: 'Grade', profilePlaceholder: 'Enter this',
     profileSave: 'Save details', profileLater: 'Later', profileSaving: 'Saving…',
-    profileRequired: 'Fill in every field before starting a challenge.',
+    profileRequired: 'Fill in the required fields.',
+    profileNotListed: 'My school is not listed',
+    profileSchoolName: 'School name',
     profileError: 'Could not save. Please try again.',
 
     errBadCredentials: 'That email and password do not match.',
