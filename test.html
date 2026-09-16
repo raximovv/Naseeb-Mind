@@ -22,6 +22,8 @@
 // means no stamp, which is what leaves prefers-color-scheme in charge.
 (function(){try{var v=localStorage.getItem('naseebmind_theme_v1');
 if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v);}catch(e){}})();
+// ?embed=1: another page's Kirish shows only the sign-in dialog, framed over itself.
+if(/[?&]embed=1/.test(location.search)&&window.parent!==window)document.documentElement.className+=' embed';
 </script>
 <link rel="preload" href="assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
 <style>
@@ -915,6 +917,8 @@ if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v)
 
   /* ---- the account gate and modal ---- */
   body.modal-open{overflow:hidden}
+  html.embed,html.embed body{background:transparent!important}
+  html.embed body>:not(.wrap),html.embed #app>:not(.authoverlay){display:none!important}
   .authoverlay{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
                padding:18px;background:var(--overlay);backdrop-filter:blur(4px)}
   .authdialog{position:relative;width:min(100%,500px);max-height:calc(100vh - 36px);overflow:auto;
@@ -1382,8 +1386,8 @@ if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v)
 <script src="assets/icar16.js?v=1"></script>
 <script>var MATRIX_ART_SRC = "assets/matrix-art.js";</script>
 <script src="assets/figure-wiki.js?v=8afd3ca2"></script>
-<script src="assets/account.js?v=abbc43a2"></script>
-<script src="assets/header.js?v=df6ebad0"></script>
+<script src="assets/account.js?v=670a224f"></script>
+<script src="assets/header.js?v=be7c3e5e"></script>
 <script id="tm-logic">
 // ---------- Naseeb Mind v1.0 logic (frozen items + draft key) ----------
 var LABELS = ['Qoʻshilmayman','Biroz qoʻshilmayman','Betarafman','Biroz qoʻshilaman','Qoʻshilaman'];
@@ -2654,7 +2658,13 @@ var recReady = false, recWaiting = null;
   var need = 2, i;
   function done(){ if (--need === 0){ recReady = true;
     if (recWaiting){ recWaiting(); recWaiting = null; }
-    if (typeof state !== 'undefined' && state.view === 'hub' && typeof renderHub === 'function') renderHub(); } }
+    if (typeof state !== 'undefined' && state.view === 'hub' && typeof renderHub === 'function'){
+      // renderHub() rewrites #app, which holds an open sign-in/profile dialog:
+      // keep that node (and its focus) instead of wiping it.
+      var dlg = app.querySelector('.authoverlay'), focused = document.activeElement;
+      renderHub();
+      if (dlg){ app.appendChild(dlg); if (dlg.contains(focused)) focused.focus(); }
+    } } }
   var srcs = ['assets/careers-data.js?v=02e404b9', 'assets/recommend.js?v=3532bd24'];
   for (i = 0; i < srcs.length; i++){
     var s = document.createElement('script');
@@ -4178,6 +4188,12 @@ document.addEventListener('keydown', function(ev){
    one. */
 var acctNav = null;
 function wireTopLogin(){
+  // Framed by another page: tell it to close the frame once no dialog is left
+  // (closed, or signed in and the hub repainted over it).
+  if (/\bembed\b/.test(document.documentElement.className) && window.MutationObserver)
+    new MutationObserver(function(){
+      if (!app.querySelector('.authoverlay')) window.parent.postMessage('nm-login-done', location.origin);
+    }).observe(app, { childList: true });
   if (typeof NMNav === 'undefined') return;
   acctNav = NMNav.mount({
     onResults: showSavedResults,

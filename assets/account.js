@@ -607,13 +607,16 @@ var NMAccount = (function () {
           '?auth=signin'
         );
 
-      location.href =
+      // top: Google refuses to load inside the sign-in frame other pages use.
+      window.top.location.href =
         NM_URL +
         '/auth/v1/authorize' +
         '?provider=' +
         encodeURIComponent(provider) +
         '&redirect_to=' +
-        encodeURIComponent(target);
+        encodeURIComponent(target) +
+        // Always show Google's account chooser (supabase-js queryParams).
+        '&prompt=select_account';
 
       return Promise.resolve();
     },

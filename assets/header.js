@@ -129,6 +129,8 @@ var NMNav = (function () {
         box.innerHTML = '<a class="acctbtn" href="' + esc(loginHref) + '">'
           + '<span class="acctav" aria-hidden="true">' + PERSON + '</span>'
           + '<span class="acctnm">' + esc(t.login) + '</span></a>';
+        // test.html (the host with onResults) opens its own dialog in place.
+        if (!opts.onResults) box.firstChild.onclick = openLogin;
         btn = menu = null; items = [];
         return;
       }
@@ -167,6 +169,32 @@ var NMNav = (function () {
       return '<button class="' + cls + '" role="menuitem" type="button" data-do="' + key
         + '">' + inner + '</button>';
     }
+
+    // Kirish opens test.html's sign-in dialog framed over this page, so the
+    // visitor stays where they are. A modified click still opens the page.
+    function openLogin(e) {
+      if (e.ctrlKey || e.metaKey || e.shiftKey || e.button) return;
+      e.preventDefault();
+      if (document.getElementById('nmLoginFrame')) return;
+      var f = document.createElement('iframe');
+      f.id = 'nmLoginFrame';
+      f.title = t.login;
+      f.src = loginHref + '&embed=1';
+      f.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;border:0;z-index:2147483647;background:transparent';
+      f.onload = function () {
+        try { f.contentWindow.focus(); f.contentDocument.getElementById('authEmail').focus(); } catch (err) {}
+      };
+      document.body.appendChild(f);
+      document.documentElement.style.overflow = 'hidden';
+    }
+    window.addEventListener('message', function (e) {
+      var f = document.getElementById('nmLoginFrame');
+      if (!f || e.origin !== location.origin || e.data !== 'nm-login-done') return;
+      f.remove();
+      document.documentElement.style.overflow = '';
+      paint();
+      if (box.firstChild) box.firstChild.focus();
+    });
 
     // ----------------------------------------------------- opening/closing --
     function setOpen(next, focusFirst) {
