@@ -1,9 +1,8 @@
 // The palette, in both themes, in both places it is declared.
 //
 // Naseeb Mind has one palette with two themes. The light values are its own. The
-// dark GROUNDS are Naseeb Edu's, as they stand on upstream/main -- navy, not the
-// plum a stale local branch still carries. The dark ACCENT is Naseeb Mind's own
-// gold, because that is what the Naseeb Mind card keeps inside Edu's chrome.
+// dark GROUNDS and ACCENTS match Naseeb Edu's current midnight and ice-blue
+// theme so every page and the standalone test remain visually consistent.
 //
 // The thing worth guarding is DRIFT. Every token is written out twice -- in
 // assets/site.css for the generated pages, and again inside test.html, which is
@@ -36,14 +35,12 @@ const PALETTE = {
     '--raised': '#FFFEFB', '--inset': '#E9E1D5', '--warm': '#FBF3E4',
     '--good': '#237A5E',
   },
-  // Naseeb Edu's dark theme on upstream/main, which is navy -- plus Naseeb
-  // Mind's own gold as the accent, because that is the colour the Naseeb Mind
-  // card keeps inside Edu's chrome.
+  // Naseeb Edu's dark theme: navy grounds with ice-blue accents.
   dark: {
-    '--lazur': '#E3B86A', '--lazur-deep': '#E3B86A', '--lazur-press': '#EFCB8A',
+    '--lazur': '#9FC6E2', '--lazur-deep': '#9FC6E2', '--lazur-press': '#C3DCED',
     '--lazur-soft': '#1C3241', '--ink': '#F7F7F7', '--paper': '#10202D',
-    '--card': '#162936', '--zar': '#EFCB8A', '--muted': '#B5C3CE',
-    '--avatar': '#E3B86A', '--brand-ink': '#E3B86A', '--hoverbg': '#284452',
+    '--card': '#162936', '--zar': '#C3DCED', '--muted': '#B5C3CE',
+    '--avatar': '#9FC6E2', '--brand-ink': '#9FC6E2', '--hoverbg': '#284452',
     '--raised': '#213947', '--inset': '#0C1923', '--warm': '#1C3241',
     '--good': '#2E8B6B', '--on-accent': '#10202D',
   },
