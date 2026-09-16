@@ -1025,7 +1025,7 @@ if(/[?&]embed=1/.test(location.search)&&window.parent!==window)document.document
   .hubmain,.hubmain .chlist{display:contents}
   .chcard{min-height:200px;border-radius:12px;grid-template-columns:52% 48%}
   .chart{width:48%}
-  .chcard[data-kind="personality"]{grid-column:1/3;grid-row:1;min-height:0;aspect-ratio:878/300;grid-template-columns:44% 56%}
+  .chcard[data-kind="personality"]{grid-column:1/3;grid-row:1;min-height:0;min-width:0;max-width:100%;aspect-ratio:878/300;grid-template-columns:44% 56%}
   /* The statue is shown whole-ish rather than cover-cropped: a square a little
      taller than the card, anchored right and slightly above the top, so the
      curls and forehead stay in frame and the face is still the focal point.
@@ -3318,6 +3318,9 @@ function majorMatchHtml(){
 }
 
 function renderHub(){
+  // A repaint of the hub already on screen (data arriving) keeps the reader's place;
+  // only arriving from another screen starts at the top.
+  var wasHub = !!app.querySelector('.chlist');
   var done = 0, i;
   var cards = '', dots = '';
   for (i = 0; i < CHALLENGES.length; i++){
@@ -3416,7 +3419,7 @@ function renderHub(){
       render();
     });
   };
-  window.scrollTo({ top: 0, behavior: 'auto' });
+  if (!wasHub) window.scrollTo({ top: 0, behavior: 'auto' });
 }
 
 // --------------------------------------------------------------- the gate ----
@@ -5817,10 +5820,27 @@ var RESULT_KEY = 'testmind_result_v1';
 // is only brought back when the reader actually pressed a language pill, which
 // sets this flag on its way out. One load, then it is spent.
 var KEEP_KEY = 'testmind_keep_result';
-function markLanguageSwitch(){ try { sessionStorage.setItem(KEEP_KEY, '1'); } catch (e) {} }
+// The flag also carries how far down the page the reader was, as a share of the
+// scrollable height (the other language wraps differently, so pixels drift).
+function scrollRoom(){ return Math.max(1, document.documentElement.scrollHeight - window.innerHeight); }
+var langSpot = 0;
+// Called straight after boot(), before the first paint, so the new language opens
+// already in place; checked again once images have set the final height, unless
+// the reader has scrolled in between.
+function placeLangSpot(){
+  if (!langSpot) return;
+  var at, place = function(){ at = Math.round(langSpot * scrollRoom()); window.scrollTo(0, at); };
+  place();
+  window.addEventListener('load', function(){ if (Math.abs(window.pageYOffset - at) <= 2) place(); });
+}
+function markLanguageSwitch(){ try { sessionStorage.setItem(KEEP_KEY, String(window.pageYOffset / scrollRoom())); } catch (e) {} }
 function takeLanguageSwitch(){
-  try { var v = sessionStorage.getItem(KEEP_KEY); sessionStorage.removeItem(KEEP_KEY); return !!v; }
+  var v = null;
+  try { v = sessionStorage.getItem(KEEP_KEY); sessionStorage.removeItem(KEEP_KEY); }
   catch (e) { return false; }
+  var f = parseFloat(v);
+  if (f > 0) langSpot = f;
+  return !!v;
 }
 function saveResult(r){ try { sessionStorage.setItem(RESULT_KEY, JSON.stringify(r)); } catch (e) {} }
 function clearResult(){ try { sessionStorage.removeItem(RESULT_KEY); } catch (e) {} }
@@ -6193,6 +6213,7 @@ function boot(){
 }
 
 boot();
+placeLangSpot();
 </script>
 </body>
 </html>
