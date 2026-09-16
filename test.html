@@ -3335,7 +3335,6 @@ function renderHub(){
     cards +=
       '<li data-kind="' + esc(c.key) + '" class="chcard' + (finished ? ' is-done' : '') + '">' +
         '<div class="chbody">' +
-          '<div class="chnum" aria-hidden="true">0' + c.n + '</div>' +
           '<h2 id="ch-title-' + esc(c.key) + '">' + esc(challengeTitle(c)) + '</h2>' +
           '<p>' + esc(T('hubBrief_' + c.key)) + '</p>' +
         '<div class="chside">' + status +
