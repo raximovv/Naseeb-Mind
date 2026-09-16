@@ -88,9 +88,9 @@ S['uz'] = {
     'home.fact2': u'umumiy topshirilgan testlar',
     'home.fact3': u'ishtirok etgan maktab',
 
-    'home.p1.tag': u'Oʻzingizni tushunib oling',
-    'home.p1.h2': u'Natija raqam emas, obraz',
-    'home.p1.p': u'Test yakunida qandaydir ball emas, aniq bir obraz olasiz: siz qanday odamsiz, nima sizga kuch beradi va qaysi tomoningiz eng kuchli. Uni rasm qilib saqlab, doʻstlaringizga yuborishingiz mumkin.',
+    'home.p1.tag': u'Oʻzingiz haqingizda bilib oling',
+    'home.p1.h2': u'Natija ball emas, balki xarakter',
+    'home.p1.p': u'Test oxirida qanday inson ekanligingiz, sizga nima kuch berishi va qaysi xususiyatingiz kuchliroq ekanini koʻrsatadigan xarakter chiqadi. Uni rasm koʻrinishida saqlab, doʻstlaringizga yuborishingiz mumkin.',
     'home.p2.tag': u'Boshqalarni tushunib oling',
     'home.p2.h2': u'Doʻstingiz nega sizdan butunlay boshqacha?',
     'home.p2.p': u'Oʻnta obrazning hech biri boshqasidan yaxshi emas. Kimdir davrani jonlantiradi, kimdir jimgina eng yaxshi yechimni topadi. Buni bilsangiz, sinfdoshlaringiz bilan ham osonroq til topasiz.',
