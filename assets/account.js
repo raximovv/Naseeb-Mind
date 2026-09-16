@@ -267,6 +267,11 @@ var NMAccount = (function () {
         code = 'bad-credentials';
       } else if (
         status === 400 &&
+        text.indexOf('not confirmed') >= 0
+      ) {
+        code = 'email-not-confirmed';
+      } else if (
+        status === 400 &&
         text.indexOf('already registered') >= 0
       ) {
         code = 'email-taken';

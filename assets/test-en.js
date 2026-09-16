@@ -319,7 +319,8 @@ var TEST_EN = {
     profileSchoolName: 'School name',
     profileError: 'Could not save. Please try again.',
 
-    errBadCredentials: 'That email and password do not match.',
+    errBadCredentials: 'That email and password do not match. No account yet? Sign up first. Signed up with Google? Use “Sign in with Google”.',
+    errEmailNotConfirmed: 'This email is not confirmed yet. Use the code from your inbox, or sign up again.',
     errEmailTaken:     'That email already has an account. Sign in instead.',
     errWeakPassword:   'That password is too short. Use at least six characters.',
     errBadEmail:       'That email address does not look right.',

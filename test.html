@@ -1376,8 +1376,8 @@ if(/[?&]embed=1/.test(location.search)&&window.parent!==window)document.document
 
 <script src="assets/characters.js?v=100242de"></script>
 <script src="assets/strings.js?v=4cb528e7"></script>
-<script src="assets/test-ru.js?v=1e3c6c0f"></script>
-<script src="assets/test-en.js?v=aedec144"></script>
+<script src="assets/test-ru.js?v=6b66e862"></script>
+<script src="assets/test-en.js?v=cf60f9e3"></script>
 <script src="assets/career.js?v=ae52d57f"></script>
 <script src="assets/values.js?v=66d7d5e6"></script>
 <script src="assets/school.js?v=410a10d2"></script>
@@ -1386,7 +1386,7 @@ if(/[?&]embed=1/.test(location.search)&&window.parent!==window)document.document
 <script src="assets/icar16.js?v=1"></script>
 <script>var MATRIX_ART_SRC = "assets/matrix-art.js";</script>
 <script src="assets/figure-wiki.js?v=8afd3ca2"></script>
-<script src="assets/account.js?v=670a224f"></script>
+<script src="assets/account.js?v=5a1bb45e"></script>
 <script src="assets/header.js?v=be7c3e5e"></script>
 <script id="tm-logic">
 // ---------- Naseeb Mind v1.0 logic (frozen items + draft key) ----------
@@ -2849,7 +2849,8 @@ var TT_UZ = {
   profileSchoolName: 'Maktab nomi',
   profileError: 'Saqlab boʻlmadi. Qayta urinib koʻring.',
 
-  errBadCredentials: 'Email yoki parol notoʻgʻri.',
+  errBadCredentials: 'Email yoki parol notoʻgʻri. Hisobingiz boʻlmasa, avval roʻyxatdan oʻting. Google orqali roʻyxatdan oʻtgan boʻlsangiz, «Google orqali kirish»ni bosing.',
+  errEmailNotConfirmed: 'Email hali tasdiqlanmagan. Pochtangizdagi kod bilan tasdiqlang yoki qaytadan roʻyxatdan oʻting.',
   errEmailTaken:     'Bu email allaqachon roʻyxatdan oʻtgan. Kiring.',
   errWeakPassword:   'Parol juda qisqa. Kamida olti belgi boʻlsin.',
   errBadEmail:       'Email notoʻgʻri yozilgan.',
@@ -3043,7 +3044,7 @@ function localiseChrome(){
   var a, links = document.querySelectorAll('.toplinks a:not(.toplogin-mobile), .foot a');
   for (i = 0; i < links.length; i++){
     a = links[i];
-    if (a.getAttribute('data-nav-results')) { a.textContent = C.results; continue; }
+    if (a.hasAttribute('data-nav-results')) { a.textContent = C.results; a.setAttribute('href', 'test.html?lang=' + TLANG + '&view=results'); continue; }
     var file = (a.getAttribute('href') || '').split('/').pop().split('?')[0];
     var row = C.nav[file];
     if (row){ a.textContent = row[0]; a.setAttribute('href', row[1]); continue; }
@@ -3339,7 +3340,7 @@ function renderHub(){
           '<button type="button" class="btn chgo" data-ch="' + esc(c.key) + '" aria-label="' + esc(action + ': ' + challengeTitle(c)) + '">' + esc(action) + '<span class="charrow" aria-hidden="true">&#8594;</span></button>' +
         '</div></div>' +
         (c.key === 'personality'
-          ? '<img class="chart chart-hero" src="assets/challenges/personality-hero.webp" width="1448" height="1086" alt="" decoding="async">'
+          ? '<img class="chart chart-hero" src="assets/challenges/personality-hero-web.webp" width="1448" height="1086" alt="" decoding="async">'
           : '<img class="chart" src="assets/challenges/' + esc(c.key) + '.webp" width="640" height="640" alt="" decoding="async">') +
       '</li>';
   }
