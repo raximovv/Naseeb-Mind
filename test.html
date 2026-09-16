@@ -99,18 +99,18 @@ if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v)
   /* The phone is in dark mode and the reader has not overridden it. */
   @media (prefers-color-scheme:dark){
     :root:not([data-theme="light"]){
-    --lazur:#E3B86A;
+    --lazur:#9FC6E2;
     --on-accent:#10202D;   /* ...light accent on navy, so the ink flips */               /* --accent */
-    --lazur-press:#EFCB8A;         /* --accent-hover */
-    --lazur-deep:#E3B86A;          /* --accent-deep: link and emphasis TEXT */
+    --lazur-press:#C3DCED;         /* --accent-hover */
+    --lazur-deep:#9FC6E2;          /* --accent-deep: link and emphasis TEXT */
     --lazur-soft:#1C3241;
-    --soft-line:rgba(227,184,106,.45);  /* the accent as a ring: --surface-soft is a fill and vanishes as a line */
+    --soft-line:rgba(159,198,226,.45);  /* the accent as a ring: --surface-soft is a fill and vanishes as a line */
     --line-strong:rgba(181,199,211,.34); /* Edu --border-strong: --border is a divider, this is an outline */          /* --surface-soft */
     --ink:#F7F7F7;                 /* --text */
     --paper:#10202D;               /* --canvas */
     --card:#162936;                /* --surface */
     --line:rgba(181,199,211,.16);  /* --border */
-    --zar:#EFCB8A;                 /* --focus-color */
+    --zar:#C3DCED;                 /* --focus-color */
     --muted:#B5C3CE;               /* --muted */
     --raised:#213947;              /* --surface-raised */
     --inset:#0C1923;               /* --surface-inset */
@@ -118,15 +118,15 @@ if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v)
     --bar:rgba(12,25,35,.94);       /* --sidebar */
     --warm:#1C3241;                /* --surface-soft: there is no amber at night */
     --warm-line:rgba(181,199,211,.22);
-    --warm-ink:#E3B86A;
+    --warm-ink:#9FC6E2;
     --disabled:#2A3F4D;
     --good:#2E8B6B;
     --good-ink:#4FB08A;            /* lifted further: it has to read as TEXT */
     --cool:#8FA9C0;
     --alarm:#E8A77E;
     --err:#E09088;                 /* Edu's --danger text */
-    --avatar:#E3B86A;                /* the account disc, lifted off --card */
-    --brand-ink:#E3B86A;           /* --accent-deep: --accent is unreadable on the bar */
+    --avatar:#9FC6E2;                /* the account disc, lifted off --card */
+    --brand-ink:#9FC6E2;           /* --accent-deep: --accent is unreadable on the bar */
     /* The five-point scale: Edu lifts both ends off the dark surface rather
        than keeping the colours it uses on cream. */
     --viol:#6FBBD0;                /* --scale-neg */
@@ -148,18 +148,18 @@ if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v)
   }
   /* The reader asked for dark, whatever the phone says. */
   :root[data-theme="dark"]{  /* the same values; see the block above */
-    --lazur:#E3B86A;
+    --lazur:#9FC6E2;
     --on-accent:#10202D;
-    --lazur-press:#EFCB8A;
-    --lazur-deep:#E3B86A;
+    --lazur-press:#C3DCED;
+    --lazur-deep:#9FC6E2;
     --lazur-soft:#1C3241;
-    --soft-line:rgba(227,184,106,.45);  /* the accent as a ring: --surface-soft is a fill and vanishes as a line */
+    --soft-line:rgba(159,198,226,.45);  /* the accent as a ring: --surface-soft is a fill and vanishes as a line */
     --line-strong:rgba(181,199,211,.34); /* Edu --border-strong: --border is a divider, this is an outline */
     --ink:#F7F7F7;
     --paper:#10202D;
     --card:#162936;
     --line:rgba(181,199,211,.16);
-    --zar:#EFCB8A;
+    --zar:#C3DCED;
     --muted:#B5C3CE;
     --raised:#213947;
     --inset:#0C1923;
@@ -167,15 +167,15 @@ if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v)
     --bar:rgba(12,25,35,.94);
     --warm:#1C3241;
     --warm-line:rgba(181,199,211,.22);
-    --warm-ink:#E3B86A;
+    --warm-ink:#9FC6E2;
     --disabled:#2A3F4D;
     --good:#2E8B6B;
     --good-ink:#4FB08A;
     --cool:#8FA9C0;
     --alarm:#E8A77E;
     --err:#E09088;
-    --avatar:#E3B86A;
-    --brand-ink:#E3B86A;
+    --avatar:#9FC6E2;
+    --brand-ink:#9FC6E2;
     --viol:#6FBBD0;
     --viol-soft:rgba(111,187,208,.45);
     --track:linear-gradient(90deg,#1C3241,#284452);
@@ -428,7 +428,6 @@ if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v)
         border-left:4px solid var(--lazur);font-size:15.5px;line-height:1.6}
   .ctop b{color:var(--lazur-deep)}
   .cattr{margin:14px 0 0;font-size:12.5px;line-height:1.5;color:var(--muted)}
-           border:1px solid var(--line);text-align:left}
 
   .recgrid{list-style:none;margin:12px 0 0;padding:0}
   .recgrid li{display:flex;align-items:flex-start;gap:9px;padding:8px 0;
@@ -1011,7 +1010,7 @@ if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v)
   .icar-question{font-size:1.15rem;line-height:1.5;padding:28px;text-align:center}
   .icar-option{display:block;padding:10px 8px;text-align:center;font-weight:600}
   .resultpagehead{margin:28px 0 18px;padding:4px 2px}.resultpagehead h1{margin:0;font-size:clamp(34px,5vw,58px);line-height:1.05}.resultpagehead p:last-child{margin:10px 0 0;color:var(--muted);font-size:17px}.resultpagehead .eyebrow{margin:0 0 8px;letter-spacing:.18em;font-size:11px;font-weight:800;color:var(--lazur-deep)}
-  .hublayout{display:grid;grid-template-columns:minmax(0,7fr) minmax(280px,3fr);gap:18px;align-items:start}.hubmain{min-width:0}.major-match{position:sticky;top:82px;border:1px solid var(--line);border-radius:18px;background:#16233F;color:#fff;padding:24px}.major-match h2{font-family:var(--display);font-size:32px;line-height:1.05;margin:12px 0}.major-match p{color:#d7e0ea;font-size:13px;line-height:1.45}.major-match .matchstatus{border-top:1px solid rgba(255,255,255,.35);padding-top:14px;margin-top:20px;font-size:12px}.major-match .btn{width:100%;margin-top:12px;background:#fff;color:#16233F}.major-options{display:grid;gap:8px;margin-top:16px}.major-option{display:flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.55);border-radius:12px;padding:12px;text-align:left;background:transparent;color:#fff;cursor:pointer}.major-option strong{font-family:var(--display);font-size:18px}.major-option input{margin-left:auto}.major-option.selected{background:rgba(255,255,255,.15)}@media(max-width:900px){.hublayout{grid-template-columns:1fr}.major-match{position:static;order:-1}}
+  .hublayout{display:grid;grid-template-columns:minmax(0,7fr) minmax(280px,3fr);gap:18px;align-items:start}.hubmain{min-width:0}.major-match{position:relative;border:1px solid #9fb2c6;border-radius:18px;background:linear-gradient(160deg,#304865,#1e3b55);color:#fff;padding:30px;min-height:650px;overflow:hidden}.major-match:after{content:"";position:absolute;width:210px;height:210px;right:-86px;top:-88px;border:1px solid rgba(224,235,244,.65);border-radius:50%;box-shadow:0 0 0 30px rgba(164,188,207,.10),0 0 0 58px rgba(164,188,207,.08);pointer-events:none}.major-match>*{position:relative;z-index:1}.major-logo{width:64px;height:64px;border-radius:50%;background:#fff;object-fit:contain;padding:12px;display:block;margin-bottom:38px}.major-match .eyebrow{color:#e7edf3;letter-spacing:.18em;font-size:11px;font-weight:800}.major-match h2{font-family:var(--display);font-size:clamp(42px,3vw,50px);line-height:1.02;margin:18px 0}.major-match p{color:#d7e0ea;font-size:14px;line-height:1.6}.major-match .matchstatus{border-top:1px solid rgba(255,255,255,.55);padding-top:18px;margin-top:28px;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:space-between;gap:12px}.major-match .matchstatus svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2}.major-match .btn{width:100%;min-height:62px;margin-top:16px;background:#fff;color:#18334b;border:0;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:10px}.major-match .btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.major-options{display:grid;gap:8px;margin-top:16px}.major-option{display:flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.55);border-radius:12px;padding:12px;text-align:left;background:transparent;color:#fff;cursor:pointer}.major-option strong{font-family:var(--display);font-size:18px}.major-option small{display:block;margin-top:4px;font-family:var(--body);font-size:13px;font-weight:400;line-height:1.45;color:#d7e0ea}.major-option input{margin-left:auto}.major-option.selected{background:rgba(255,255,255,.15)}@media(max-width:900px){.hublayout{grid-template-columns:1fr}.major-match{order:-1;min-height:650px}}
   .mxopts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:min(340px,92vw)}
   .mxopt{position:relative;cursor:pointer;border:1px solid var(--line);border-radius:10px;
          background:var(--card);color:var(--ink);display:grid;place-items:center;padding:4px}
@@ -1251,10 +1250,10 @@ if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v)
     <span>Naseeb <b>Mind</b></span>
   </a>
   <div class="toplinks">
+    <a href="test.html?view=results" data-nav-results>Natijalar</a>
     <a href="index.html">Bosh sahifa</a>
     <a href="obrazlar.html">Obrazlar</a>
     <a href="test.html" aria-current="page">Shaxsiyat testi</a>
-    <a href="test.html?view=results" data-nav-results>Natijalar</a>
     <a href="savollar.html">Savollar</a>
   </div>
   <!-- Rebuilt by localiseChrome() once the language is known, because which pill
@@ -3136,26 +3135,92 @@ function render(){
 }
 
 // ------------------------------------------------------------------ the hub --
+// [{key, why}] from Groq once the student presses the button; null until then,
+// and whenever the call fails, so the engine's own top three still show.
+var majorAI = null, majorAIBusy = false;
+
+function majorCandidates(limit){
+  var signals = recSignals(scoreCareer(state.answers), null, null, scoreAnswers(state.answers));
+  return recRank(MAJOR_ENTRIES, signals, 'major', limit);
+}
+
+function askMajorAI(){
+  if (majorAIBusy || !recReady) return;
+  if (typeof NMAccount === 'undefined' || !NMAccount.signedIn()){ authMode = 'signup'; renderAuth(true); return; }
+  var L = TAXONOMY_NAMES[recLang()], r = scoreCareer(state.answers), b = scoreAnswers(state.answers);
+  var round = function(v){ return Math.round(v * 10) / 10; };
+  var candidates = majorCandidates(8).map(function(row){
+    return { key: row.key, name: (L.majors && L.majors[row.key]) || row.key };
+  });
+  var body = {
+    lang: TLANG,
+    candidates: candidates,
+    profile: {
+      scale: '1-5',
+      interests: { realistic: round(r.R), investigative: round(r.I), artistic: round(r.A),
+                   social: round(r.S), enterprising: round(r.E), conventional: round(r.C) },
+      personality: { emotional_stability: round(b.ES), extraversion: round(b.E), openness: round(b.O),
+                     agreeableness: round(b.A), conscientiousness: round(b.C) }
+    }
+  };
+  majorAIBusy = true; renderHub();
+  NMAccount.recommendMajors(body).then(function(res){
+    majorAI = res && res.picks && res.picks.length === 3 ? res.picks : null;
+  }, function(){ majorAI = null; }).then(function(){ majorAIBusy = false; renderHub(); });
+}
+
 function majorMatchHtml(){
   var complete = CHALLENGES.length && CHALLENGES.every(function(c){ return challengeDone(c, state.answers); });
   var rows = [];
   if (complete && recReady && typeof recRank === 'function' && typeof MAJOR_ENTRIES !== 'undefined'){
-    var signals = recSignals(scoreCareer(state.answers), null, null, scoreAnswers(state.answers));
-    rows = recRank(MAJOR_ENTRIES, signals, 'major', 3);
+    rows = majorAI || majorCandidates(3);
   }
   var L = (typeof TAXONOMY_NAMES !== 'undefined') ? TAXONOMY_NAMES[recLang()] : null;
-  var h = '<aside class="major-match"><div class="eyebrow">AI MAJOR MATCH</div>' +
-    '<h2>' + esc(complete ? 'Choose your strongest fit' : 'Complete your profile') + '</h2>' +
-    '<p>' + esc(complete ? 'These are your three strongest current matches. Select one to make it your study direction.' : 'Finish all six challenges first. Your answers will shape the recommendations.') + '</p>' +
-    '<div class="matchstatus">' + esc(complete ? 'Recommendations ready' : 'Waiting for your responses') + '</div>' +
-    '<button class="btn" id="majorGenerate" type="button"' + (complete ? '' : ' disabled') + '>' + esc(complete ? (rows.length ? 'Generate again' : 'Generate recommendations') : 'Complete challenges') + '</button>';
+  var copy = {
+    uz: {
+      eyebrow: 'AI BILAN YOʻNALISH TANLASH',
+      title: 'Endi sizga mos yoʻnalishni topamiz',
+      ready: 'Profil tayyor',
+      incomplete: 'Avval oltita sinovni yakunlang',
+      description: 'AI qiziqishlaringiz, shaxsiyatingiz, fanlaringiz va mantiqiy fikrlash natijalaringizni solishtirib, uchta eng mos yoʻnalishni tavsiya qiladi.',
+      resultTitle: 'Eng mos yoʻnalishingizni tanlang',
+      resultDescription: 'Bu sizga hozir eng mos keladigan uchta yoʻnalish. Oʻqish yoʻnalishingiz sifatida bittasini tanlang.',
+      recommendationsReady: 'Tavsiyalar tayyor',
+      generate: 'AI yordamida tavsiyalar olish',
+      regenerate: 'Qayta yaratish',
+      select: 'Saqlash uchun bitta yoʻnalishni tanlang.'
+    },
+    ru: {
+      eyebrow: 'ВЫБОР НАПРАВЛЕНИЯ С ИИ', title: 'Теперь найдём подходящее вам направление',
+      ready: 'Профиль готов', incomplete: 'Сначала завершите все шесть тестов',
+      description: 'ИИ сравнит ваши интересы, личность, предметы и результаты логического мышления и предложит три наиболее подходящих направления.',
+      resultTitle: 'Выберите самое подходящее направление', resultDescription: 'Это три наиболее подходящих вам направления. Выберите одно как направление обучения.',
+      recommendationsReady: 'Рекомендации готовы', generate: 'Получить рекомендации с помощью ИИ', regenerate: 'Создать заново',
+      select: 'Выберите одно направление, чтобы сохранить его.'
+    },
+    en: {
+      eyebrow: 'CHOOSE A DIRECTION WITH AI', title: 'Now let’s find your direction',
+      ready: 'Profile ready', incomplete: 'Complete all six challenges first',
+      description: 'AI will compare your interests, personality, subjects, and reasoning results to recommend your three strongest-fit directions.',
+      resultTitle: 'Choose your strongest fit', resultDescription: 'These are your three strongest current matches. Select one to make it your study direction.',
+      recommendationsReady: 'Recommendations ready', generate: 'Generate recommendations with AI', regenerate: 'Generate again',
+      select: 'Select one major to save your study direction.'
+    }
+  }[TLANG] || null;
+  var checkIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="m8.5 12 2.2 2.2 4.8-5"></path></svg>';
+  var sparkleIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 1.5 5.5L19 10l-5.5 1.5L12 17l-1.5-5.5L5 10l5.5-1.5L12 3Z"></path><path d="M19 3v4M21 5h-4M5 17v4M7 19H3"></path></svg>';
+  var h = '<aside class="major-match"><img class="major-logo" src="assets/ui/logo.png" alt="Naseeb Mind logo"><div class="eyebrow">' + esc(copy.eyebrow) + '</div>' +
+    '<h2>' + esc(rows.length ? copy.resultTitle : copy.title) + '</h2>' +
+    '<p>' + esc(rows.length ? copy.resultDescription : copy.description) + '</p>' +
+    '<div class="matchstatus"><span>' + esc(complete ? (rows.length ? copy.recommendationsReady : copy.ready) : copy.incomplete) + '</span>' + (complete ? checkIcon : '') + '</div>' +
+    '<button class="btn" id="majorGenerate" type="button"' + (complete && !majorAIBusy ? '' : ' disabled') + (majorAIBusy ? ' aria-busy="true"' : '') + '>' + sparkleIcon + '<span>' + esc(majorAIBusy ? '…' : (majorAI ? copy.regenerate : copy.generate)) + '</span></button>';
   if (rows.length){
     h += '<div class="major-options">';
     for (var i = 0; i < rows.length; i++){
       var label = L && L.majors ? (L.majors[rows[i].key] || rows[i].key) : rows[i].key;
-      h += '<label class="major-option"><span>0' + (i + 1) + '</span><strong>' + esc(label) + '</strong><input type="radio" name="major-fit" value="' + esc(rows[i].key) + '"></label>';
+      h += '<label class="major-option"><span>0' + (i + 1) + '</span><strong>' + esc(label) + (rows[i].why ? '<small>' + esc(rows[i].why) + '</small>' : '') + '</strong><input type="radio" name="major-fit" value="' + esc(rows[i].key) + '"></label>';
     }
-    h += '</div><p>Select one major to save your study direction.</p>';
+    h += '</div><p>' + esc(copy.select) + '</p>';
   }
   return h + '</aside>';
 }
@@ -3203,13 +3268,17 @@ function renderHub(){
   wirePolygon();
   wireResultFigure();
   function ensureProfileForTest(){
-    if (typeof NMAccount !== 'undefined' && NMAccount.signedIn() &&
-        (!accountProfile || !accountProfile.profile_completed)){
-      renderProfile(true);
-      return false;
-    }
-    return true;
+  if (
+    typeof NMAccount !== 'undefined' &&
+    NMAccount.signedIn() &&
+    !profileIsComplete(accountProfile)
+  ){
+    renderProfile(true);
+    return false;
   }
+
+  return true;
+}
   var buttons = app.querySelectorAll('.chgo');
   for (i = 0; i < buttons.length; i++){
     buttons[i].onclick = function(){
@@ -3232,7 +3301,7 @@ function renderHub(){
     state.view = 'result'; render();
   };
   var majorGenerate = document.getElementById('majorGenerate');
-  if (majorGenerate) majorGenerate.onclick = function(){ renderHub(); };
+  if (majorGenerate) majorGenerate.onclick = askMajorAI;
   var majorChoices = app.querySelectorAll('input[name="major-fit"]');
   for (i = 0; i < majorChoices.length; i++) majorChoices[i].onchange = function(){
     for (var j = 0; j < majorChoices.length; j++) majorChoices[j].parentNode.classList.remove('selected');
@@ -3442,121 +3511,584 @@ function renderAuthCode(email, password){
 // audience in aggregate; they never enter scoring or the anonymous research
 // copy sent for test improvement.
 function profileReady(p){
-  return Boolean(p && p.profile_completed);
+  return profileIsComplete(p);
 }
 
 function profileField(id, key, autocomplete, full){
   var p = accountProfile || {};
-  var map = {profileFirst:'first_name', profileLast:'last_name', profileCountry:'country',
-             profileRegion:'region', profileDistrict:'district', profileSchool:'school',
-             profileGrade:'grade'};
+  var map = {
+    profileFirst: 'first_name',
+    profileLast: 'last_name'
+  };
+
   return '<div class="profilefield' + (full ? ' full' : '') + '">' +
     '<label class="authlab" for="' + id + '">' + esc(T(key)) + '</label>' +
-    '<input class="authin profilein" id="' + id + '" type="text" maxlength="120" aria-required="true"' +
-      ' autocomplete="' + autocomplete + '" placeholder="' + esc(T('profilePlaceholder')) + '" value="' +
-      esc(p[map[id]] || '') + '">' +
-    '</div>';
+    '<input class="authin profilein" id="' + id + '" type="text" maxlength="120" required' +
+      (autocomplete ? ' autocomplete="' + autocomplete + '"' : '') +
+      ' value="' + esc(p[map[id]] || '') + '">' +
+  '</div>';
 }
+
+
+function profileIsComplete(p){
+  return Boolean(
+    p &&
+    p.first_name &&
+    p.last_name &&
+    p.country_code &&
+    p.region_id &&
+    p.district_id &&
+    p.grade &&
+    (p.school_id || p.custom_school_name)
+  );
+}
+
 
 function renderProfile(){
   var existing = document.getElementById('profileDialog');
   if (existing) existing.remove();
+
   profileOpen = true;
   document.body.classList.add('modal-open');
-  var p = accountProfile || {};
-  app.insertAdjacentHTML('beforeend',
-    '<div class="authoverlay" id="profileDialog">' +
-      '<section class="authdialog profiledialog" role="dialog" aria-modal="true" aria-labelledby="profileDialogTitle">' +
-      '<button class="authclose" id="profileClose" type="button" aria-label="' + esc(T('authClose')) + '">&times;</button>' +
-      '<h2 id="profileDialogTitle">' + esc(T('profileH')) + '</h2>' +
-      '<p class="authdialogsub">' + esc(T('profileSub')) + '</p>' +
-      '<form class="authcard" id="profileForm" novalidate>' +
-        '<div class="profilegrid">' +
-          profileField('profileFirst', 'profileFirst', 'given-name') +
-          profileField('profileLast', 'profileLast', 'family-name') +
-          profileField('profileCountry', 'profileCountry', 'country-name') +
-          profileField('profileRegion', 'profileRegion', 'address-level1') +
-          profileField('profileDistrict', 'profileDistrict', 'address-level2') +
-          profileField('profileSchool', 'profileSchool', 'organization') +
-          profileField('profileGrade', 'profileGrade', 'off') +
-        '</div>' +
-        '<p class="profilenote">' + esc(T('profileNote')) + '</p>' +
-        '<p class="autherr" id="profileErr" role="alert"></p>' +
-        '<div class="profileactions"><button class="btn" type="submit" id="profileSave">' + esc(T('profileSave')) + '</button>' +
-          '<button class="linkbtn profileskip" type="button" id="profileLater">' + esc(T('profileLater')) + '</button></div>' +
-      '</form>' +
-      '</section>' +
-    '</div>');
 
-  function value(id){ return String(document.getElementById(id).value || '').trim(); }
-  function close(){
-    profileOpen = false;
-    document.body.classList.remove('modal-open');
-    var dialog = document.getElementById('profileDialog');
-    if (dialog) dialog.remove();
-    render();
+  var p = accountProfile || {};
+
+ var gradeOptions = '<option value="" disabled>Sinfni tanlang</option>';
+  for (var g = 1; g <= 11; g++){
+    gradeOptions +=
+      '<option value="' + g + '"' +
+      (String(p.grade || '') === String(g) ? ' selected' : '') +
+      '>' + g + '</option>';
   }
-  function finish(skipped){
-    var err = document.getElementById('profileErr'), save = document.getElementById('profileSave');
-    if (!err || !save) return;
-    err.textContent = '';
-    if (!skipped) {
-      var required = ['profileFirst','profileLast','profileCountry','profileRegion',
-                      'profileDistrict','profileSchool','profileGrade'];
-      for (var ri = 0; ri < required.length; ri++) {
-        if (!value(required[ri])) {
-          err.textContent = T('profileRequired');
-          document.getElementById(required[ri]).focus();
-          return;
-        }
+
+  app.insertAdjacentHTML(
+    'beforeend',
+
+    '<div class="authoverlay" id="profileDialog">' +
+
+      '<section class="authdialog profiledialog" role="dialog" aria-modal="true" aria-labelledby="profileDialogTitle">' +
+
+        '<button class="authclose" id="profileClose" type="button" aria-label="' +
+          esc(T('authClose')) +
+        '">&times;</button>' +
+
+        '<h2 id="profileDialogTitle">' +
+          esc(T('profileH')) +
+        '</h2>' +
+
+        '<p class="authdialogsub">' +
+          esc(T('profileSub')) +
+        '</p>' +
+
+        '<form class="authcard" id="profileForm" novalidate>' +
+
+          '<div class="profilegrid">' +
+
+            profileField(
+              'profileFirst',
+              'profileFirst',
+              'given-name'
+            ) +
+
+            profileField(
+              'profileLast',
+              'profileLast',
+              'family-name'
+            ) +
+
+            '<div class="profilefield">' +
+              '<label class="authlab" for="profileCountry">' +
+                esc(T('profileCountry')) +
+              '</label>' +
+
+              '<select class="authin profilein" id="profileCountry" required>' +
+                '<option value="UZ" selected>Uzbekistan</option>' +
+              '</select>' +
+            '</div>' +
+
+            '<div class="profilefield">' +
+              '<label class="authlab" for="profileRegion">' +
+                esc(T('profileRegion')) +
+              '</label>' +
+
+              '<select class="authin profilein" id="profileRegion" required disabled>' +
+                '<option value="">—</option>' +
+              '</select>' +
+            '</div>' +
+
+            '<div class="profilefield">' +
+              '<label class="authlab" for="profileDistrict">' +
+                esc(T('profileDistrict')) +
+              '</label>' +
+
+              '<select class="authin profilein" id="profileDistrict" required disabled>' +
+                '<option value="">—</option>' +
+              '</select>' +
+            '</div>' +
+
+            '<div class="profilefield full">' +
+
+              '<label class="authlab" for="profileSchool">' +
+                esc(T('profileSchool')) +
+              '</label>' +
+
+              '<input class="authin profilein" ' +
+                'id="profileSchool" ' +
+                'type="text" ' +
+                'list="profileSchoolList" ' +
+                'autocomplete="off" ' +
+                'placeholder="' + esc(T('profilePlaceholder')) + '" ' +
+                'disabled>' +
+
+              '<datalist id="profileSchoolList"></datalist>' +
+
+              '<label class="authcheck" style="margin-top:10px">' +
+                '<input type="checkbox" id="profileSchoolMissing">' +
+                '<span>My school is not listed</span>' +
+              '</label>' +
+
+              '<div id="profileCustomSchoolWrap" style="display:none;margin-top:10px">' +
+                '<input class="authin profilein" ' +
+                  'id="profileCustomSchool" ' +
+                  'type="text" ' +
+                  'maxlength="180" ' +
+                  'placeholder="School name">' +
+              '</div>' +
+
+            '</div>' +
+
+            '<div class="profilefield">' +
+              '<label class="authlab" for="profileGrade">' +
+                esc(T('profileGrade')) +
+              '</label>' +
+
+              '<select class="authin profilein" id="profileGrade" required>' +
+                gradeOptions +
+              '</select>' +
+            '</div>' +
+
+          '</div>' +
+
+          '<p class="profilenote">' +
+            esc(T('profileNote')) +
+          '</p>' +
+
+          '<p class="autherr" id="profileErr" role="alert"></p>' +
+
+          '<div class="profileactions">' +
+
+            '<button class="btn" type="submit" id="profileSave">' +
+              esc(T('profileSave')) +
+            '</button>' +
+
+            '<button class="linkbtn profileskip" type="button" id="profileLater">' +
+              esc(T('profileLater')) +
+            '</button>' +
+
+          '</div>' +
+
+        '</form>' +
+
+      '</section>' +
+
+    '</div>'
+  );
+
+
+  var regionEl =
+    document.getElementById('profileRegion');
+
+  var districtEl =
+    document.getElementById('profileDistrict');
+
+  var schoolEl =
+    document.getElementById('profileSchool');
+
+  var schoolList =
+    document.getElementById('profileSchoolList');
+
+  var missingEl =
+    document.getElementById('profileSchoolMissing');
+
+  var customWrap =
+    document.getElementById('profileCustomSchoolWrap');
+
+  var customEl =
+    document.getElementById('profileCustomSchool');
+
+  var gradeEl =
+    document.getElementById('profileGrade');
+
+  var err =
+    document.getElementById('profileErr');
+
+  var save =
+    document.getElementById('profileSave');
+
+  var schools = [];
+
+
+  function close(){
+    var dialog =
+      document.getElementById('profileDialog');
+
+    if (dialog) dialog.remove();
+
+    document.body.classList.remove('modal-open');
+    profileOpen = false;
+  }
+
+
+ function fillSelect(element, rows, selected, placeholder){
+  element.innerHTML =
+    '<option value="" disabled>' + placeholder + '</option>';
+
+    (rows || []).forEach(function(row){
+      var option =
+        document.createElement('option');
+
+      option.value = row.id;
+      option.textContent = row.name;
+
+      if (
+        selected &&
+        String(row.id) === String(selected)
+      ){
+        option.selected = true;
       }
-    }
-    save.disabled = true;
-    save.textContent = T('profileSaving');
-    var payload = {
-      first_name: skipped ? (p.first_name || '') : value('profileFirst'),
-      last_name: skipped ? (p.last_name || '') : value('profileLast'),
-      country: skipped ? (p.country || '') : value('profileCountry'),
-      region: skipped ? (p.region || '') : value('profileRegion'),
-      district: skipped ? (p.district || '') : value('profileDistrict'),
-      school: skipped ? (p.school || '') : value('profileSchool'),
-      grade: skipped ? (p.grade || '') : value('profileGrade'),
-      profile_completed: !skipped,
-      profile_skipped: Boolean(skipped),
-      updated_at: new Date().toISOString()
-    };
-    NMAccount.setProfile(payload).then(function(){
-      accountProfile = Object.assign({}, accountProfile || {}, payload);
-      close();
-    }).catch(function(){
-      // The step is optional. If the profile table is temporarily unavailable,
-      // honour “Later” locally so a student is never trapped behind an
-      // infrastructure error; a completed profile, however, stays on screen
-      // until it can be saved rather than pretending the data was collected.
-      if (skipped) {
-        accountProfile = Object.assign({}, accountProfile || {}, payload);
-        close();
-        return;
-      }
-      save.disabled = false;
-      save.textContent = T('profileSave');
-      err.textContent = T('profileError');
+
+      element.appendChild(option);
     });
   }
-  document.getElementById('profileForm').onsubmit = function(ev){ ev.preventDefault(); finish(false); };
-  document.getElementById('profileLater').onclick = function(){ finish(true); };
-  document.getElementById('profileClose').onclick = function(){ finish(true); };
-  document.getElementById('profileDialog').onclick = function(ev){ if (ev.target === this) finish(true); };
-  window.setTimeout(function(){ document.getElementById('profileFirst').focus(); }, 0);
+
+
+  function loadSchools(districtId, selectedSchoolId){
+    schools = [];
+
+    schoolEl.value = '';
+    schoolEl.disabled = true;
+    schoolList.innerHTML = '';
+
+    if (!districtId) return Promise.resolve();
+
+    return NMAccount
+      .schools(districtId)
+      .then(function(rows){
+        schools = rows || [];
+
+        schoolList.innerHTML = '';
+
+        schools.forEach(function(row){
+          var option =
+            document.createElement('option');
+
+          option.value = row.name;
+          schoolList.appendChild(option);
+        });
+
+        schoolEl.disabled = missingEl.checked;
+
+        if (selectedSchoolId){
+          var selected = schools.find(function(row){
+            return String(row.id) ===
+              String(selectedSchoolId);
+          });
+
+          if (selected){
+            schoolEl.value = selected.name;
+          }
+        }
+      });
+  }
+
+
+ function loadDistricts(regionId, selectedDistrictId, selectedSchoolId){
+  districtEl.disabled = true;
+
+  fillSelect(
+    districtEl,
+    [],
+    null,
+    'Tuman/shaharni tanlang'
+  );
+
+  schoolEl.value = '';
+  schoolEl.disabled = true;
+  schoolList.innerHTML = '';
+
+  if (!regionId) return Promise.resolve();
+
+  return NMAccount
+    .districts(regionId)
+    .then(function(rows){
+      fillSelect(
+        districtEl,
+        rows,
+        selectedDistrictId,
+        'Tuman/shaharni tanlang'
+      );
+
+      districtEl.disabled = false;
+
+      if (selectedDistrictId){
+        return loadSchools(
+          selectedDistrictId,
+          selectedSchoolId
+        );
+      }
+    });
+}
+
+
+  function loadRegions(){
+    regionEl.disabled = true;
+
+    return NMAccount
+      .regions()
+      .then(function(rows){
+        fillSelect(
+  regionEl,
+  rows,
+  p.region_id,
+  'Viloyatni tanlang'
+);
+
+        regionEl.disabled = false;
+
+        if (p.region_id){
+          return loadDistricts(
+            p.region_id,
+            p.district_id,
+            p.school_id
+          );
+        }
+      })
+      .catch(function(){
+        err.textContent =
+          T('profileError');
+      });
+  }
+
+
+  regionEl.onchange = function(){
+    p.district_id = null;
+    p.school_id = null;
+
+    loadDistricts(
+      regionEl.value,
+      null,
+      null
+    );
+  };
+
+
+  districtEl.onchange = function(){
+    p.school_id = null;
+
+    loadSchools(
+      districtEl.value,
+      null
+    );
+  };
+
+
+  missingEl.onchange = function(){
+    var missing = missingEl.checked;
+
+    customWrap.style.display =
+      missing ? 'block' : 'none';
+
+    customEl.required = missing;
+    schoolEl.disabled =
+      missing || !districtEl.value;
+
+    if (missing){
+      schoolEl.value = '';
+    } else {
+      customEl.value = '';
+    }
+  };
+
+
+  if (p.custom_school_name){
+    missingEl.checked = true;
+    customWrap.style.display = 'block';
+    customEl.required = true;
+    customEl.value = p.custom_school_name;
+    schoolEl.disabled = true;
+  }
+
+
+  function finish(skipped){
+    if (skipped){
+      close();
+      return;
+    }
+
+    err.textContent = '';
+
+    var first =
+      document
+        .getElementById('profileFirst')
+        .value
+        .trim();
+
+    var last =
+      document
+        .getElementById('profileLast')
+        .value
+        .trim();
+
+    var regionId =
+      Number(regionEl.value);
+
+    var districtId =
+      Number(districtEl.value);
+
+    var grade =
+      Number(gradeEl.value);
+
+    if (
+      !first ||
+      !last ||
+      !regionId ||
+      !districtId ||
+      !grade
+    ){
+      err.textContent =
+        T('profileError');
+
+      return;
+    }
+
+
+    var schoolId = null;
+    var customSchool = null;
+
+
+    if (missingEl.checked){
+      customSchool =
+        customEl.value.trim();
+
+      if (!customSchool){
+        err.textContent =
+          T('profileError');
+
+        return;
+      }
+    } else {
+      var typedSchool =
+        schoolEl.value.trim();
+
+      var match =
+        schools.find(function(row){
+          return row.name === typedSchool;
+        });
+
+      if (!match){
+        err.textContent =
+          T('profileError');
+
+        return;
+      }
+
+      schoolId = match.id;
+    }
+
+
+    save.disabled = true;
+    save.textContent =
+      T('profileSaving');
+
+
+    var payload = {
+      first_name: first,
+      last_name: last,
+
+      country_code: 'UZ',
+
+      region_id: regionId,
+      district_id: districtId,
+
+      school_id:
+        schoolId,
+
+      custom_school_name:
+        customSchool,
+
+      grade:
+        grade
+    };
+
+
+    NMAccount
+      .setProfile(payload)
+      .then(function(){
+        accountProfile =
+          Object.assign(
+            {},
+            accountProfile || {},
+            payload
+          );
+
+        close();
+      })
+      .catch(function(){
+        save.disabled = false;
+        save.textContent =
+          T('profileSave');
+
+        err.textContent =
+          T('profileError');
+      });
+  }
+
+
+  document
+    .getElementById('profileForm')
+    .onsubmit = function(ev){
+      ev.preventDefault();
+      finish(false);
+    };
+
+
+  document
+    .getElementById('profileLater')
+    .onclick = function(){
+      finish(true);
+    };
+
+
+  document
+    .getElementById('profileClose')
+    .onclick = close;
+
+
+  document
+    .getElementById('profileDialog')
+    .onclick = function(ev){
+      if (ev.target === this){
+        close();
+      }
+    };
+
+
+  loadRegions();
 }
 
 function maybeShowProfile(force){
-  if (profileOpen || typeof NMAccount === 'undefined' || !NMAccount.signedIn()) return;
-  // A missing profile normally means the migration/trigger is not applied yet;
-  // show it only after an explicit registration so existing students do not see
-  // a prompt on every visit while the administrator fixes the schema.
-  if (force || (accountProfile && !profileReady(accountProfile) && !accountProfile.profile_skipped))
-    renderProfile(force);
+  if (
+    profileOpen ||
+    typeof NMAccount === 'undefined' ||
+    !NMAccount.signedIn()
+  ) return;
+
+  if (
+    force ||
+    (accountProfile && !profileIsComplete(accountProfile))
+  ){
+    renderProfile();
+  }
 }
 
 document.addEventListener('keydown', function(ev){
@@ -5245,6 +5777,11 @@ function renderReport(){
   var s = scoreAnswers(state.answers);
   var arch = archetypeOf(s);
   var archKey = archetypeKeyOf(s);
+  var stored = savedReport ? loadResult() : null;
+  if (stored && stored.gender && stored.age){
+    paintReport(s, arch, archKey, stored.gender, stored.age, true);
+    return;
+  }
   if (tmHasFigureVariants(archKey)){
     // Asked on every single run, with nothing carried over from the last one.
     // Nothing is submitted and nothing is drawn until the reader answers. One

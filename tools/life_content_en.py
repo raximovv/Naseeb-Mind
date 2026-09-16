@@ -13,14 +13,10 @@ that happen TO the reader, never faults.
 LABELS = {
     'strong': u'Your strengths',
     'weak': u'Worth keeping an eye on',
-    'career': u'Directions that might suit you',
-    'disclaimer': (u'These marks show how well your two strongest sides fit '
-                   u'each direction. They are not a prediction: your interest, your '
-                   u'opportunities and your real experience matter more.'),
-    # Word for word the bands the result screen uses, so one vocabulary.
-    'bands': {'strong': u'Strong match',
-              'explore': u'Worth exploring',
-              'alternative': u'Alternative'},
+    'career': u'The direction that suits you best',
+    'main': u'Main direction',
+    'minor': u'Extra',
+    'minor_title': u'Alongside it, you can pick one of these three directions',
     # Result screen only -- see RESULT_CAREER_TITLE in life_content.py for why
     # this block stops ranking there and defers to "Directions".
     'result_career': u'Where these qualities tend to be useful',
@@ -636,4 +632,88 @@ LIFE = {
  ],
 },
 
+}
+
+# Parallel to MINORS in life_content.py, same keys, same order.
+MINORS = {
+'ES|A': [
+ (u'Palliative and hospice care',
+  u'On the hardest days you can sit calmly beside someone, and not everyone can do that.'),
+ (u'Animal-assisted therapy',
+  u'A rare field that helps children through dogs and horses: patience and warmth are the main tools.'),
+ (u'Sign language interpreting',
+  u'You become the bridge between a deaf person and everyone around them, and your patience matters here.'),
+],
+'ES|E': [
+ (u'Air traffic control',
+  u'Guiding dozens of planes at once takes exactly the calm under pressure you have.'),
+ (u'Crisis negotiation',
+  u'A heated room needs someone who speaks first and brings the temperature down.'),
+ (u'Expedition leading and mountain guiding',
+  u'In the mountains decisions are fast and the group follows you: leadership at its most real.'),
+],
+'E|C': [
+ (u'Film producing',
+  u'Hundreds of people, a strict schedule and a budget: whoever gets a film onto the screen is an organiser.'),
+ (u'Humanitarian logistics',
+  u'Getting aid to a disaster zone on time takes your sense of order and your speed.'),
+ (u'Esports team management',
+  u'A new, fast-growing job that pulls players, sponsors and tournament schedules into one plan.'),
+],
+'ES|O': [
+ (u'Seismology',
+  u'When everyone talks about earthquakes with fear, you want to understand why they happen.'),
+ (u'Archaeology',
+  u'Silk Road cities are still not fully excavated, and whoever searches patiently finds things.'),
+ (u'Astronomy and space research',
+  u'Carrying on what Ulugh Beg started takes a curious mind that can stand long observation.'),
+],
+'E|O': [
+ (u'Game design',
+  u'You turn story, art and rules into one world, and other people get to play in it.'),
+ (u'Museum and exhibition curating',
+  u'Turning an old object into a story people stop to look at is creative work.'),
+ (u'Gastronomy and culinary arts',
+  u'Food is a stage too: inventing a new taste and presenting it to people suits you.'),
+],
+'O|C': [
+ (u'Robotics',
+  u'Taking an idea from a drawing to a working machine needs imagination and order in equal parts.'),
+ (u'Restoring historic monuments',
+  u'Bringing the buildings of Samarkand and Bukhara back to their original state takes millimetre precision and patience.'),
+ (u'Biotechnology',
+  u'Working with cells means long experiments and strict protocols, and the results can change the future.'),
+],
+'E|A': [
+ (u'Working with children in hospital',
+  u'A rare job helping children in long treatment get past their fear through play and conversation.'),
+ (u'Eco-tourism guiding',
+  u'You turn a group of strangers into friends in a day, and nature is the best setting for it.'),
+ (u'Inclusive and Paralympic sports coaching',
+  u'Making every player feel part of the team comes naturally to you.'),
+],
+'O|A': [
+ (u'Ethnography and oral history',
+  u'You record the stories of village elders before they are lost: knowing how to listen is the core of it.'),
+ (u'Wildlife rescue and rehabilitation',
+  u'Nursing an injured animal and returning it to the wild joins warmth and patience.'),
+ (u"Writing and illustrating children's books",
+  u'You understand what a child feels and can put it into pictures and words.'),
+],
+'ES|C': [
+ (u'Forensic science',
+  u'Drawing a conclusion from a tiny trace takes composure and the habit of recording every step.'),
+ (u'Piloting',
+  u'In a cockpit everything rests on checklists and calm, which is exactly you.'),
+ (u'Nuclear energy safety',
+  u'At a nuclear power plant no step is ever skipped, and that work needs your discipline.'),
+],
+'A|C': [
+ (u'Genetic counselling',
+  u'A rare job explaining complex medical information to families clearly and kindly.'),
+ (u'Court and medical interpreting',
+  u'Not mistranslating a single word, and treating a person in a hard moment with respect: the two pillars of this work.'),
+ (u'Seed banks and plant breeding',
+  u'In experiments that last years you keep every record carefully, and the result feeds a whole country.'),
+],
 }

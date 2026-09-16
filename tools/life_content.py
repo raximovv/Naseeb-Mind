@@ -13,40 +13,24 @@ reader, never as faults: a 13-year-old reading "you are a coward" stops reading,
 and stops trusting the strengths too.
 
 
-ON THE BANDS
-------------
-The band beside each direction is NOT a measured job-fit probability. No such
-measurement exists for Uzbek adolescents, and establishing it is the entire point
-of the data this site collects. It says how much of that direction's trait
-weight sits on the two traits this archetype is named for, relative to the
-strongest direction on the same page. Reproducible, checkable, and a
-description of the archetype rather than a prediction about a career.
+ON THE DIRECTIONS
+-----------------
+Each page names ONE main direction, the `careers` entry whose trait weight sits
+most on the two traits this archetype is named for, and three `MINORS` to pair
+with it: deliberately unusual fields a student would not think of alone. No
+score, band or percentage goes next to any of them: an archetype carries two
+bits of information, which two traits rank highest, and two bits cannot hold
+up a number.
 
-These were percentages until they were not. The number was 42 + 50 * share,
-every weight is a multiple of 0.05, and so the scale could only ever land on a
-lattice 2.5 points apart, with the top direction on eight of the ten pages
-authored as 0.45/0.45 and therefore printing 87% on all eight. That is what a
-reader notices. The honest reading is not that the weights were careless but
-that an archetype carries two bits of information, which two traits rank
-highest, and two bits cannot hold up a percentage.
-
-Keep `DISCLAIMER` under the list. The site tells schools in writing that the
-test does not predict success and must not be the sole basis for choosing a
-career; anything that looks like a score next to a job title contradicts that
-in the reader's mind whatever the surrounding text says.
 """
 
-DISCLAIMER = (u'Bu belgilar sizning ikkita eng kuchli xususiyatingiz shu '
-              u'yoʻnalishga qanchalik mos kelishini koʻrsatadi. Bu bashorat emas: '
-              u'qiziqishingiz, imkoniyatingiz va real tajribangiz undan muhimroq.')
-
-# The same three words the result screen uses, so a student who reads an
-# archetype page and then takes the test meets one vocabulary, not two.
-BAND_LABELS = {
-    'strong': u'Kuchli mos keladi',
-    'explore': u'Koʻrib chiqishga arziydi',
-    'alternative': u'Muqobil variant',
-}
+# One main direction plus three extra ones to pair with it. A ranked list of
+# five read as a verdict and mostly named the same ordinary fields; one pick and
+# three unusual companions is something a student can actually act on.
+MAIN_LABEL = u'Asosiy yoʻnalish'
+MINOR_LABEL = u'Qoʻshimcha'
+MINOR_TITLE = (u'Bu sohaga qoʻshimcha qilib, quyidagi 3 ta yoʻnalishdan birini '
+               u'tanlab olishingiz mumkin')
 
 # ---------------------------------------------------------------- result screen
 # The two labels above belong to the ARCHETYPE PAGE, which a visitor reads on its
@@ -77,7 +61,7 @@ AREA_TITLES = {
 
 STRONG_LABEL = u'Kuchli taraflaringiz'
 WEAK_LABEL = u'Eʼtibor beradigan tomonlaringiz'
-CAREER_TITLE = u'Sizga mos kelishi mumkin boʻlgan yoʻnalishlar'
+CAREER_TITLE = u'Sizga eng mos yoʻnalish'
 
 
 def share(key, weights):
@@ -85,27 +69,6 @@ def share(key, weights):
     defining = set(key.split('|'))
     return sum(w for t, w in weights.items() if t in defining)
 
-
-# These pages used to print a percentage per direction, and it read as measured
-# to a point it was never measured to. The number was
-#
-#     42 + 50 * share(key, weights)
-#
-# and every weight is a multiple of 0.05, so the whole scale could only land on
-# a lattice 2.5 points apart; the top direction on eight of the ten archetypes
-# was authored as 0.45/0.45 and therefore came out at 87% on all eight. Ten
-# pages opening on the same number is what a reader notices, and the honest read
-# of that is not that the pages were careless but that the archetype carries two
-# bits of information -- which two traits rank highest -- and two bits cannot
-# support a percentage.
-#
-# So: bands, the same three the result screen uses. Banded by distance from the
-# best direction ON THIS PAGE rather than against a fixed cut, which is what
-# recBand() in recommend.js does, and for the same reason -- what a student can
-# act on is "how much weaker is this than the strongest one for my type". The
-# thresholds are wider than recommend.js's 0.04/0.10 because this scale is
-# wider: shares run 0.44 to 0.90 here against a far tighter spread there.
-BAND_STRONG, BAND_EXPLORE = 0.06, 0.16
 
 
 LIFE = {
@@ -947,6 +910,95 @@ LIFE = {
 }
 
 
+# ---------------------------------------------------------------- minors
+# Three extra directions per archetype, shown under the main one. Picked to be
+# unusual on purpose: the ordinary fields a student already hears about at home
+# add nothing, a field they had never heard of can open a door. Each still has
+# to follow from the two traits the archetype is named for.
+MINORS = {
+'ES|A': [
+ (u'Palliativ yordam va hospis',
+  u'Ogʻir kunlarda odam yonida xotirjam oʻtira olasiz, bu esa hamma ham uddalay olmaydigan ish.'),
+ (u'Hayvonlar yordamidagi terapiya',
+  u'Itlar va otlar orqali bolalarga yordam beradigan kam uchraydigan soha: sabr va mehr bu yerda asosiy qurol.'),
+ (u'Imo-ishora tili tarjimonligi',
+  u'Eshitmaydigan odam bilan atrofidagilar oʻrtasida koʻprik boʻlasiz, va sizning sabringiz bunda juda asqotadi.'),
+],
+'ES|E': [
+ (u'Aviadispetcherlik',
+  u'Osmondagi oʻnlab samolyotni bir vaqtda boshqarish uchun aynan sizdagi bosim ostidagi xotirjamlik kerak.'),
+ (u'Inqiroz vaziyatlarida muzokaralar',
+  u'Hamma qizishib ketgan xonada birinchi boʻlib gapirib, vaziyatni tinchitadigan odam kerak.'),
+ (u'Ekspeditsiya rahbarligi va togʻ gidligi',
+  u'Togʻda qaror tez qabul qilinadi va jamoa sizga ergashadi: bu yetakchilikning eng haqiqiy shakli.'),
+],
+'E|C': [
+ (u'Kino prodyuserligi',
+  u'Yuzlab odam, qatʼiy jadval va byudjet: filmni ekranga olib chiqadigan odam aslida tashkilotchi.'),
+ (u'Gumanitar logistika',
+  u'Ofat boʻlgan joyga yordamni oʻz vaqtida yetkazish uchun sizdagi tartib va tezlik kerak.'),
+ (u'Kibersport jamoasi menejmenti',
+  u'Oʻyinchilar, homiylar va turnir jadvalini bitta rejaga yigʻadigan yangi va tez oʻsayotgan kasb.'),
+],
+'ES|O': [
+ (u'Seysmologiya',
+  u'Zilzila haqida hamma qoʻrquv bilan gapirganda, siz uning nima uchun sodir boʻlishini tushunishni xohlaysiz.'),
+ (u'Arxeologiya',
+  u'Buyuk ipak yoʻli shaharlari hali toʻliq qazib chiqilmagan, va sabr bilan izlagan odam topadi.'),
+ (u'Astronomiya va kosmik tadqiqotlar',
+  u'Ulugʻbek boshlagan ishni davom ettirish uchun uzoq kuzatuvga chidaydigan qiziquvchan aql kerak.'),
+],
+'E|O': [
+ (u'Oʻyin dizayni',
+  u'Hikoya, rasm va qoidalarni bir butun dunyoga aylantirasiz, unda esa boshqalar oʻynaydi.'),
+ (u'Muzey va koʻrgazma kuratorligi',
+  u'Eski buyumni odamlar toʻxtab qaraydigan hikoyaga aylantirish ijodkorning ishi.'),
+ (u'Gastronomiya va oshpazlik sanʼati',
+  u'Taom ham sahna: yangi taʼm oʻylab topish va uni odamlarga taqdim etish sizga yaqin.'),
+],
+'O|C': [
+ (u'Robototexnika',
+  u'Gʻoyani chizmadan ishlaydigan mashinagacha olib borish uchun tasavvur ham, tartib ham kerak.'),
+ (u'Tarixiy obidalarni restavratsiya qilish',
+  u'Samarqand va Buxoro binolarini asl holiga qaytarish millimetrgacha aniqlik va sabr talab qiladi.'),
+ (u'Biotexnologiya',
+  u'Hujayra bilan ishlash uzoq tajriba va qatʼiy protokol demak, natijasi esa kelajakni oʻzgartirishi mumkin.'),
+],
+'E|A': [
+ (u'Kasalxonadagi bolalar bilan ishlash',
+  u'Uzoq davolanayotgan bolaga oʻyin va suhbat orqali qoʻrquvni yengishga yordam beradigan kam uchraydigan kasb.'),
+ (u'Ekoturizm gidligi',
+  u'Notanish odamlar guruhini bir kunda doʻstga aylantirasiz, tabiat esa buning eng yaxshi sahnasi.'),
+ (u'Inklyuziv va paralimpiya sporti murabbiyligi',
+  u'Har bir oʻyinchiga oʻzini jamoaning bir qismi deb his qildirish sizda oʻz-oʻzidan chiqadi.'),
+],
+'O|A': [
+ (u'Etnografiya va ogʻzaki tarix',
+  u'Qishloqdagi keksalarning hikoyalarini yoʻqolib ketmasidan yozib olasiz: bu yerda tinglay bilish asosiy.'),
+ (u'Yovvoyi hayvonlarni qutqarish va reabilitatsiya',
+  u'Jarohatlangan hayvonni parvarish qilib, tabiatga qaytarish mehr va sabrni birlashtiradi.'),
+ (u'Bolalar kitoblari yozuvchiligi va illyustratsiyasi',
+  u'Bola nimani his qilishini tushunasiz va buni rasm hamda soʻz bilan ifodalay olasiz.'),
+],
+'ES|C': [
+ (u'Kriminalistika va sud ekspertizasi',
+  u'Kichik izdan xulosa chiqarish uchun sovuqqonlik va har bir qadamni qayd etish odati kerak.'),
+ (u'Uchuvchilik',
+  u'Samolyot kabinasida hammasi tekshiruv roʻyxati va xotirjamlikka tayanadi, bu esa aynan siz.'),
+ (u'Atom energetikasi xavfsizligi',
+  u'Atom elektr stansiyasida hech bir qadam oʻtkazib yuborilmaydi, bu ishga esa aynan sizdagi intizom kerak.'),
+],
+'A|C': [
+ (u'Genetik maslahatchi',
+  u'Oilaga murakkab tibbiy maʼlumotni aniq va mehr bilan tushuntiradigan kam uchraydigan kasb.'),
+ (u'Sud va tibbiyot tarjimonligi',
+  u'Bitta soʻzni ham xato tarjima qilmaslik va qiyin ahvoldagi odamga hurmat: bu ishning ikki asosi.'),
+ (u'Urugʻ banki va oʻsimliklar selektsiyasi',
+  u'Yillar davom etadigan tajribada har bir yozuvni ehtiyot qilib saqlaysiz, natijasi esa butun mamlakatni boqadi.'),
+],
+}
+
+
 # ---------------------------------------------------------------- translations
 #
 # Uzbek is the original. A translation carries TEXT ONLY: the trait weights that
@@ -965,11 +1017,13 @@ import life_content_ru as _ru
 import life_content_en as _en
 
 LIFE_BY_LANG = {'uz': LIFE, 'ru': _ru.LIFE, 'en': _en.LIFE}
+MINORS_BY_LANG = {'uz': MINORS, 'ru': _ru.MINORS, 'en': _en.MINORS}
 
 LABELS = {
     'uz': {
         'strong': STRONG_LABEL, 'weak': WEAK_LABEL, 'career': CAREER_TITLE,
-        'disclaimer': DISCLAIMER, 'areas': AREA_TITLES, 'bands': BAND_LABELS,
+        'areas': AREA_TITLES,
+        'main': MAIN_LABEL, 'minor': MINOR_LABEL, 'minor_title': MINOR_TITLE,
         'result_career': RESULT_CAREER_TITLE, 'result_note': RESULT_NOTE,
     },
     'ru': _ru.LABELS,
@@ -994,6 +1048,9 @@ def check_translation(key, lang):
     if len(base.get('careers', [])) != len(tr.get('careers', [])):
         raise ValueError('%s/%s: %d directions, Uzbek has %d'
                          % (key, lang, len(tr.get('careers', [])), len(base.get('careers', []))))
+    if len(minors_for(key, 'uz')) != len(minors_for(key, lang)):
+        raise ValueError('%s/%s: %d minors, Uzbek has %d'
+                         % (key, lang, len(minors_for(key, lang)), len(minors_for(key, 'uz'))))
 
 
 def careers_for(key, lang):
@@ -1005,24 +1062,20 @@ def careers_for(key, lang):
     return [(tr[i][0], base[i][1], tr[i][1]) for i in range(len(base))]
 
 
-def bands_for(key, lang):
-    u"""[(name, why, band)] for one archetype page, strongest first.
+def main_direction(key, lang):
+    u"""(name, why) of the strongest direction for one archetype page.
 
-    The weights are the Uzbek ones whatever the language, so a direction lands
-    in the same band on all three pages -- a translation can move a name but
-    never a claim.
+    The weights are the Uzbek ones whatever the language, so the same direction
+    is the main one on all three pages. The earlier index wins a tie.
     """
-    rows = sorted(((share(key, w), i, n, why)
-                   for i, (n, w, why) in enumerate(careers_for(key, lang))),
-                  key=lambda r: (-r[0], r[1]))     # index breaks ties, so the
-    best = rows[0][0]                              # order is stable everywhere
-    out = []
-    for sh, _, n, why in rows:
-        gap = best - sh
-        band = ('strong' if gap <= BAND_STRONG + 1e-9 else
-                'explore' if gap <= BAND_EXPLORE + 1e-9 else 'alternative')
-        out.append((n, why, band))
-    return out
+    rows = careers_for(key, lang)
+    best = max(range(len(rows)), key=lambda i: (share(key, rows[i][1]), -i))
+    return rows[best][0], rows[best][2]
+
+
+def minors_for(key, lang):
+    u"""[(name, why)] x3, the unusual directions to pair with the main one."""
+    return MINORS_BY_LANG[lang].get(key, [])
 
 
 # ---------------------------------------------------------------------------

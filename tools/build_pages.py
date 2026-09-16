@@ -253,7 +253,9 @@ def amp(url):
 
 def nav(lang, fname, active=None):
     t = S[lang]
-    items = [('index.html', t['nav.home']), ('obrazlar.html', t['nav.types']),
+    test_href = UP[lang] + 'test.html' + ('' if lang == 'uz' else '?lang=%s' % lang)
+    results_href = amp(test_href + ('?' if lang == 'uz' else '&') + 'view=results')
+    items = [(results_href, t['nav.results']), ('index.html', t['nav.home']), ('obrazlar.html', t['nav.types']),
              ('test.html', t['nav.test']), ('savollar.html', t['nav.faq'])]
     active = active or fname
     links = ''

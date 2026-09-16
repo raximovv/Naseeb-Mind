@@ -50,6 +50,7 @@ S['uz'] = {
     # is the accessible label, which does have to be said in words.
     'nav.back': u'Naseeb Edu saytiga qaytish',
     'nav.home': u'Bosh sahifa',
+    'nav.results': u'Natijalar',
     'nav.types': u'Obrazlar',
     'nav.test': u'Shaxsiyat testi',
     'nav.how': u'Qanday ishlaydi',
@@ -335,6 +336,7 @@ S['uz'] = {
 S['ru'] = {
     'nav.back': u'Вернуться на сайт Naseeb Edu',
     'nav.home': u'Главная',
+    'nav.results': u'Результаты',
     'nav.types': u'Образы',
     'nav.test': u'Тест личности',
     'nav.how': u'Как это работает',
@@ -601,6 +603,7 @@ S['ru'] = {
 S['en'] = {
     'nav.back': u'Back to the Naseeb Edu site',
     'nav.home': u'Home',
+    'nav.results': u'Results',
     'nav.types': u'Characters',
     'nav.test': u'The test',
     'nav.how': u'How it works',

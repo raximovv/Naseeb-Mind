@@ -59,19 +59,19 @@
 /* The phone is in dark mode and the reader has not overridden it. */
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-  --lazur:#E3B86A;
+  --lazur:#9FC6E2;
   --on-accent:#10202D;   /* ...light accent on navy, so the ink flips */
   --on-accent-muted:#3A4B57;               /* --accent */
-  --lazur-press:#EFCB8A;         /* --accent-hover */
-  --lazur-deep:#E3B86A;          /* --accent-deep: link and emphasis TEXT */
+  --lazur-press:#C3DCED;         /* --accent-hover */
+  --lazur-deep:#9FC6E2;          /* --accent-deep: link and emphasis TEXT */
   --lazur-soft:#1C3241;
-  --soft-line:rgba(227,184,106,.45);  /* the accent as a ring: --surface-soft is a fill and vanishes as a line */
+  --soft-line:rgba(159,198,226,.45);  /* the accent as a ring: --surface-soft is a fill and vanishes as a line */
   --line-strong:rgba(181,199,211,.34); /* Edu --border-strong: --border is a divider, this is an outline */          /* --surface-soft */
   --ink:#F7F7F7;                 /* --text */
   --paper:#10202D;               /* --canvas */
   --card:#162936;                /* --surface */
   --line:rgba(181,199,211,.16);  /* --border */
-  --zar:#EFCB8A;                 /* --focus-color */
+  --zar:#C3DCED;                 /* --focus-color */
   --muted:#B5C3CE;               /* --muted */
   --raised:#213947;              /* --surface-raised */
   --inset:#0C1923;               /* --surface-inset */
@@ -81,7 +81,7 @@
   --disabled:#2A3F4D;
   --good:#2E8B6B;                /* lifted: #237A5E sinks into --card */
   --good-ink:#4FB08A;            /* lifted further: it has to read as TEXT */
-  --warm-ink:#E3B86A;
+  --warm-ink:#9FC6E2;
   --cool:#8FA9C0;
   --cool-ink:#9FB6CC;
   --heroA:#16293A;
@@ -91,26 +91,26 @@
   --shadow-card:0 10px 30px rgba(0,0,0,.18);
   /* The disc is navy on cream by design; on a navy page it would vanish, so at
      night it takes the accent, which is what Edu's own avatar does. */
-  --avatar:#E3B86A;
-  --brand-ink:#E3B86A;   /* --accent-deep: --accent is unreadable on the bar */
+  --avatar:#9FC6E2;
+  --brand-ink:#9FC6E2;   /* --accent-deep: link and emphasis text */
     color-scheme:dark;
   }
 }
 /* The reader asked for dark, whatever the phone says. */
 :root[data-theme="dark"]{  /* the same values; see the block above */
-  --lazur:#E3B86A;
+  --lazur:#9FC6E2;
   --on-accent:#10202D;
   --on-accent-muted:#3A4B57;
-  --lazur-press:#EFCB8A;
-  --lazur-deep:#E3B86A;
+  --lazur-press:#C3DCED;
+  --lazur-deep:#9FC6E2;
   --lazur-soft:#1C3241;
-  --soft-line:rgba(227,184,106,.45);  /* the accent as a ring: --surface-soft is a fill and vanishes as a line */
+  --soft-line:rgba(159,198,226,.45);  /* the accent as a ring: --surface-soft is a fill and vanishes as a line */
   --line-strong:rgba(181,199,211,.34); /* Edu --border-strong: --border is a divider, this is an outline */
   --ink:#F7F7F7;
   --paper:#10202D;
   --card:#162936;
   --line:rgba(181,199,211,.16);
-  --zar:#EFCB8A;
+  --zar:#C3DCED;
   --muted:#B5C3CE;
   --raised:#213947;
   --inset:#0C1923;
@@ -120,7 +120,7 @@
   --disabled:#2A3F4D;
   --good:#2E8B6B;
   --good-ink:#4FB08A;
-  --warm-ink:#E3B86A;
+  --warm-ink:#9FC6E2;
   --cool:#8FA9C0;
   --cool-ink:#9FB6CC;
   --heroA:#16293A;
@@ -128,8 +128,8 @@
   --lift:rgba(181,199,211,.075);
   --overlay:rgba(6,15,22,.76);
   --shadow-card:0 10px 30px rgba(0,0,0,.18);
-  --avatar:#E3B86A;
-  --brand-ink:#E3B86A;
+  --avatar:#9FC6E2;
+  --brand-ink:#9FC6E2;
   color-scheme:dark;
 }
 
@@ -736,8 +736,6 @@ code{background:var(--paper);border:1px solid var(--line);border-radius:5px;
 .carband.alternative{color:var(--cool-ink)}
 /* 5px of air where the fill bar used to be. */
 .carwhy{margin:5px 0 0;font-size:14.5px;color:var(--muted);line-height:1.5}
-.cardisc{margin:16px 0 0;padding:12px 14px;border-radius:11px;background:var(--paper);
-         font-size:13.5px;line-height:1.55;color:var(--muted)}
 
 @media (max-width:700px){
   .lifegrid{grid-template-columns:1fr}
