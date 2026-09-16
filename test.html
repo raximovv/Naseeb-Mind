@@ -939,6 +939,7 @@ if(/[?&]embed=1/.test(location.search)&&window.parent!==window)document.document
           border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);width:100%}
   .authin:focus{outline:2px solid var(--lazur);outline-offset:1px;border-color:var(--lazur)}
   .autherr{margin:0 0 12px;min-height:1.2em;font-size:14px;color:var(--err)}
+  .authhint{margin:-8px 0 12px;font-size:13px;color:var(--muted)}
   .autherr.ok{color:var(--lazur-deep)}
   .authcard .btn{width:100%;border-radius:999px;padding:14px 22px}
   .author{display:flex;align-items:center;gap:12px;margin:18px 0 12px;color:var(--muted);font-size:13px}
@@ -1376,8 +1377,8 @@ if(/[?&]embed=1/.test(location.search)&&window.parent!==window)document.document
 
 <script src="assets/characters.js?v=100242de"></script>
 <script src="assets/strings.js?v=4cb528e7"></script>
-<script src="assets/test-ru.js?v=6b66e862"></script>
-<script src="assets/test-en.js?v=cf60f9e3"></script>
+<script src="assets/test-ru.js?v=ec187586"></script>
+<script src="assets/test-en.js?v=15ddff35"></script>
 <script src="assets/career.js?v=ae52d57f"></script>
 <script src="assets/values.js?v=66d7d5e6"></script>
 <script src="assets/school.js?v=410a10d2"></script>
@@ -1386,7 +1387,7 @@ if(/[?&]embed=1/.test(location.search)&&window.parent!==window)document.document
 <script src="assets/icar16.js?v=1"></script>
 <script>var MATRIX_ART_SRC = "assets/matrix-art.js";</script>
 <script src="assets/figure-wiki.js?v=8afd3ca2"></script>
-<script src="assets/account.js?v=5a1bb45e"></script>
+<script src="assets/account.js?v=c35745ef"></script>
 <script src="assets/header.js?v=be7c3e5e"></script>
 <script id="tm-logic">
 // ---------- Naseeb Mind v1.0 logic (frozen items + draft key) ----------
@@ -2814,7 +2815,8 @@ var TT_UZ = {
   authH:       'Hisob yarating',
   authHIn:     'Hisobingizga kiring',
   authSub:     'Oltita sinovni bir kunda yechish shart emas. Hisob javoblaringizni saqlaydi, keyin davom etasiz.',
-  authDialogSub:'Email va kamida olti belgili parol kiriting.',
+  authDialogSub:'Email va kamida 6 belgili parol kiriting.',
+  authPassHint: 'Kamida 6 ta belgi.',
   authClose:   'Yopish',
   authWhy:     'Bir yildan keyin qayta yechsangiz, ikkala natijani yonma-yon koʻrasiz. Buning uchun hisob kerak.',
   authHaveNo:  'Hisobingiz yoʻqmi? Roʻyxatdan oʻting',
@@ -2852,9 +2854,10 @@ var TT_UZ = {
   errBadCredentials: 'Email yoki parol notoʻgʻri. Hisobingiz boʻlmasa, avval roʻyxatdan oʻting. Google orqali roʻyxatdan oʻtgan boʻlsangiz, «Google orqali kirish»ni bosing.',
   errEmailNotConfirmed: 'Email hali tasdiqlanmagan. Pochtangizdagi kod bilan tasdiqlang yoki qaytadan roʻyxatdan oʻting.',
   errEmailTaken:     'Bu email allaqachon roʻyxatdan oʻtgan. Kiring.',
-  errWeakPassword:   'Parol juda qisqa. Kamida olti belgi boʻlsin.',
+  errWeakPassword:   'Parol juda qisqa. Kamida 6 ta belgi boʻlsin.',
   errBadEmail:       'Email notoʻgʻri yozilgan.',
   errTooMany:        'Juda koʻp urinish boʻldi. Bir necha daqiqadan keyin qayta urinib koʻring.',
+  errResendWait:     'Yangi kodni 1 daqiqadan keyin soʻrashingiz mumkin.',
   errOffline:        'Internet yoʻq. Ulanib, qayta urinib koʻring.',
   errUnreachable:    'Serverga ulanib boʻlmadi. Qayta urinib koʻring.',
   errSignedOut:      'Seansingiz tugadi. Qaytadan kiring.',
@@ -3443,7 +3446,9 @@ function renderAuth(openDialog){
         'inputmode="email" required>' +
       '<label class="authlab" for="authPass">' + esc(T('authPassword')) + '</label>' +
       '<input class="authin" id="authPass" type="password" required ' +
-        'autocomplete="' + (signUp ? 'new-password' : 'current-password') + '">' +
+        'autocomplete="' + (signUp ? 'new-password' : 'current-password') + '"' +
+        (signUp ? ' minlength="6" aria-describedby="authPassHint">' +
+          '<p class="authhint" id="authPassHint">' + esc(T('authPassHint')) + '</p>' : '>') +
       '<p class="autherr" id="authErr" role="alert"></p>' +
       '<button class="btn" type="submit" id="authGo">' +
         esc(T(signUp ? 'authSignUp' : 'authSignIn')) + '</button>' +
@@ -3542,13 +3547,14 @@ function renderAuthCode(email, password){
     resend.disabled = true;
     err.classList.remove('ok');
     err.textContent = T('authWorking');
-    NMAccount.signUp(email, password).then(function(result){
+    NMAccount.resendSignupCode(email).then(function(){
       err.classList.add('ok');
-      err.textContent = result && result.confirm ? T('authConfirm') : T('authConfirm');
-      resend.disabled = false;
-    }).catch(function(){
+      err.textContent = T('authConfirm');
+      // Supabase refuses another code for a minute; say so instead of failing.
+      window.setTimeout(function(){ resend.disabled = false; }, 60000);
+    }).catch(function(e){
       err.classList.remove('ok');
-      err.textContent = T('errFailed');
+      err.textContent = T(e && e.code === 'too-many' ? 'errResendWait' : 'errFailed');
       resend.disabled = false;
     });
   };

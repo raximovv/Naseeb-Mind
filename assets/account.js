@@ -517,6 +517,15 @@ var NMAccount = (function () {
       });
     },
 
+    // Sends the sign-up code again. Supabase allows one per address per minute
+    // and answers 429 inside that window (apiError: 'too-many').
+    resendSignupCode: function (email) {
+      return request('/auth/v1/resend', {
+        method: 'POST',
+        body: { type: 'signup', email: email }
+      });
+    },
+
     verifyEmailOtp: function (
       email,
       token
