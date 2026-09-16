@@ -632,7 +632,10 @@ function placeLangSpot(){
   var hs = spotHeads(), top = spotWant.i < 0 ? 0 : spotTop(hs, spotWant.i);
   var y = top + spotWant.f * (spotTop(hs, spotWant.i + 1) - top) - spotLine();
   spotAt = Math.max(0, Math.round(y));
-  window.scrollTo(0, spotAt);
+  // Instant: html has scroll-behavior:smooth, which would visibly glide down
+  // from the top of the new page instead of just being there.
+  try { window.scrollTo({ top: spotAt, left: 0, behavior: 'instant' }); }
+  catch (e) { window.scrollTo(0, spotAt); }
 }
 
 function mountLangSpot(){
