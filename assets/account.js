@@ -344,7 +344,18 @@ var NMAccount = (function () {
       options = options || {};
       options.token = token;
 
-      return request(path, options);
+      return request(path, options).catch(function (error) {
+        // An unexpired token the server still refuses is a token for a
+        // DIFFERENT project: after the Supabase move every student carried one
+        // of those for up to an hour, saw the dropdowns fill (public data
+        // needs no token) and every save fail, with nothing saying to sign in
+        // again. Drop it so the page asks, instead of retrying forever.
+        if (error && error.status === 401) {
+          writeSession(null);   // apiError already codes 401 as 'signed-out'
+        }
+
+        throw error;
+      });
     });
   }
 
