@@ -80,10 +80,10 @@ S['uz'] = {
     'home.title': u'Naseeb Mind: Siz qaysi obrazsiz?',
     'home.desc': u'Oʻzbek tilidagi oltita bepul sinov: shaxsiyat, qiziqishlar, ish qadriyatlari, maktab, ishda muhim jihatlar va mantiq. Hisobingiz natijalarni saqlaydi.',
     'home.h1': u'Siz qaysi obrazsiz?',
-    'home.lead': u'Oltita bosqich orqali nega ayrim ishlar sizga oson, ayrimlari qiyin ekanini tushunasiz.',
+    'home.lead': u'Oltita qisqa sinov orqali nima uchun baʼzi narsalar sizga oson, boshqalari esa qiyin tuyulishini bilib olasiz.',
 
     'home.num.h2': u'Raqamlarda',
-    'home.num.lead': u'Naseeb Mind endi ishga tushdi. Bu raqamlarni oʻsib borishini shu yerda ochiq koʻrsatib boramiz.',
+    'home.num.lead': u'Naseeb Mind endigina ishga tushdi. Biz uning oʻsish jarayoni haqidagi maʼlumotlarni shu yerda ochiq eʼlon qilib boramiz.',
     'home.fact1': u'shu oyda topshirilgan testlar',
     'home.fact2': u'umumiy topshirilgan testlar',
     'home.fact3': u'ishtirok etgan maktab',
