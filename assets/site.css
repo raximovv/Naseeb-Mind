@@ -313,6 +313,8 @@ img,svg{max-width:100%}
 .langitem:hover{color:var(--lazur-deep);background:var(--hoverbg)}
 .langitem:focus-visible{outline:3px solid var(--zar);outline-offset:-1px}
 .langitem.is-on{color:var(--ink);background:var(--hoverbg)}
+/* display:flex above beats the UA's [hidden]{display:none}, so say it here. */
+.langmenu[hidden]{display:none}
 /* Language switcher. Three short codes rather than a dropdown, because the whole
    control is then one tap on a phone and needs no JavaScript at all. */
 .langsw{display:flex;align-items:center;gap:2px;flex:none;

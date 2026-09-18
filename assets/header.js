@@ -166,6 +166,10 @@ var NMNav = (function () {
         else if (e.key === 'Tab') open(false);
       };
     }
+    // The language already in use is not a link, but tapping it is still a way
+    // of saying "never mind": close, rather than sit there doing nothing.
+    var mine = menu.querySelector('.is-on');
+    if (mine) mine.onclick = function () { open(false); btn.focus(); };
     document.addEventListener('click', function (e) { if (!menu.hidden && !box.contains(e.target)) open(false); });
     document.addEventListener('keydown', function (e) {
       if (!menu.hidden && (e.key === 'Escape' || e.key === 'Esc')) { open(false); btn.focus(); }
