@@ -506,6 +506,31 @@ if(/[?&]embed=1/.test(location.search)&&window.parent!==window)document.document
      RU is a real link now that the test exists in Russian. EN stays inactive
      until there is an English test -- an English pill that silently served an
      Uzbek test would be worse than one that plainly does nothing. */
+  /* The three controls at the end read as one group: the row's 18px gap is too
+     wide between them, so close it to 10px without touching the nav links. */
+  .langpick + .themesw,.themesw + .navacct,.langpick + .navacct,.langsw + .themesw{margin-left:-8px}
+  /* The language control: a globe, the current code and a caret, like Naseeb Edu's.
+     The list is drawn here rather than by a native <select>, whose popup a page
+     cannot narrow. The .langsw pills underneath are the no-JS fallback. */
+  .langpick{position:relative;flex:none}
+  .langbtn{display:inline-flex;align-items:center;gap:8px;min-height:34px;padding:0 12px 0 14px;
+          border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);
+          font:inherit;cursor:pointer}
+  .langbtn:hover{background:var(--hoverbg)}
+  .langbtn:focus-visible{outline:3px solid var(--zar);outline-offset:2px}
+  .langpick .langico{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:2;
+          stroke-linecap:round;stroke-linejoin:round}
+  .langpick .langcar{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:2;
+          stroke-linecap:round;stroke-linejoin:round}
+  .langpick .langnow{font-size:12.5px;font-weight:700;letter-spacing:.03em;line-height:1}
+  .langmenu{position:absolute;top:calc(100% + 6px);right:0;z-index:60;min-width:64px;padding:4px;
+          display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);
+          border-radius:10px;box-shadow:var(--shadow-modal,0 10px 30px rgba(0,0,0,.18))}
+  .langitem{padding:7px 10px;border-radius:7px;font-size:12.5px;font-weight:700;letter-spacing:.03em;
+          line-height:1;text-align:center;text-decoration:none;color:var(--muted);white-space:nowrap}
+  .langitem:hover{color:var(--lazur-deep);background:var(--hoverbg)}
+  .langitem:focus-visible{outline:3px solid var(--zar);outline-offset:-1px}
+  .langitem.is-on{color:var(--ink);background:var(--hoverbg)}
   .langsw{display:flex;align-items:center;gap:2px;flex:none;
           border:1px solid var(--line);border-radius:999px;padding:2px;background:var(--card)}
   .langsw a,.langsw span{padding:3px 9px;border-radius:999px;font-size:12.5px;font-weight:600;
@@ -1377,8 +1402,8 @@ if(/[?&]embed=1/.test(location.search)&&window.parent!==window)document.document
 
 <script src="assets/characters.js?v=100242de"></script>
 <script src="assets/strings.js?v=4cb528e7"></script>
-<script src="assets/test-ru.js?v=ec187586"></script>
-<script src="assets/test-en.js?v=15ddff35"></script>
+<script src="assets/test-ru.js?v=a3ea4cc1"></script>
+<script src="assets/test-en.js?v=ad5e6d44"></script>
 <script src="assets/career.js?v=ae52d57f"></script>
 <script src="assets/values.js?v=66d7d5e6"></script>
 <script src="assets/school.js?v=410a10d2"></script>
@@ -1388,7 +1413,7 @@ if(/[?&]embed=1/.test(location.search)&&window.parent!==window)document.document
 <script>var MATRIX_ART_SRC = "assets/matrix-art.js";</script>
 <script src="assets/figure-wiki.js?v=8afd3ca2"></script>
 <script src="assets/account.js?v=c35745ef"></script>
-<script src="assets/header.js?v=be7c3e5e"></script>
+<script src="assets/header.js?v=81843c8e"></script>
 <script id="tm-logic">
 // ---------- Naseeb Mind v1.0 logic (frozen items + draft key) ----------
 var LABELS = ['Qoʻshilmayman','Biroz qoʻshilmayman','Betarafman','Biroz qoʻshilaman','Qoʻshilaman'];
@@ -2845,12 +2870,15 @@ var TT_UZ = {
   profileFirst: 'Ism', profileLast: 'Familiya', profileCountry: 'Davlat',
   profileRegion: 'Viloyat', profileDistrict: 'Tuman', profileSchool: 'Maktab',
   profileGrade: 'Sinf', profilePlaceholder: 'Kiriting',
+  profilePickRegion: 'Viloyatni tanlang', profilePickDistrict: 'Tuman/shaharni tanlang',
+  profilePickGrade: 'Sinfni tanlang', profilePickSchool: 'Maktabni tanlang',
   profileSave: 'Saqlash', profileLater: 'Keyinroq', profileSaving: 'Saqlanmoqda…',
   profileRequired: 'Majburiy maydonlarni toʻldiring.',
   profileNotListed: 'Maktabim roʻyxatda yoʻq',
   profileSchoolName: 'Maktab nomi',
   profileError: 'Saqlab boʻlmadi. Qayta urinib koʻring.',
 
+  errEmailTypo:      'Email manzilida xato bordek. Siz %1 demoqchimisiz?',
   errBadCredentials: 'Email yoki parol notoʻgʻri. Hisobingiz boʻlmasa, avval roʻyxatdan oʻting. Google orqali roʻyxatdan oʻtgan boʻlsangiz, «Google orqali kirish»ni bosing.',
   errEmailNotConfirmed: 'Email hali tasdiqlanmagan. Pochtangizdagi kod bilan tasdiqlang yoki qaytadan roʻyxatdan oʻting.',
   errEmailTaken:     'Bu email allaqachon roʻyxatdan oʻtgan. Kiring.',
@@ -3027,6 +3055,11 @@ function localiseChrome(){
     // the new language on the other side of the page load.
     var pills = sw.querySelectorAll('a');
     for (i = 0; i < pills.length; i++) pills[i].addEventListener('click', markLanguageSwitch);
+    // The pills were just replaced, so the dropdown built from them is stale.
+    var old = document.querySelector('.langpick');
+    if (old) old.parentNode.removeChild(old);
+    sw.hidden = false; sw.style.display = '';
+    if (typeof NMNav !== 'undefined' && NMNav.langSelect) NMNav.langSelect();
   }
 
   var C = CHROME[TLANG];
@@ -3466,9 +3499,6 @@ function renderAuth(openDialog){
 
   var close = function(){ renderAuth(false); };
   document.getElementById('authClose').onclick = close;
-  document.getElementById('authDialog').onclick = function(ev){
-    if (ev.target === this) close();
-  };
   document.getElementById('authSwap').onclick = function(){
     authMode = signUp ? 'signin' : 'signup';
     renderAuth(true);
@@ -3485,6 +3515,13 @@ function renderAuth(openDialog){
     var err = document.getElementById('authErr');
     var go = document.getElementById('authGo');
     err.textContent = '';
+    var wrong = emailProblem(email);
+    if (wrong){
+      err.classList.remove('ok');
+      err.textContent = wrong;
+      document.getElementById('authEmail').focus();
+      return;
+    }
     go.disabled = true;
     go.textContent = T('authWorking');
 
@@ -3518,6 +3555,36 @@ function renderAuth(openDialog){
   window.setTimeout(function(){ var e = document.getElementById('authEmail'); if (e) e.focus(); }, 0);
 }
 
+// Catching a typo matters because the confirmation code then never arrives.
+// Only distinctive hosts are listed: a real address is never one or two letters
+// from gmail.com, while mail.ru-style generic names would flag mail.uz wrongly.
+var MAIL_HOSTS = ['gmail.com', 'yandex.ru', 'yandex.com', 'icloud.com',
+  'outlook.com', 'hotmail.com', 'yahoo.com'];   // umail.uz left out: mail.uz is real
+
+function editDistance(a, b){
+  var prev = [], cur = [], i, j;
+  for (j = 0; j <= b.length; j++) prev[j] = j;
+  for (i = 1; i <= a.length; i++){
+    cur[0] = i;
+    for (j = 1; j <= b.length; j++)
+      cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1,
+                        prev[j - 1] + (a.charAt(i - 1) === b.charAt(j - 1) ? 0 : 1));
+    prev = cur.slice();
+  }
+  return prev[b.length];
+}
+
+/** '' when the address looks fine, otherwise the message to show. */
+function emailProblem(email){
+  if (!/^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/.test(email)) return T('errBadEmail');
+  var host = email.split('@').pop().toLowerCase(), i;
+  for (i = 0; i < MAIL_HOSTS.length; i++) if (host === MAIL_HOSTS[i]) return '';
+  for (i = 0; i < MAIL_HOSTS.length; i++)
+    if (editDistance(host, MAIL_HOSTS[i]) <= 2)
+      return T('errEmailTypo', email.split('@')[0] + '@' + MAIL_HOSTS[i]);
+  return '';
+}
+
 function renderAuthCode(email, password){
   var existing = document.getElementById('authDialog');
   if (existing) existing.remove();
@@ -3543,7 +3610,6 @@ function renderAuthCode(email, password){
   var close = function(){ document.body.classList.remove('modal-open'); renderAuth(false); };
   document.getElementById('authCodeClose').onclick = close;
   document.getElementById('authCodeBack').onclick = function(){ authMode = 'signup'; renderAuth(true); };
-  document.getElementById('authDialog').onclick = function(ev){ if (ev.target === this) close(); };
   document.getElementById('authCodeResend').onclick = function(){
     var resend = this;
     resend.disabled = true;
@@ -3633,7 +3699,7 @@ function renderProfile(){
 
   var p = accountProfile || {};
 
- var gradeOptions = '<option value="" disabled>Sinfni tanlang</option>';
+ var gradeOptions = '<option value="" disabled' + (p.grade ? '' : ' selected') + '>' + esc(T('profilePickGrade')) + '</option>';
   for (var g = 1; g <= 11; g++){
     gradeOptions +=
       '<option value="' + g + '"' +
@@ -3692,7 +3758,7 @@ function renderProfile(){
               '</label>' +
 
               '<select class="authin profilein" id="profileRegion" required disabled>' +
-                '<option value="">—</option>' +
+                '<option value="" disabled selected>' + esc(T('profilePickRegion')) + '</option>' +
               '</select>' +
             '</div>' +
 
@@ -3702,7 +3768,7 @@ function renderProfile(){
               '</label>' +
 
               '<select class="authin profilein" id="profileDistrict" required disabled>' +
-                '<option value="">—</option>' +
+                '<option value="" disabled selected>' + esc(T('profilePickDistrict')) + '</option>' +
               '</select>' +
             '</div>' +
 
@@ -3712,15 +3778,9 @@ function renderProfile(){
                 esc(T('profileSchool')) +
               '</label>' +
 
-              '<input class="authin profilein" ' +
-                'id="profileSchool" ' +
-                'type="text" ' +
-                'list="profileSchoolList" ' +
-                'autocomplete="off" ' +
-                'placeholder="' + esc(T('profilePlaceholder')) + '" ' +
-                'disabled>' +
-
-              '<datalist id="profileSchoolList"></datalist>' +
+              '<select class="authin profilein" id="profileSchool" required disabled>' +
+                '<option value="" disabled selected>' + esc(T('profilePickSchool')) + '</option>' +
+              '</select>' +
 
               '<label class="authcheck" style="margin-top:10px">' +
                 '<input type="checkbox" id="profileSchoolMissing">' +
@@ -3785,9 +3845,6 @@ function renderProfile(){
   var schoolEl =
     document.getElementById('profileSchool');
 
-  var schoolList =
-    document.getElementById('profileSchoolList');
-
   var missingEl =
     document.getElementById('profileSchoolMissing');
 
@@ -3827,8 +3884,10 @@ function renderProfile(){
 
 
  function fillSelect(element, rows, selected, placeholder){
+  // selected: without it the browser shows the first real row (Andijon), which
+  // reads as an answer the student never gave.
   element.innerHTML =
-    '<option value="" disabled>' + placeholder + '</option>';
+    '<option value="" disabled selected>' + placeholder + '</option>';
 
     (rows || []).forEach(function(row){
       var option =
@@ -3852,9 +3911,8 @@ function renderProfile(){
   function loadSchools(districtId, selectedSchoolId){
     schools = [];
 
-    schoolEl.value = '';
+    fillSelect(schoolEl, [], null, T('profilePickSchool'));
     schoolEl.disabled = true;
-    schoolList.innerHTML = '';
 
     if (!districtId) return Promise.resolve();
 
@@ -3863,28 +3921,9 @@ function renderProfile(){
       .then(function(rows){
         schools = rows || [];
 
-        schoolList.innerHTML = '';
-
-        schools.forEach(function(row){
-          var option =
-            document.createElement('option');
-
-          option.value = row.name;
-          schoolList.appendChild(option);
-        });
+        fillSelect(schoolEl, schools, selectedSchoolId, T('profilePickSchool'));
 
         schoolEl.disabled = missingEl.checked;
-
-        if (selectedSchoolId){
-          var selected = schools.find(function(row){
-            return String(row.id) ===
-              String(selectedSchoolId);
-          });
-
-          if (selected){
-            schoolEl.value = selected.name;
-          }
-        }
       });
   }
 
@@ -3896,12 +3935,11 @@ function renderProfile(){
     districtEl,
     [],
     null,
-    'Tuman/shaharni tanlang'
+    T('profilePickDistrict')
   );
 
-  schoolEl.value = '';
+  fillSelect(schoolEl, [], null, T('profilePickSchool'));
   schoolEl.disabled = true;
-  schoolList.innerHTML = '';
 
   if (!regionId) return Promise.resolve();
 
@@ -3912,7 +3950,7 @@ function renderProfile(){
         districtEl,
         rows,
         selectedDistrictId,
-        'Tuman/shaharni tanlang'
+        T('profilePickDistrict')
       );
 
       districtEl.disabled = false;
@@ -3937,7 +3975,7 @@ function renderProfile(){
   regionEl,
   rows,
   p.region_id,
-  'Viloyatni tanlang'
+  T('profilePickRegion')
 );
 
         regionEl.disabled = false;
@@ -3991,6 +4029,7 @@ function renderProfile(){
 
     if (missing){
       schoolEl.value = '';
+      schoolEl.selectedIndex = 0;
     } else {
       customEl.value = '';
     }
@@ -4036,8 +4075,7 @@ function renderProfile(){
       Number(gradeEl.value);
 
     // Every field is required. Say so, and outline the ones still empty.
-    var typedSchool = schoolEl.value.trim();
-    var match = schools.find(function(row){ return row.name === typedSchool; });
+    var match = schools.find(function(row){ return String(row.id) === schoolEl.value; });
     var missing = [
       [document.getElementById('profileFirst'), first],
       [document.getElementById('profileLast'), last],
@@ -4137,13 +4175,6 @@ function renderProfile(){
     .onclick = close;
 
 
-  document
-    .getElementById('profileDialog')
-    .onclick = function(ev){
-      if (ev.target === this){
-        close();
-      }
-    };
 
 
   loadRegions();
@@ -6150,6 +6181,13 @@ function renderResume(d){
 
 function boot(){
   localiseChrome();
+  // Escape closes whichever dialog is open, by pressing its own X: one listener,
+  // and the close it runs is the same one the button runs.
+  document.addEventListener('keydown', function(ev){
+    if (ev.key !== 'Escape' && ev.key !== 'Esc') return;
+    var x = app.querySelector('.authoverlay .authclose');
+    if (x) { ev.preventDefault(); x.click(); }
+  });
   wireTopLogin();
   // The theme was already applied by the inline script in <head>; this only
   // wires the button. localiseChrome() has just set its language.

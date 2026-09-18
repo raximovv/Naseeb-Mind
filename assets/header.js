@@ -103,6 +103,79 @@ var NMNav = (function () {
     return hasResults(user) !== before;
   }
 
+  // The language control. The three pills stay in the markup as the no-JS
+  // fallback; with JavaScript they become one dropdown, the same control
+  // Naseeb Edu uses. Choosing an option clicks the matching pill, so whatever
+  // the host wired to those links (test.html remembers the reading spot) runs.
+  function langSelect() {
+    var sw = document.querySelector('.langsw');
+    if (!sw || document.querySelector('.langpick')) return;
+    var links = sw.querySelectorAll('a, span'), i, items = '', here = '';
+    for (i = 0; i < links.length; i++) {
+      var code = (links[i].textContent || '').trim();
+      var on = links[i].tagName !== 'A';
+      if (on) here = code;
+      // Real links: middle-click and "open in new tab" keep working, and a click
+      // goes through the pill, so whatever the host wired to it still runs.
+      items += on
+        ? '<span class="langitem is-on" aria-current="true">' + esc(code) + '</span>'
+        : '<a class="langitem" role="menuitem" href="' + esc(links[i].getAttribute('href')) + '"'
+          + ' hreflang="' + esc(links[i].getAttribute('hreflang') || '') + '">' + esc(code) + '</a>';
+    }
+    if (!here) return;
+    var label = sw.getAttribute('aria-label') || 'Language';
+    var box = document.createElement('div');
+    box.className = 'langpick';
+    box.innerHTML = '<button class="langbtn" type="button" aria-haspopup="true" aria-expanded="false"'
+      + ' aria-label="' + esc(label) + '">'
+      + '<svg class="langico" viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
+      + '<path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"/>'
+      + '<path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"/>'
+      + '<path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"/>'
+      + '<circle cx="12" cy="12" r="10"/></svg>'
+      + '<span class="langnow">' + esc(here) + '</span>'
+      + '<svg class="langcar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 10l5 5 5-5"/></svg>'
+      + '</button>'
+      + '<div class="langmenu" role="menu" aria-label="' + esc(label) + '" hidden>' + items + '</div>';
+
+    var btn = box.querySelector('.langbtn'), menu = box.querySelector('.langmenu');
+    var choices = menu.querySelectorAll('a');
+    var open = function (on) {
+      menu.hidden = !on;
+      btn.setAttribute('aria-expanded', String(on));
+      if (on && choices.length) choices[0].focus();
+    };
+    btn.onclick = function (e) { e.preventDefault(); open(menu.hidden); };
+    btn.onkeydown = function (e) {
+      if (e.key === 'ArrowDown' || e.key === 'Down') { e.preventDefault(); open(true); }
+    };
+    for (i = 0; i < choices.length; i++) {
+      choices[i].onclick = function (e) {
+        if (e.ctrlKey || e.metaKey || e.shiftKey || e.button) return;   // new tab still works
+        e.preventDefault();
+        var want = this.textContent.trim(), j;
+        for (j = 0; j < links.length; j++)
+          if ((links[j].textContent || '').trim() === want && links[j].tagName === 'A') { links[j].click(); return; }
+      };
+      choices[i].onkeydown = function (e) {
+        var n = -1, k;
+        for (k = 0; k < choices.length; k++) if (choices[k] === this) n = k;
+        if (e.key === 'ArrowDown' || e.key === 'Down') { e.preventDefault(); choices[(n + 1) % choices.length].focus(); }
+        else if (e.key === 'ArrowUp' || e.key === 'Up') { e.preventDefault(); choices[(n - 1 + choices.length) % choices.length].focus(); }
+        else if (e.key === 'Escape' || e.key === 'Esc') { open(false); btn.focus(); }
+        else if (e.key === 'Tab') open(false);
+      };
+    }
+    document.addEventListener('click', function (e) { if (!menu.hidden && !box.contains(e.target)) open(false); });
+    document.addEventListener('keydown', function (e) {
+      if (!menu.hidden && (e.key === 'Escape' || e.key === 'Esc')) { open(false); btn.focus(); }
+    });
+
+    sw.parentNode.insertBefore(box, sw);
+    sw.hidden = true;
+    sw.style.display = 'none';   // .langsw sets display:flex, which beats [hidden]
+  }
+
   function mount(opts) {
     opts = opts || {};
     var box = document.querySelector('[data-acct]');
@@ -261,10 +334,11 @@ var NMNav = (function () {
     });
 
     paint();
+    langSelect();
     return { refresh: paint, text: t };
   }
 
-  return { mount: mount, text: TEXT, markResults: markResults,
+  return { mount: mount, text: TEXT, markResults: markResults, langSelect: langSelect,
            signedIn: function () { return !!session(); } };
 })();
 
@@ -313,6 +387,18 @@ var NMTheme = (function () {
   function apply(v) {
     document.documentElement.setAttribute('data-theme', v);
     try { localStorage.setItem(KEY, v); } catch (e) {}
+    favicon();
+  }
+
+  // The tab icon is a dark navy mark, invisible on a dark tab strip, so dark mode
+  // gets the cream one. The light file named in the page stays the source of
+  // truth; only "-dark" is added to it.
+  function favicon() {
+    var link = document.querySelector('link[rel~="icon"]'), href;
+    if (!link) return;
+    href = link.getAttribute('data-light') || link.getAttribute('href');
+    link.setAttribute('data-light', href);
+    link.setAttribute('href', current() === 'dark' ? href.replace(/(\.[a-z0-9]+)$/i, '-dark$1') : href);
   }
 
   function mount(lang) {
@@ -327,6 +413,7 @@ var NMTheme = (function () {
       // The label says what the button DOES, not what the page currently is.
       btn.setAttribute('aria-label', dark ? t.toLight : t.toDark);
       btn.setAttribute('title', dark ? t.toLight : t.toDark);
+      favicon();
     }
 
     btn.onclick = function () { apply(current() === 'dark' ? 'light' : 'dark'); paint(); };
@@ -342,6 +429,14 @@ var NMTheme = (function () {
     paint();
     return { refresh: paint, current: current };
   }
+
+  favicon();
+  try {
+    var themeMq = window.matchMedia('(prefers-color-scheme: dark)');
+    var followIcon = function () { if (!saved()) favicon(); };
+    if (themeMq.addEventListener) themeMq.addEventListener('change', followIcon);
+    else if (themeMq.addListener) themeMq.addListener(followIcon);
+  } catch (e) {}
 
   return { mount: mount, current: current, text: TEXT };
 })();
