@@ -16,8 +16,13 @@ import json
 import os
 import re
 
-SRC = 'C:/Users/Asus/naseeb-edu-demo/frontend/src/figures.js'
-OUT = 'C:/Users/Asus/TestMind-site/assets/figure-wiki.js'
+from paths import SITE_DIR
+
+# The one generator whose input lives outside this repo: figures.js belongs
+# to the Naseeb Edu frontend. Point NM_EDU_FIGURES at your checkout of it.
+SRC = os.environ.get('NM_EDU_FIGURES',
+                     'C:/Users/Asus/naseeb-edu-demo/frontend/src/figures.js')
+OUT = SITE_DIR + 'assets/figure-wiki.js'
 LANGS = ('uz', 'ru', 'en')
 
 

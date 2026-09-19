@@ -30,7 +30,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import life_content as lc
 from i18n import LANGS
 
-OUT = 'C:/Users/Asus/TestMind-site/assets/life-%s.js'
+from paths import SITE_DIR
+
+OUT = SITE_DIR + 'assets/life-%s.js'
 
 
 def pack(lang):

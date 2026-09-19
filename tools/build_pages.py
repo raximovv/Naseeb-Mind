@@ -14,7 +14,9 @@ import hashlib, io, json, os, re, subprocess
 import i18n
 from i18n import S, LANGS, DIR, UP, HTML_LANG, OG_LOCALE, LANG_SHORT, LANG_FULL
 
-OUT = 'C:/Users/Asus/TestMind-site/'
+from paths import SITE_DIR
+
+OUT = SITE_DIR
 
 
 _SCENE_RASTERS = []

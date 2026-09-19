@@ -17,7 +17,9 @@ import careers_text_uz as _uz
 import careers_text_ru as _ru
 import careers_text_en as _en
 
-OUT = 'C:/Users/Asus/TestMind-site/assets/careers-data.js'
+from paths import SITE_DIR
+
+OUT = SITE_DIR + 'assets/careers-data.js'
 TEXT = {'uz': _uz, 'ru': _ru, 'en': _en}
 
 

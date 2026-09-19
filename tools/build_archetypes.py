@@ -15,7 +15,9 @@ import life_content as lc
 import build_life_js
 from i18n import S, LANGS, DIR
 
-OUT = 'C:/Users/Asus/TestMind-site/'
+from paths import SITE_DIR
+
+OUT = SITE_DIR
 
 # Pull the data straight out of the shipped files, resolving each language the
 # same way strings.js does at runtime: translated field, else the Uzbek base.

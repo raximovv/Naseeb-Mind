@@ -16,7 +16,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import values_content as vc
 
-OUT = 'C:/Users/Asus/TestMind-site/assets/values.js'
+from paths import SITE_DIR
+
+OUT = SITE_DIR + 'assets/values.js'
 LANGS = ['uz', 'ru', 'en']
 
 

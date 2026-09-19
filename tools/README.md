@@ -62,6 +62,9 @@ python build_pages.py
 python build_archetypes.py
 ```
 
+They write to the repo root, found from `tools/`'s own location, so they run
+from any checkout on any OS. `NM_SITE` overrides the destination.
+
 ## Three languages
 
 Each generator writes **every page three times**: Uzbek to the repo root,
@@ -121,8 +124,13 @@ timestamp into every PDF it makes, so without that check a rebuild would push
 **When writing new guide text, read the rule at the top of `guide_content.py`.**
 Short version: if a sentence would be true of any student, cut it.
 
-Tip: to check for drift without touching the repo, copy a script, point its
-`OUT` at a temp dir, run it, and `diff` against the committed pages.
+Tip: to check for drift without touching the repo, build into a temp dir with
+`NM_SITE` and diff:
+
+```
+NM_SITE=/tmp/check python build_pages.py && NM_SITE=/tmp/check python build_archetypes.py
+diff -r --exclude=tools . /tmp/check
+```
 
 ## Running the tests
 

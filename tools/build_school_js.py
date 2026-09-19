@@ -20,7 +20,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import school_content as sc
 
-OUT = 'C:/Users/Asus/TestMind-site/assets/school.js'
+from paths import SITE_DIR
+
+OUT = SITE_DIR + 'assets/school.js'
 LANGS = ['uz', 'ru', 'en']
 
 

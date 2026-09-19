@@ -20,7 +20,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import wil_content as wc
 
-OUT = 'C:/Users/Asus/TestMind-site/assets/wil.js'
+from paths import SITE_DIR
+
+OUT = SITE_DIR + 'assets/wil.js'
 LANGS = ['uz', 'ru', 'en']
 
 

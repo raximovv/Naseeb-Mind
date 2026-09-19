@@ -20,7 +20,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import riasec_content as rc
 
-OUT = 'C:/Users/Asus/TestMind-site/assets/career.js'
+from paths import SITE_DIR
+
+OUT = SITE_DIR + 'assets/career.js'
 LANGS = ['uz', 'ru', 'en']
 
 
