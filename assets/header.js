@@ -8,7 +8,7 @@
 //
 // Signed out it is a link that says "Kirish" and opens the existing sign-in
 // dialog. Signed in it is a button carrying the student's name and a menu:
-// their results, the test they are part way through, and the way out.
+// the test they are part way through, and the way out.
 //
 // ONE FILE FOR TWO VERY DIFFERENT HOSTS
 // -------------------------------------
@@ -33,10 +33,6 @@ var NMNav = (function () {
     + '<path d="M4 6.5 8 10.6 12 6.5" fill="none" stroke="currentColor" stroke-width="1.9"'
     + ' stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var ICON = {
-    results: '<svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">'
-      + '<rect x="3" y="11.2" width="3.3" height="5.8" rx="1"/>'
-      + '<rect x="8.35" y="5.6" width="3.3" height="11.4" rx="1"/>'
-      + '<rect x="13.7" y="8.6" width="3.3" height="8.4" rx="1"/></svg>',
     resume: '<svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">'
       + '<path d="M6.6 4.1 15.5 10l-8.9 5.9z"/></svg>',
     out: '<svg viewBox="0 0 20 20" aria-hidden="true" focusable="false" class="strokeico">'
@@ -52,11 +48,11 @@ var NMNav = (function () {
   // name for anybody (see tools/supabase_schema.sql), and carving a first name
   // out of an email address would put a wrong one on screen.
   var TEXT = {
-    uz: { login: 'Kirish', account: 'Hisobim', results: 'Natijalarim',
+    uz: { login: 'Kirish', account: 'Hisobim',
           resume: 'Testni davom ettirish', out: 'Chiqish', menu: 'Hisob menyusi' },
-    ru: { login: 'Войти', account: 'Мой аккаунт', results: 'Мои результаты',
+    ru: { login: 'Войти', account: 'Мой аккаунт',
           resume: 'Продолжить тест', out: 'Выйти', menu: 'Меню аккаунта' },
-    en: { login: 'Log in', account: 'My account', results: 'My results',
+    en: { login: 'Log in', account: 'My account',
           resume: 'Continue the test', out: 'Log out', menu: 'Account menu' }
   };
 
@@ -76,31 +72,6 @@ var NMNav = (function () {
       var raw = JSON.parse(localStorage.getItem('naseebmind_session_v1'));
       return raw && raw.access ? (raw.user || {}) : null;
     } catch (e) { return null; }
-  }
-
-  // «Natijalar» is only for a student with a finished result. test.html knows
-  // that and leaves the signed-in student's id here; every page reads it.
-  var RESULTS_KEY = 'naseebmind_results_for_v1';
-
-  function hasResults(user) {
-    try {
-      return !!(user && user.id && localStorage.getItem(RESULTS_KEY) === user.id);
-    } catch (e) { return false; }
-  }
-
-  function showResultsLinks(on) {
-    var links = document.querySelectorAll('a[href*="view=results"]'), i;
-    for (i = 0; i < links.length; i++) links[i].style.display = on ? '' : 'none';
-  }
-
-  // Called by test.html whenever the hub is counted. True when it changed.
-  function markResults(done) {
-    var user = session(), before = hasResults(user);
-    try {
-      if (done && user && user.id) localStorage.setItem(RESULTS_KEY, user.id);
-      else localStorage.removeItem(RESULTS_KEY);
-    } catch (e) {}
-    return hasResults(user) !== before;
   }
 
   // The language control. The three pills stay in the markup as the no-JS
@@ -191,7 +162,6 @@ var NMNav = (function () {
     // Where the two navigating items point. The wrapper carries them because the
     // language is already resolved there; a host that handles the action itself
     // passes a callback instead and the href is never followed.
-    var resultsHref = opts.resultsHref || box.getAttribute('data-results-href');
     var resumeHref = opts.resumeHref || box.getAttribute('data-resume-href');
     var open = false, btn = null, menu = null, items = [];
 
@@ -199,15 +169,14 @@ var NMNav = (function () {
     function paint() {
       var user = session();
       open = false;
-      showResultsLinks(hasResults(user));
       if (!user) {
         // A link, not a button, and a real href: with JavaScript switched off
         // this is still the way in.
         box.innerHTML = '<a class="acctbtn" href="' + esc(loginHref) + '">'
           + '<span class="acctav" aria-hidden="true">' + PERSON + '</span>'
           + '<span class="acctnm">' + esc(t.login) + '</span></a>';
-        // test.html (the host with onResults) opens its own dialog in place.
-        if (!opts.onResults) box.firstChild.onclick = openLogin;
+        // test.html (the host with onResume) opens its own dialog in place.
+        if (!opts.onResume) box.firstChild.onclick = openLogin;
         btn = menu = null; items = [];
         return;
       }
@@ -222,7 +191,6 @@ var NMNav = (function () {
         + '<span class="acctnm">' + esc(name || t.account) + '</span>' + CARET
         + '</button>'
         + '<div class="acctmenu" id="acctMenu" role="menu" aria-label="' + esc(t.menu) + '" hidden>'
-        + (hasResults(user) ? item('results', t.results, resultsHref) : '')
         + item('resume', t.resume, resumeHref)
         + '<hr class="acctsep">'
         + item('out', t.out, null, 'acctout')
@@ -319,7 +287,7 @@ var NMNav = (function () {
       }
       // A host that handles the action itself (test.html) stops the navigation;
       // one that does not (every other page) lets the link do its job.
-      var handler = what === 'results' ? opts.onResults : opts.onResume;
+      var handler = opts.onResume;
       if (handler) { e.preventDefault(); setOpen(false); handler(); }
     }
 
@@ -342,7 +310,7 @@ var NMNav = (function () {
     return { refresh: paint, text: t };
   }
 
-  return { mount: mount, text: TEXT, markResults: markResults, langSelect: langSelect,
+  return { mount: mount, text: TEXT, langSelect: langSelect,
            signedIn: function () { return !!session(); } };
 })();
 

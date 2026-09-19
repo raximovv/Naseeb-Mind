@@ -1414,7 +1414,7 @@ if(/[?&]embed=1/.test(location.search)&&window.parent!==window)document.document
 <script>var MATRIX_ART_SRC = "assets/matrix-art.js";</script>
 <script src="assets/figure-wiki.js?v=8afd3ca2"></script>
 <script src="assets/account.js?v=c35745ef"></script>
-<script src="assets/header.js?v=b9b2ae37"></script>
+<script src="assets/header.js?v=ff1ca115"></script>
 <script id="tm-logic">
 // ---------- Naseeb Mind v1.0 logic (frozen items + draft key) ----------
 var LABELS = ['Qoʻshilmayman','Biroz qoʻshilmayman','Betarafman','Biroz qoʻshilaman','Qoʻshilaman'];
@@ -3381,8 +3381,6 @@ function renderHub(){
       '</li>';
   }
   var left = CHALLENGES.length - done;
-  if (typeof NMNav !== 'undefined' && NMNav.markResults && typeof NMAccount !== 'undefined' && NMAccount.signedIn() &&
-      NMNav.markResults(left === 0)) markAccountNav();
   app.innerHTML =
     '<div class="hubhead">' +
       '<h1>' + esc(T('hubH')) + '</h1>' +
@@ -4212,7 +4210,6 @@ function wireTopLogin(){
     }).observe(app, { childList: true });
   if (typeof NMNav === 'undefined') return;
   acctNav = NMNav.mount({
-    onResults: showSavedResults,
     onResume: resumeCurrentTest,
     // The session is gone by the time this runs, so everything scored from it
     // has to go with it -- otherwise the next student on a shared school
@@ -4245,9 +4242,11 @@ function markAccountNav(){
   if (acctNav) acctNav.refresh();
 }
 
-/** "Natijalarim": the hub is where results live, so this is the hub with the
-    summary panel brought into view. Nothing finished yet means there is no
-    panel to scroll to, and the top of the hub is the honest answer. */
+/** The hub is where results live, so this is the hub with the summary panel
+    brought into view. Nothing finished yet means there is no panel to scroll
+    to, and the top of the hub is the honest answer. Reached by ?view=results,
+    which older links and bookmarks still use, and on finishing the last
+    challenge. The header menu no longer offers it. */
 function showSavedResults(){
   state.challenge = null;
   var complete = CHALLENGES.length && CHALLENGES.every(function(c){ return challengeDone(c, state.answers); });
@@ -6217,10 +6216,10 @@ function boot(){
   state.challenge = null;
   state.view = 'hub';
   var authRequest = /[?&]auth=(signin|signup)/.exec(location.search);
-  // The header menu on every other page points here: ?view=results for the hub's
-  // result panel, ?view=resume for the challenge they are part way through. Both
-  // need a session, so a signed-out visitor gets the dialog instead and lands
-  // where they were going once they are in.
+  // ?view=resume is what the header menu points at: the challenge they are part
+  // way through. ?view=results reaches the hub's result panel and is kept for
+  // links shared before it left the menu. Both need a session, so a signed-out
+  // visitor gets the dialog instead and lands where they were going once in.
   var viewRequest = /[?&]view=(results|resume)/.exec(location.search);
   var signedIn = typeof NMAccount !== 'undefined' && NMAccount.signedIn();
   if (!signedIn && (authRequest || viewRequest)){

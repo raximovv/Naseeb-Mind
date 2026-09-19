@@ -143,12 +143,10 @@ const shot = (page) => page.evaluate(() => {
   await page.click('.acctbtn');
   s = await shot(page);
   ok(s.menuOpen && s.expanded === 'true', 'a click opens it');
-  ok(s.items.length === 3, `three items (${s.items.length})`);
-  ok(s.items[0].text === 'Natijalarim' && s.items[0].href === 'test.html?view=results',
-     `Natijalarim -> ${s.items[0].href}`);
-  ok(s.items[1].text === 'Testni davom ettirish' && s.items[1].href === 'test.html?view=resume',
-     `Testni davom ettirish -> ${s.items[1].href}`);
-  ok(s.items[2].text === 'Chiqish' && s.items[2].tag === 'BUTTON',
+  ok(s.items.length === 2, `two items (${s.items.length})`);
+  ok(s.items[0].text === 'Testni davom ettirish' && s.items[0].href === 'test.html?view=resume',
+     `Testni davom ettirish -> ${s.items[0].href}`);
+  ok(s.items[1].text === 'Chiqish' && s.items[1].tag === 'BUTTON',
      'Chiqish is a button, not a link: it changes state');
   const sep = await page.evaluate(() => !!document.querySelector('.acctsep'));
   ok(sep, 'a divider above it');
@@ -171,17 +169,16 @@ const shot = (page) => page.evaluate(() => {
   s = await shot(page);
   ok(!s.menuOpen, 'a click outside closes it');
 
-  // Keyboard: down opens onto the first item and wraps through the three.
+  // Keyboard: down opens onto the first item and wraps through the two.
   await page.focus('.acctbtn');
   await page.keyboard.press('ArrowDown');
-  ok(await page.evaluate(() => document.activeElement.getAttribute('data-do') === 'results'),
+  ok(await page.evaluate(() => document.activeElement.getAttribute('data-do') === 'resume'),
      'ArrowDown opens it on the first item');
-  await page.keyboard.press('ArrowDown');
   await page.keyboard.press('ArrowDown');
   ok(await page.evaluate(() => document.activeElement.getAttribute('data-do') === 'out'),
      'ArrowDown walks down');
   await page.keyboard.press('ArrowDown');
-  ok(await page.evaluate(() => document.activeElement.getAttribute('data-do') === 'results'),
+  ok(await page.evaluate(() => document.activeElement.getAttribute('data-do') === 'resume'),
      'and wraps round');
   await page.keyboard.press('ArrowUp');
   ok(await page.evaluate(() => document.activeElement.getAttribute('data-do') === 'out'),
@@ -202,9 +199,9 @@ const shot = (page) => page.evaluate(() => {
   ok(s.tag === 'A' && s.name === 'Kirish', 'still signed out after a refresh');
 
   // ======================================================= ru and en =======
-  for (const [dir, lang, login, account, results] of [
-    ['ru/', 'ru', 'Войти', 'Мой аккаунт', 'Мои результаты'],
-    ['en/', 'en', 'Log in', 'My account', 'My results'],
+  for (const [dir, lang, login, account, resume] of [
+    ['ru/', 'ru', 'Войти', 'Мой аккаунт', 'Продолжить тест'],
+    ['en/', 'en', 'Log in', 'My account', 'Continue the test'],
   ]) {
     console.log(`\n-- ${dir}index.html`);
     await page.goto(BASE + dir + 'index.html', { waitUntil: 'networkidle0' });
@@ -218,8 +215,8 @@ const shot = (page) => page.evaluate(() => {
     await page.click('.acctbtn');
     s = await shot(page);
     ok(s.name === account, `signed in says ${account} (${s.name})`);
-    ok(s.items[0].text === results, `the menu is translated (${s.items[0].text})`);
-    ok(s.items[0].href === `../test.html?lang=${lang}&view=results`,
+    ok(s.items[0].text === resume, `the menu is translated (${s.items[0].text})`);
+    ok(s.items[0].href === `../test.html?lang=${lang}&view=resume`,
        `and its links keep the language (${s.items[0].href})`);
     ok(s.navCta.length === 0, 'still nothing in the header that starts the test');
   }
@@ -373,12 +370,6 @@ const shot = (page) => page.evaluate(() => {
   ok(opened.view === 'challenge' && opened.ch === 'personality',
      `it opens the challenge they are on (${opened.view}/${opened.ch})`);
   ok(opened.url.indexOf('#') < 0 && opened.url === before, 'without leaving the page');
-
-  // My results: back to the hub, where the results live.
-  await page.click('.acctbtn');
-  await page.click('[data-do="results"]');
-  await new Promise((r) => setTimeout(r, 300));
-  ok(await page.evaluate(() => state.view === 'hub'), 'Natijalarim goes to the hub');
 
   // Signing out here has to clear the answers too.
   await page.evaluate(() => { state.answers[0] = 4; });

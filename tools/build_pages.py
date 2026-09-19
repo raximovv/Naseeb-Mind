@@ -289,7 +289,6 @@ def nav(lang, fname, active=None):
   <button class="themesw" type="button" data-theme-toggle data-lang="%(lang)s" aria-pressed="false" aria-label="Tungi rejimga oʻtish"></button>
   <div class="navacct" data-acct data-lang="%(lang)s"
        data-login-href="%(login_href)s"
-       data-results-href="%(results_href)s"
        data-resume-href="%(resume_href)s">
     <a class="acctbtn" href="%(login_href)s"><span class="acctav" aria-hidden="true">%(person)s</span><span class="acctnm">%(login)s</span></a>
   </div>
@@ -298,7 +297,7 @@ def nav(lang, fname, active=None):
        'links': links, 'langsw': langsw(lang, fname), 'login_href': login_href,
        'lang': lang, 'person': PERSON_ICON,
        'login': t['nav.login'],
-       'results_href': view_href('results'), 'resume_href': view_href('resume')}
+       'resume_href': view_href('resume')}
 
 
 SOCIAL = u'<div class="socrow"><a class="soc" href="https://t.me/naseeb_edu" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Naseeb Edu — Telegram"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path fill="#fff" d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg></a><a class="soc" href="https://www.instagram.com/naseeb_edu/" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Naseeb Edu — Instagram"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4.6" fill="none" stroke="#fff" stroke-width="1.9"/><circle cx="12" cy="12" r="3.6" fill="none" stroke="#fff" stroke-width="1.9"/><circle cx="16.6" cy="7.4" r="1.15" fill="#fff"/></svg></a><a class="soc" href="https://www.youtube.com/@naseeb_edu" target="_blank" rel="noopener noreferrer" title="YouTube" aria-label="Naseeb Edu — YouTube"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path fill="#fff" d="M21.58 8.2a2.47 2.47 0 0 0-1.74-1.75C18.3 6.03 12 6.03 12 6.03s-6.3 0-7.84.42A2.47 2.47 0 0 0 2.42 8.2 25.9 25.9 0 0 0 2 12a25.9 25.9 0 0 0 .42 3.8 2.47 2.47 0 0 0 1.74 1.75c1.54.42 7.84.42 7.84.42s6.3 0 7.84-.42a2.47 2.47 0 0 0 1.74-1.75A25.9 25.9 0 0 0 22 12a25.9 25.9 0 0 0-.42-3.8z"/><path fill="var(--lazur)" d="M10.05 14.85l5.2-2.85-5.2-2.85z"/></svg></a><a class="soc" href="https://linkedin.com/company/naseeb-edu" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="Naseeb Edu — LinkedIn"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><circle cx="5" cy="5" r="2" fill="#fff"/><path fill="#fff" d="M3.2 8.5h3.6V21H3.2zM9 8.5h3.5v1.7c.8-1.3 2-2 3.7-2 3.4 0 4.8 2.1 4.8 5.7V21h-3.6v-6.3c0-1.9-.4-3.2-2.2-3.2-1.9 0-2.6 1.3-2.6 3.2V21H9z"/></svg></a></div>'
