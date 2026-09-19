@@ -24,9 +24,10 @@ to https://personality.naseebedu.com. Pushing `main` deploys within about a minu
 
 - The locked note under the profile form must stay exactly:
   `Bu maʼlumotlar faqat statistika uchun, natijalarga umuman taʼsir qilmaydi.`
-- "Natijalar" in the top nav, and "Natijalarim" in the account menu, stay hidden
-  until a signed-in student has finished all six challenges
-  (`assets/header.js` `markResults`, set from `renderHub()` in `test.html`).
+- There is no results link in the top nav or the account menu. Both were removed
+  at the owner's request, along with the `markResults` bookkeeping that hid them
+  until all six challenges were done. The hub is where results live and the nav
+  test link opens it; `?view=results` still works for links shared earlier.
 
 ## The site
 
