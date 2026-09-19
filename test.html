@@ -1348,7 +1348,6 @@ if(/[?&]embed=1/.test(location.search)&&window.parent!==window)document.document
     <span>Naseeb <b>Mind</b></span>
   </a>
   <div class="toplinks">
-    <a href="test.html?view=results" data-nav-results>Natijalar</a>
     <a href="index.html">Bosh sahifa</a>
     <a href="obrazlar.html">Obrazlar</a>
     <a href="test.html" aria-current="page">Shaxsiyat testi</a>
@@ -1408,7 +1407,7 @@ if(/[?&]embed=1/.test(location.search)&&window.parent!==window)document.document
 <script src="assets/test-en.js?v=ad5e6d44"></script>
 <script src="assets/career.js?v=ae52d57f"></script>
 <script src="assets/values.js?v=66d7d5e6"></script>
-<script src="assets/school.js?v=410a10d2"></script>
+<script src="assets/school.js?v=af2ca489"></script>
 <script src="assets/wil.js?v=2c40338b"></script>
 <script src="assets/matrix.js?v=18519e1d"></script>
 <script src="assets/icar16.js?v=081f571d"></script>
@@ -2981,7 +2980,6 @@ var CHROME = {
           'terms.html': ['Условия использования', 'ru/terms.html'],
           'accessibility.html': ['Доступность', 'ru/accessibility.html'],
           'maktablar.html': ['Школам и родителям', 'ru/maktablar.html']},
-    results: 'Результаты',
     cta: 'Пройти тест',
     login: 'Войти',
     account: 'Аккаунт',
@@ -3008,7 +3006,6 @@ var CHROME = {
           'terms.html': ['Terms & Conditions', 'en/terms.html'],
           'accessibility.html': ['Accessibility', 'en/accessibility.html'],
           'maktablar.html': ['For schools and parents', 'en/maktablar.html']},
-    results: 'Results',
     cta: 'Take the test',
     login: 'Log in',
     account: 'Account',
@@ -3082,7 +3079,6 @@ function localiseChrome(){
   var a, links = document.querySelectorAll('.toplinks a:not(.toplogin-mobile), .foot a');
   for (i = 0; i < links.length; i++){
     a = links[i];
-    if (a.hasAttribute('data-nav-results')) { a.textContent = C.results; a.setAttribute('href', 'test.html?lang=' + TLANG + '&view=results'); continue; }
     var file = (a.getAttribute('href') || '').split('/').pop().split('?')[0];
     var row = C.nav[file];
     if (row){ a.textContent = row[0]; a.setAttribute('href', row[1]); continue; }
