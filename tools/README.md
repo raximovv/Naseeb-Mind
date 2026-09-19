@@ -134,9 +134,14 @@ diff -r --exclude=tools . /tmp/check
 
 ## Running the tests
 
-Real Chrome is driven headlessly via `puppeteer-core`. It expects Chrome at
-`C:/Program Files/Google/Chrome/Application/chrome.exe` (edit the `CHROME`
-constant in each file if yours differs).
+Real Chrome is driven headlessly via `puppeteer-core`. `tools/paths.js` finds
+the browser: `CHROME` if it is set, else the usual Windows, macOS and Linux
+locations. Nothing to edit per file any more.
+
+```
+CHROME=/path/to/chrome node navcheck.js     # if it is somewhere unusual
+NM_SITE=/tmp/check      node audit.js       # audit a build other than this tree
+```
 
 **Two suites need no `npm install` and no dependencies at all**, useful because
 `npm` is currently broken on the dev machine (the Node install at

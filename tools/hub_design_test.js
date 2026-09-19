@@ -3,9 +3,10 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const puppeteer = require('puppeteer-core');
+const { CHROME } = require('./paths');
 
 (async () => {
-  const browser = await puppeteer.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true,args:['--no-sandbox']});
+  const browser = await puppeteer.launch({executablePath:CHROME,headless:true,args:['--no-sandbox']});
   const out = path.join(__dirname,'build','challenge-design');
   fs.mkdirSync(out,{recursive:true});
   try {

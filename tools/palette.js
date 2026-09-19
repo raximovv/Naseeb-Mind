@@ -16,7 +16,7 @@
 //   node tools/palette.js
 const puppeteer = require('puppeteer-core');
 
-const CHROME = process.env.CHROME || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const { CHROME } = require('./paths');
 const BASE = 'http://localhost:8765/';
 
 let pass = 0, fail = 0;

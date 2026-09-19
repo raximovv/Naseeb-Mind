@@ -19,7 +19,7 @@
 const puppeteer = require('./node_modules/puppeteer-core');
 const { COLLECT, resolve, needed } = require('./contrast');
 
-const CHROME = process.env.CHROME || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const { CHROME } = require('./paths');
 const BASE = process.env.BASE || 'http://localhost:8765/';
 const ONLY = process.argv[2] || '';
 

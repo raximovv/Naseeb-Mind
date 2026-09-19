@@ -14,7 +14,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-const CHROME = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const { CHROME } = require('./paths');
 const PORT = 9335;
 const HERE = __dirname.replace(/\\/g, '/');
 const OUTDIR = path.posix.join(path.posix.dirname(HERE), 'guides');

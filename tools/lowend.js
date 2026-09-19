@@ -7,7 +7,7 @@
 // than a metered connection should be asked for.
 const puppeteer = require('puppeteer-core');
 
-const CHROME = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const { CHROME } = require('./paths');
 const BASE = 'http://localhost:8765/';
 
 // Slow 4G as Chrome DevTools defines it, and a 4x CPU slowdown for a budget SoC.

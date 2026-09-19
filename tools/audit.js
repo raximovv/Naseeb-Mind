@@ -4,9 +4,9 @@ const puppeteer = require('puppeteer-core');
 const fs = require('fs');
 const path = require('path');
 
-const CHROME = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const { CHROME, SITE_DIR } = require('./paths');
 const BASE = 'http://localhost:8765/';
-const DIR = 'C:/Users/Asus/TestMind-site/';
+const DIR = SITE_DIR;
 const WIDTHS = [360, 768, 1280];
 
 // Root plus each translated folder. Russian and English are longer than Uzbek:

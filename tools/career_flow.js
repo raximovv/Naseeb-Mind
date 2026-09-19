@@ -12,7 +12,7 @@
 const puppeteer = require('puppeteer-core');
 const { settleFigureChoice } = require('./figure_choice');
 
-const CHROME = process.env.CHROME || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const { CHROME } = require('./paths');
 const PAGE = 'http://localhost:8765/test.html';
 
 let pass = 0, fail = 0;

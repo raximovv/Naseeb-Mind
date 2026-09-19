@@ -1,11 +1,12 @@
 const puppeteer=require('puppeteer-core');
 const { settleFigureChoice } = require('./figure_choice');
+const { CHROME } = require('./paths');
 let pass=0,fail=0;
 const ok=(c,m)=>{c?(pass++,console.log('  PASS '+m)):(fail++,console.log('  FAIL '+m));};
 (async()=>{
 // Headless Chrome here prefers dark; this pins the browser to light so the
 // harness tests one known theme. tools/darkmode.js covers the other.
- const b=await puppeteer.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:'new',args:['--no-sandbox', '--blink-settings=preferredColorScheme=1']});
+ const b=await puppeteer.launch({executablePath:CHROME,headless:'new',args:['--no-sandbox', '--blink-settings=preferredColorScheme=1']});
  const p=await b.newPage(); await p.setViewport({width:390,height:844});
  const posts=[]; const errs=[];
  await p.setRequestInterception(true);

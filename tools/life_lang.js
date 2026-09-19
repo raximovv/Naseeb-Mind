@@ -10,8 +10,7 @@ const path = require('path');
 const { settleFigureChoice, finishToReport } = require('./figure_choice');
 
 const BASE = 'http://localhost:8765/test.html';
-const CHROME = process.env.CHROME ||
-  'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const { CHROME } = require('./paths');
 
 // One bullet taken from each language's pack. Present on screen => that
 // language's file was the one fetched and rendered.

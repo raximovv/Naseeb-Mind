@@ -1,10 +1,11 @@
 // Local interaction check for the email confirmation-code flow.
 const assert = require('node:assert/strict');
 const puppeteer = require('puppeteer-core');
+const { CHROME } = require('./paths');
 
 (async () => {
   const browser = await puppeteer.launch({
-    executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
+    executablePath: CHROME,
     headless: true, args: ['--no-sandbox']
   });
   let verifyBody = null;

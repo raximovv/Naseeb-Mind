@@ -9,7 +9,7 @@
 //   node tools/darkmode.js
 const puppeteer = require('./node_modules/puppeteer-core');
 
-const CHROME = process.env.CHROME || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const { CHROME } = require('./paths');
 const BASE = process.env.BASE || 'http://localhost:8765/';
 
 let pass = 0, fail = 0;

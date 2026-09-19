@@ -13,9 +13,9 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-const CHROME = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const { CHROME, SITE_DIR } = require('./paths');
 const BASE = 'http://localhost:8765/';
-const DIR = 'C:/Users/Asus/TestMind-site/';
+const DIR = SITE_DIR;
 const PORT = 9333;
 // 900 and 1024 are here because they were missing. The desktop nav row demands
 // ~1050px on the Uzbek pages and the wrap rules used to start at 820, so every
@@ -59,6 +59,23 @@ const PROBE = `(() => {
   const swItems = sw ? [...sw.children].map(el => {
     const b = r(el); return { w: +b.width.toFixed(1), h: +b.height.toFixed(1) };
   }) : [];
+  // header.js replaces the three pills with a dropdown (.langpick) and hides
+  // .langsw, which is the no-JS fallback. A hidden element measures 0px and
+  // would fail a tap-target check on every page, so measure what is painted.
+  let swTap = [];
+  const pick = document.querySelector('.langpick');
+  if (pick) {
+    const lbtn = pick.querySelector('.langbtn');
+    if (lbtn) {
+      swTap.push(+r(lbtn).height.toFixed(1));
+      lbtn.click();                       // the menu stays hidden until opened
+      swTap.push(...[...pick.querySelectorAll('.langmenu .langitem')]
+        .map(el => +r(el).height.toFixed(1)));
+      lbtn.click();                       // leave the page as it was found
+    }
+  } else if (sw) {
+    swTap = [...sw.children].map(el => +r(el).height.toFixed(1));
+  }
   // Anything sticking out past the viewport is a real horizontal-scroll bug.
   const wide = [...document.querySelectorAll('body *')].filter(el => {
     const b = el.getBoundingClientRect();
@@ -72,6 +89,7 @@ const PROBE = `(() => {
     navRows: rows.length,
     navBottom: nav ? Math.round(r(nav).bottom) : 0,
     swItems,
+    swTap,
     swCurrent: sw ? (sw.querySelector('[aria-current="true"]') || {}).textContent : null,
     swLinks: sw ? [...sw.querySelectorAll('a')].map(a => a.getAttribute('href')) : [],
     navLinkCount: links.length,
@@ -176,8 +194,11 @@ async function main() {
       if (d.navLinkCount !== 4)
         problems.push(`${at}: ${d.navLinkCount} nav links, expected 4`);
       // 24px is the tap target the switcher must not fall below on a phone.
-      if (width === 360 && d.swItems.some(i => i.h < 24))
-        problems.push(`${at}: switcher item only ${Math.min(...d.swItems.map(i => i.h))}px tall`);
+      // Measured on the control that is painted, not the hidden fallback.
+      if (width === 360 && !d.swTap.length)
+        problems.push(`${at}: no language control painted`);
+      else if (width === 360 && d.swTap.some(h => h < 24))
+        problems.push(`${at}: switcher tap target only ${Math.min(...d.swTap)}px tall`);
       // Brand, switcher and CTA must share one row. If the CTA wraps, the
       // sticky header eats a quarter of a 360x640 screen.
       if (width === 360 && d.navRows !== 1)

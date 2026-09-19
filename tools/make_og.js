@@ -8,7 +8,7 @@
 // seen at thumbnail size where soft type reads as a broken image.
 const { spawn } = require('child_process');
 const fs = require('fs'), os = require('os'), path = require('path');
-const CHROME = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const { CHROME } = require('./paths');
 const PORT = 9441, W = 1200, H = 630;
 const SRC = 'file:///' + path.resolve(__dirname, 'build', 'og.html').replace(/\\/g, '/');
 const DEST = path.resolve(__dirname, '..', 'og.png');

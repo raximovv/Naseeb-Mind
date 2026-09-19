@@ -2,7 +2,7 @@
 // Served over http://localhost:8765 so characters.js loads exactly as it does live.
 const puppeteer = require('puppeteer-core');
 
-const CHROME = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const { CHROME } = require('./paths');
 const URL = 'http://localhost:8765/test.html';
 let pass = 0, fail = 0;
 const ok = (c, m) => { c ? (pass++, console.log('  PASS ' + m)) : (fail++, console.log('  FAIL ' + m)); };

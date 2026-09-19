@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const puppeteer = require('./node_modules/puppeteer-core');
 
-const CHROME = process.env.CHROME || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const { CHROME } = require('./paths');
 const BASE = process.env.BASE || 'http://localhost:8765/';
 const OUT = process.env.OUT || path.join(require('os').tmpdir(), 'naseeb-header.png');
 

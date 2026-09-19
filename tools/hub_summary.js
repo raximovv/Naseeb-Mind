@@ -10,7 +10,7 @@
 const path = require('path');
 const puppeteer = require('puppeteer-core');
 
-const CHROME = process.env.CHROME || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const { CHROME } = require('./paths');
 const LANG = process.argv[2] || 'uz';
 const BASE = 'http://localhost:8765/test.html' + (LANG === 'uz' ? '' : `?lang=${LANG}`);
 const OUT = path.join(__dirname, 'build', 'summary');

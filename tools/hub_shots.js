@@ -12,7 +12,7 @@ const fs = require('fs');
 const path = require('path');
 const puppeteer = require('puppeteer-core');
 
-const CHROME = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const { CHROME } = require('./paths');
 const LANG = process.argv[2] || 'uz';
 const WIDTH = parseInt(process.argv[3] || '390', 10);
 const BASE = 'http://localhost:8765/test.html' + (LANG === 'uz' ? '' : `?lang=${LANG}`);

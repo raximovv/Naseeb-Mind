@@ -3,8 +3,8 @@
 // next circle does not arrive under it, the click misses and nothing is recorded.
 const puppeteer = require('puppeteer-core');
 const { questionsOnPage } = require('./figure_choice');
-const CHROME = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
-const URL = 'file:///C:/Users/Asus/TestMind-site/test.html';
+const { CHROME, SITE_URL } = require('./paths');
+const URL = SITE_URL + 'test.html';
 let pass = 0, fail = 0;
 const ok = (c, m) => { c ? (pass++, console.log('  PASS ' + m)) : (fail++, console.log('  FAIL ' + m)); };
 
