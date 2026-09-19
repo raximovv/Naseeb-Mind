@@ -80,7 +80,7 @@ REVERSE = {'ability': False, 'interest': False, 'cost': True}
 # the header: it maximises the gap, it does not minimise it.
 ROTATION = 1
 
-TITLE = u'Maktab qanday tuyuladi'
+TITLE = u'Qaysi fanlar sizga mos'
 BLURB = (u'Oʻn bitta maktab fani, uch xil savol: nimani uddalaysiz, nimani '
          u'yoqtirasiz va nima sizga qiyin. Baholaringiz haqida emas.')
 
